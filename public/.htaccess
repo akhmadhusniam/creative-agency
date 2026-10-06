@@ -1,0 +1,26 @@
+Options -Indexes
+RewriteEngine On
+
+# Arahkan semua request ke index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Keamanan: blokir akses file sensitif
+<FilesMatch "\.(env|sql|log|sh|bak|config)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Blokir akses ke folder selain public
+<IfModule mod_rewrite.c>
+    RewriteRule ^(app|config|database|uploads)/ - [F,L]
+</IfModule>
+
+# Header keamanan
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
