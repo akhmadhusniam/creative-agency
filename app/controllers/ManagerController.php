@@ -30,6 +30,7 @@ class ManagerController
      */
     public function dashboard(): void
     {
+        Session::requirePermission('view_team_dashboard');
         // Statistics
         $totalOrders = $this->db->query('SELECT COUNT(*) FROM orders')->fetchColumn();
         $pendingOrders = $this->db->query(
@@ -88,6 +89,7 @@ class ManagerController
      */
     public function orders(): void
     {
+        Session::requirePermission('view_all_orders');
         $statusFilter = $_GET['status'] ?? '';
         $priorityFilter = $_GET['priority'] ?? '';
 
@@ -134,6 +136,7 @@ class ManagerController
      */
     public function editOrder(int $id): void
     {
+        Session::requirePermission('assign_orders');
         $order = $this->db->prepare('
             SELECT o.*, u.name AS client_name, s.name AS service_name,
                    d.name AS designer_name, m.name AS manager_name
@@ -164,6 +167,7 @@ class ManagerController
      */
     public function updateOrder(int $id): void
     {
+        Session::requirePermission('assign_orders');
         verifyCsrf();
 
         $v = new Validator($_POST);
@@ -236,6 +240,7 @@ class ManagerController
      */
     public function approveOrder(int $id): void
     {
+        Session::requirePermission('approve_completion');
         verifyCsrf();
 
         $action = $_POST['action'] ?? '';
@@ -285,6 +290,7 @@ class ManagerController
      */
     public function teamWorkload(): void
     {
+        Session::requirePermission('view_team_dashboard');
         $designers = $this->db->query('
             SELECT u.id, u.name, u.department, u.email,
                    COUNT(DISTINCT CASE WHEN o.status != "cancelled" THEN o.id END) AS total_orders,
@@ -309,6 +315,7 @@ class ManagerController
      */
     public function analytics(): void
     {
+        Session::requirePermission('view_team_dashboard');
         // Order completion rate
         $completeRate = $this->db->query('
             SELECT 

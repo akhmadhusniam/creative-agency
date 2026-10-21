@@ -373,9 +373,10 @@ h2.stitle{
 <body>
 
 <!-- ── NAV ──────────────────────────────────────────────── -->
+<a href="#main" class="skip-link">Lewati ke konten utama</a>
 <?php require VIEW_PATH . '/partials/marquee.php'; ?>
-<nav class="nav" id="main-nav">
-  <a href="<?= APP_URL ?>/" class="nav-logo">creative<span>.</span></a>
+<nav class="nav" id="main-nav" aria-label="Navigasi utama">
+  <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
   <ul class="nav-links">
     <li><a href="<?= APP_URL ?>/services">Layanan</a></li>
     <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
@@ -384,13 +385,13 @@ h2.stitle{
   </ul>
   <div class="nav-right">
     <?php if (Session::isLoggedIn()): ?>
-      <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline">Dashboard</a>
+      <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
     <?php else: ?>
-      <a href="<?= APP_URL ?>/login" class="btn btn-outline">Masuk</a>
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn btn-primary" target="_blank" rel="noopener">Mulai Proyek →</a>
+      <a href="<?= APP_URL ?>/login" class="btn btn-outline btn-sm">Masuk</a>
     <?php endif; ?>
+    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-cta="nav-consult">Konsultasi</a>
   </div>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+  <button class="nav-hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -402,7 +403,7 @@ h2.stitle{
 <?php endif; ?>
 
 <!-- ── HERO ──────────────────────────────────────────────── -->
-<section class="hero">
+<section class="hero" id="main">
   <div class="hero-bg-word" aria-hidden="true">CREATIVE</div>
 
   <div class="hero-inner">
@@ -419,10 +420,10 @@ h2.stitle{
       </h1>
       <p class="hero-desc">Kami membantu bisnis tumbuh lewat desain yang strategis — dari identitas merek hingga pengalaman digital, semua dikerjakan dengan presisi dan tujuan.</p>
       <div class="hero-actions">
-        <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-hero-p" target="_blank" rel="noopener">
-          Mulai Proyek →
+        <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-hero-p" target="_blank" rel="noopener" data-cta="hero-consult">
+          Konsultasi Gratis →
         </a>
-        <a href="<?= APP_URL ?>/portfolio" class="btn-hero-g">Lihat Portfolio</a>
+        <a href="<?= APP_URL ?>/portfolio" class="btn-hero-g" data-cta="hero-portfolio">Lihat Portfolio</a>
       </div>
     </div>
 
@@ -518,6 +519,14 @@ h2.stitle{
           <div class="svc-icon"><?= $icon ?></div>
           <div class="svc-name"><?= e($svc['name']) ?></div>
           <div class="svc-desc"><?= e($svc['short_desc']) ?></div>
+          <?php
+            $pty = $svc['price_type'] ?? 'fixed';
+            $priceLabel = $pty === 'custom' ? 'Hubungi kami' : (($pty === 'starting_from' ? 'Mulai ' : '') . formatRupiah((float)($svc['price'] ?? 0)));
+          ?>
+          <div class="svc-meta">
+            <span class="svc-price"><?= e($priceLabel) ?></span>
+            <?php if (!empty($svc['delivery_days'])): ?><span class="svc-days">±<?= (int)$svc['delivery_days'] ?> hari</span><?php endif; ?>
+          </div>
           <a href="<?= APP_URL ?>/services/<?= e($svc['slug']) ?>" class="svc-link">Lihat paket →</a>
         </div>
       <?php endforeach; else:
@@ -711,10 +720,10 @@ h2.stitle{
       <p>Konsultasi gratis, tanpa komitmen. Kami siap bantu dari brief pertama hingga file final diserahkan.</p>
     </div>
     <div class="cta-btns">
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener">
-        💬 Mulai Proyek via WhatsApp →
+      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="home-cta-wa">
+        💬 Konsultasi via WhatsApp →
       </a>
-      <a href="<?= APP_URL ?>/contact" class="btn-cta-g">
+      <a href="<?= APP_URL ?>/contact" class="btn-cta-g" data-cta="home-cta-form">
         Isi Form Konsultasi
       </a>
     </div>
@@ -723,6 +732,14 @@ h2.stitle{
 
 <!-- ── FOOTER ─────────────────────────────────────────────── -->
 <footer class="footer">
+  <div class="footer-cta">
+    <div>
+      <div class="fc-title">Siap mulai proyek Anda?</div>
+      <p>Konsultasi pertama gratis dan tanpa komitmen. Ceritakan kebutuhan Anda — kami bantu tentukan langkah terbaik.</p>
+    </div>
+    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>"
+       class="btn btn-accent" target="_blank" rel="noopener" data-cta="footer-consult">Konsultasi Gratis →</a>
+  </div>
   <div class="footer-top">
     <div>
       <div class="f-logo">creative<span>.</span></div>

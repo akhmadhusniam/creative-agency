@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Creative Studio — Website Jasa Desain Profesional
 
 Aplikasi web jasa desain profesional berbasis PHP + MySQL dengan sistem order, autentikasi klien, dan integrasi payment gateway.
@@ -23,21 +22,23 @@ Aplikasi web jasa desain profesional berbasis PHP + MySQL dengan sistem order, a
 creative-agency/
 ├── app/
 │   ├── controllers/        # AuthController, PageController, ClientController, ...
-│   ├── models/             # User, Order, Service, ...
-│   ├── views/              # Template PHP (auth/, client/, admin/, partials/)
-│   └── helpers/            # Session, Validator, PaymentGateway, ...
+│   ├── models/             # User (model lain akan ditambah di fase berikutnya)
+│   ├── views/              # Template PHP (auth/, client/, admin/, partials/, ...)
+│   └── helpers/            # Session, Validator, Site, RolePermission, ...
 ├── config/
-│   ├── app.php             # Konstanta & konfigurasi global
+│   ├── app.php             # Konstanta, loader .env, konfigurasi global
 │   └── database.php        # PDO singleton
 ├── database/
-│   └── schema.sql          # DDL + seed data
+│   └── migrations.sql      # ALTER + tabel audit_logs/notifications
 ├── public/                 # Document root (satu-satunya folder publik)
 │   ├── index.php           # Front controller & router
 │   ├── .htaccess
-│   ├── css/
-│   └── js/
-└── uploads/                # File upload (di luar public/)
+│   └── uploads/            # File upload user
+├── install.sql             # Schema + seed + migrations (gabungan, sekali import)
+└── schema.sql              # Alternatif schema awal (tanpa migrations)
 ```
+
+> Catatan: styling saat ini **di-inline** di tiap view (`<style>` + `partials/base-styles.php`), belum dipisah ke file CSS/JS eksternal.
 
 ---
 
@@ -72,7 +73,7 @@ XENDIT_SECRET_KEY=xnd_development_xxxx
 ### 2. Import Database
 
 ```bash
-mysql -u root -p < database/schema.sql
+mysql -u root -p < install.sql
 ```
 
 ### 3. Set Document Root Apache
@@ -104,11 +105,36 @@ chmod -R 755 uploads/
 
 ## Akun Default
 
-| Role  | Email                    | Password    |
-|-------|--------------------------|-------------|
-| Admin | admin@creativeagency.id  | Admin@1234  |
+| Role    | Email                    | Password    |
+|---------|--------------------------|-------------|
+| Owner   | admin@creativeagency.id  | Admin@1234  |
+| Designer| rizki@creativeagency.id  | Admin@1234  |
+| Manager | sinta@creativeagency.id  | Admin@1234  |
+| Finance | budi@creativeagency.id   | Admin@1234  |
 
 > **Ganti password admin setelah pertama login!**
+
+---
+
+## Portal Staff & 2FA
+
+Staff dan klien masuk lewat **satu halaman** di **`/login`**. Setelah autentikasi
+(termasuk 2FA bila aktif), pengguna diarahkan otomatis ke dashboard sesuai role.
+Route lama `/admin/login` dialihkan otomatis ke `/login`.
+
+- **2FA (TOTP) wajib untuk role `owner` dan `admin`.** Saat login pertama, akun
+  dipaksa melakukan enrolment: scan QR (Google Authenticator / Authy / Microsoft
+  Authenticator) atau masukkan secret manual, lalu simpan 8 **kode pemulihan**
+  sekali pakai.
+- Role lain (`designer`, `manager`, `finance`) dapat mengaktifkan 2FA secara
+  sukarela di **`/admin/2fa/settings`**.
+- Saat login, kode TOTP diisi di `/admin/2fa`; kolom yang sama menerima kode
+  pemulihan (format `XXXX-XXXX`, sekali pakai).
+- `owner`/`admin` tidak dapat menonaktifkan 2FA; staff lain dapat
+  menonaktifkannya dengan konfirmasi password.
+
+> Secret TOTP disimpan di `users.twofa_secret`; kode pemulihan disimpan ter-hash
+> (`bcrypt`) di `users.twofa_recovery`.
 
 ---
 
@@ -124,6 +150,7 @@ chmod -R 755 uploads/
 - [x] Router sederhana tanpa framework
 - [x] Upload file helper
 - [x] Format Rupiah & generate order code
+- [x] Login tunggal untuk klien & staff (`/login`) + 2FA (TOTP) untuk owner/admin, dengan kode pemulihan
 
 ## Roadmap Selanjutnya
 
@@ -147,6 +174,9 @@ chmod -R 755 uploads/
 - File sensitif diblokir via `.htaccess`
 - Folder di luar `public/` tidak bisa diakses langsung
 - Prepared statements PDO pada semua query
+- Satu halaman login (`/login`) untuk semua role; hak akses dibedakan per role setelah autentikasi
+- 2FA TOTP wajib untuk owner/admin + kode pemulihan sekali pakai (ter-hash)
+- Password di-hash menggunakan `PASSWORD_BCRYPT` (cost 12)
 
 ---
 
@@ -170,6 +200,3 @@ chmod -R 755 uploads/
 ## Lisensi
 
 MIT — bebas digunakan untuk keperluan komersial.
-=======
-
->>>>>>> b030847139630b6cb02a65a4eb43ca4d69e2e3d0

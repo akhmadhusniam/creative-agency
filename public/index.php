@@ -27,12 +27,22 @@ $routes = [
         '/about'              => ['PageController',   'about'],
         '/contact'            => ['PageController',   'contact'],
 
+        // SEO
+        '/robots.txt'         => ['PageController',   'robots'],
+        '/sitemap.xml'        => ['PageController',   'sitemap'],
+
         '/login'              => ['AuthController',   'showLogin'],
         '/register'           => ['AuthController',   'showRegister'],
         '/logout'             => ['AuthController',   'logout'],
         '/forgot-password'    => ['AuthController',   'showForgotPassword'],
         '/verify-email'       => ['AuthController',   'verifyEmail'],
         '/reset-password'     => ['AuthController',   'showResetPassword'],
+
+        // Portal staff + 2FA (single sign-in: /admin/login dialihkan ke /login)
+        '/admin/login'        => ['AuthController',   'showStaffLogin'],
+        '/admin/2fa'          => ['AuthController',   'showTwoFactor'],
+        '/admin/2fa/setup'    => ['AuthController',   'showSetupTwoFactor'],
+        '/admin/2fa/settings' => ['AuthController',   'twoFactorSettings'],
 
         '/dashboard'          => ['ClientController', 'dashboard'],
         '/dashboard/orders'   => ['ClientController', 'orders'],
@@ -43,6 +53,7 @@ $routes = [
         // '/order'              => ['OrderController',  'show'],
 
         '/admin'              => ['AdminController',  'dashboard'],
+        '/admin/dashboard'    => ['AdminController',  'dashboard'],
         '/admin/orders'       => ['AdminController',  'orders'],
         '/admin/orders/{id}/edit' => ['AdminController','editOrder'],
         '/admin/users'        => ['AdminController',  'users'],
@@ -81,6 +92,12 @@ $routes = [
         '/reset-password'     => ['AuthController',   'resetPassword'],
         '/contact'            => ['PageController',   'sendContact'],
         // '/order'              => ['OrderController',  'create'],  // checkout online dinonaktifkan
+
+        // Portal staff + 2FA
+        '/admin/login'        => ['AuthController',   'showStaffLogin'],
+        '/admin/2fa'          => ['AuthController',   'verifyTwoFactor'],
+        '/admin/2fa/setup'    => ['AuthController',   'enableTwoFactor'],
+        '/admin/2fa/disable'  => ['AuthController',   'disableTwoFactor'],
         
         '/admin/orders/{id}/status' => ['AdminController','updateOrderStatus'],
         '/admin/orders/{id}/update' => ['AdminController','updateOrder'],

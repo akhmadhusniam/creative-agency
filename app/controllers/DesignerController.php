@@ -26,6 +26,7 @@ class DesignerController
      */
     public function dashboard(): void
     {
+        Session::requirePermission('view_assigned_orders');
         $userId = Session::userId();
 
         // Order yang di-assign ke designer ini
@@ -82,6 +83,7 @@ class DesignerController
      */
     public function viewOrder(int $id): void
     {
+        Session::requirePermission('view_assigned_orders');
         $userId = Session::userId();
 
         // Cek apakah designer ini memiliki akses ke order ini
@@ -118,6 +120,7 @@ class DesignerController
      */
     public function updateOrderStatus(int $id): void
     {
+        Session::requirePermission('edit_assigned_orders');
         verifyCsrf();
         $userId = Session::userId();
 
@@ -154,6 +157,7 @@ class DesignerController
      */
     public function uploadAsset(int $orderId): void
     {
+        Session::requirePermission('upload_assets');
         verifyCsrf();
         $userId = Session::userId();
 
@@ -233,6 +237,7 @@ class DesignerController
      */
     public function pendingReview(): void
     {
+        Session::requirePermission('view_assigned_orders');
         $userId = Session::userId();
 
         $orders = $this->db->prepare('

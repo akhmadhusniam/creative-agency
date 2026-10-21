@@ -27,6 +27,7 @@ class FinanceController
      */
     public function dashboard(): void
     {
+        Session::requirePermission('view_all_payments');
         $totalRevenue = $this->db->query('
             SELECT COALESCE(SUM(amount), 0) FROM payments WHERE status = "paid"
         ')->fetchColumn();
@@ -74,6 +75,7 @@ class FinanceController
      */
     public function payments(): void
     {
+        Session::requirePermission('view_all_payments');
         $statusFilter = $_GET['status'] ?? '';
 
         $query = '
@@ -109,6 +111,7 @@ class FinanceController
      */
     public function approvePayment(int $id): void
     {
+        Session::requirePermission('approve_payments');
         verifyCsrf();
 
         $stmt = $this->db->prepare('SELECT * FROM payments WHERE id = ?');
@@ -170,6 +173,7 @@ class FinanceController
      */
     public function invoice(int $id): void
     {
+        Session::requirePermission('generate_invoices');
         $stmt = $this->db->prepare('
             SELECT p.*, o.order_code, o.brief, o.total AS order_total,
                    u.name AS client_name, u.email AS client_email, u.phone AS client_phone,
@@ -206,6 +210,7 @@ class FinanceController
      */
     public function reports(): void
     {
+        Session::requirePermission('view_financial_reports');
         $monthlyRevenue = $this->db->query('
             SELECT DATE_FORMAT(paid_date, "%Y-%m") AS month, SUM(amount) AS total, COUNT(*) AS count
             FROM payments

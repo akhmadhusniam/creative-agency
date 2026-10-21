@@ -30,6 +30,7 @@ class AdminController
      */
     public function dashboard(): void
     {
+        Session::requirePermission('view_all_dashboards');
         $userRole = Session::userRole();
         
         // Statistik umum
@@ -78,6 +79,7 @@ class AdminController
      */
     public function orders(): void
     {
+        Session::requirePermission('manage_orders');
         $orders = $this->db->query('
             SELECT o.*, u.name AS client_name, s.name AS service_name, 
                    d.name AS designer_name, m.name AS manager_name,
@@ -101,6 +103,7 @@ class AdminController
      */
     public function editOrder(int $id): void
     {
+        Session::requirePermission('manage_orders');
         $order = $this->db->prepare('
             SELECT o.*, u.name AS client_name, s.name AS service_name,
                    d.name AS designer_name, m.name AS manager_name
@@ -131,6 +134,7 @@ class AdminController
      */
     public function updateOrder(int $id): void
     {
+        Session::requirePermission('manage_orders');
         verifyCsrf();
 
         $assigned_to = $_POST['assigned_to'] ?? null;
@@ -177,6 +181,7 @@ class AdminController
      */
     public function services(): void
     {
+        Session::requirePermission('manage_services');
         $services = $this->db->query('
             SELECT s.*, sc.name AS category_name, COUNT(o.id) AS order_count
             FROM services s
@@ -195,6 +200,7 @@ class AdminController
      */
     public function portfolio(): void
     {
+        Session::requirePermission('manage_portfolio');
         $portfolio = $this->db->query('
             SELECT p.*, sc.name AS category_name
             FROM portfolio p
@@ -211,6 +217,7 @@ class AdminController
      */
     public function users(): void
     {
+        Session::requirePermission('manage_users');
         $users = $this->db->query('
             SELECT id, name, email, phone, role, department, is_active, hire_date
             FROM users
@@ -227,6 +234,7 @@ class AdminController
      */
     public function editUser(int $id): void
     {
+        Session::requirePermission('manage_users');
         $user = $this->userModel->findById($id);
         if (!$user) {
             Session::flash('error', 'User tidak ditemukan.');
@@ -243,6 +251,7 @@ class AdminController
      */
     public function updateUser(int $id): void
     {
+        Session::requirePermission('manage_users');
         verifyCsrf();
 
         $v = new Validator($_POST);
@@ -278,6 +287,7 @@ class AdminController
      */
     public function toggleUserStatus(int $id): void
     {
+        Session::requirePermission('manage_users');
         verifyCsrf();
 
         $user = $this->userModel->findById($id);
@@ -305,6 +315,7 @@ class AdminController
      */
     public function updateOrderStatus(int $id): void
     {
+        Session::requirePermission('manage_orders');
         verifyCsrf();
 
         $status = $_POST['status'] ?? '';
@@ -327,6 +338,7 @@ class AdminController
      */
     public function settings(): void
     {
+        Session::requirePermission('manage_settings');
         $settings = site_settings();
         $title = 'Pengaturan Situs';
         require VIEW_PATH . '/admin/settings.php';
@@ -337,6 +349,7 @@ class AdminController
      */
     public function updateSettings(): void
     {
+        Session::requirePermission('manage_settings');
         verifyCsrf();
 
         // Whitelist key yang boleh diubah lewat form ini
@@ -372,6 +385,7 @@ class AdminController
      */
     public function auditLogs(): void
     {
+        Session::requirePermission('view_all_dashboards');
         $entityFilter = $_GET['entity_type'] ?? '';
         $dateFrom = $_GET['from'] ?? '';
         $dateTo = $_GET['to'] ?? '';
@@ -415,6 +429,7 @@ class AdminController
      */
     public function messages(): void
     {
+        Session::requirePermission('manage_users');
         $typeFilter = $_GET['type'] ?? '';
         $statusFilter = $_GET['status'] ?? '';
 
@@ -448,6 +463,7 @@ class AdminController
      */
     public function viewMessage(int $id): void
     {
+        Session::requirePermission('manage_users');
         $stmt = $this->db->prepare('SELECT * FROM messages WHERE id = ?');
         $stmt->execute([$id]);
         $message = $stmt->fetch();

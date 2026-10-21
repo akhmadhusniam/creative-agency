@@ -6,7 +6,6 @@
 <title>Kontak — Creative Studio</title>
 <meta name="description" content="Hubungi Creative Studio — konsultasi gratis untuk kebutuhan desain branding, UI/UX, social media, dan motion graphic Anda.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Contact layout ─────────────────────────────────────── */
@@ -34,8 +33,8 @@
 }
 .ci-card h4{font-family:var(--fh);font-weight:700;font-size:.82rem;margin-bottom:.2rem}
 .ci-card p{font-size:.82rem;color:var(--muted);line-height:1.5}
-.ci-card a{color:var(--ink);font-weight:500;transition:color .15s}
-.ci-card a:hover{color:var(--accent)}
+.ci-card a{color:var(--ink);font-weight:500;text-decoration:underline;text-underline-offset:2px;transition:color .15s}
+.ci-card a:hover{color:var(--accent2)}
 
 /* WhatsApp CTA card */
 .wa-card{
@@ -46,7 +45,7 @@
 .wa-card:hover{background:var(--ink)}
 .wa-icon{font-size:2rem;flex-shrink:0}
 .wa-title{font-family:var(--fh);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.2rem}
-.wa-sub{font-size:.78rem;color:#555}
+.wa-sub{font-size:.78rem;color:#B7C7BC}
 .wa-arrow{font-size:1.25rem;color:var(--accent);margin-left:auto;flex-shrink:0}
 
 /* Response time badge */
@@ -78,19 +77,19 @@ input,textarea,select{
   outline:none;
 }
 input:focus,textarea:focus,select:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(13,13,13,.06)}
-input.err,textarea.err{border-color:var(--accent)}
+input.err,textarea.err,select.err{border-color:#B91C1C;box-shadow:0 0 0 3px rgba(185,28,28,.1)}
 textarea{min-height:130px;resize:vertical}
 select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7570' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
 
 .btn-submit{
   width:100%;padding:.95rem;
-  background:var(--accent);color:var(--ink);border:2px solid var(--ink);
-  border-radius:0;font-family:var(--fm);font-weight:700;text-transform:uppercase;
+  background:var(--accent);color:var(--ink);border:1.5px solid var(--ink);
+  border-radius:10px;font-family:var(--fm);font-weight:700;text-transform:uppercase;
   font-size:.85rem;letter-spacing:.03em;cursor:pointer;
-  transition:background .15s,color .15s,transform .15s;
+  transition:background .15s,color .15s,box-shadow .15s;
   display:flex;align-items:center;justify-content:center;gap:.5rem;
 }
-.btn-submit:hover{background:var(--ink);color:var(--accent);transform:translate(-2px,-2px)}
+.btn-submit:hover{background:var(--ink);color:var(--accent);box-shadow:var(--shadow-sm)}
 .btn-submit:active{transform:translateY(0)}
 
 .form-privacy{font-size:.75rem;color:var(--muted);text-align:center;margin-top:.85rem;line-height:1.6}
@@ -124,10 +123,19 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 </head>
 <body>
 
-<?php $activeNav = 'contact'; require VIEW_PATH . '/partials/nav.php'; ?>
+<?php
+$activeNav = 'contact';
+$sEmail = site_setting('site_email');
+$sPhone = site_setting('site_phone');
+$sAddr  = site_setting('site_address');
+$sHours = site_setting('site_hours_office');
+$sWaHrs = site_setting('site_hours_wa');
+$sMeet  = site_setting('site_meeting_url');
+require VIEW_PATH . '/partials/nav.php';
+?>
 
 <!-- PAGE HERO -->
-<section class="page-hero">
+<section class="page-hero" id="main">
   <div class="s-inner">
     <div class="breadcrumb">
       <a href="<?= APP_URL ?>/">Beranda</a>
@@ -140,14 +148,14 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 </section>
 
 <!-- MAIN CONTACT LAYOUT -->
-<div class="contact-layout">
+<div class="contact-layout" id="konsultasi">
 
   <!-- LEFT: Info -->
   <div class="contact-info reveal">
     <div>
       <div class="eyebrow"><span class="eyebrow-line"></span>Hubungi Kami</div>
       <h2 class="stitle" style="font-size:clamp(1.5rem,2.5vw,2rem)">Ada Pertanyaan?<br>Kami Siap Membantu</h2>
-      <p class="ci-intro">Tim kami aktif pada hari Senin–Jumat (09.00–18.00 WIB). Kami biasanya membalas dalam 1–3 jam kerja.</p>
+      <p class="ci-intro">Tim kami aktif <?= e($sHours) ?>. Kami biasanya membalas dalam 1–3 jam kerja.</p>
     </div>
 
     <div class="resp-badge">
@@ -157,42 +165,52 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 
     <div class="ci-cards">
       <div class="ci-card">
-        <div class="ci-card-icon">📧</div>
+        <div class="ci-card-icon" aria-hidden="true">📧</div>
         <div>
           <h4>Email</h4>
-          <p><a href="mailto:hello@creativestudio.id">hello@creativestudio.id</a></p>
+          <p><a href="mailto:<?= e($sEmail) ?>"><?= e($sEmail) ?></a></p>
         </div>
       </div>
       <div class="ci-card">
-        <div class="ci-card-icon">📱</div>
+        <div class="ci-card-icon" aria-hidden="true">📱</div>
         <div>
           <h4>Telepon / WhatsApp</h4>
-          <p><a href="tel:+6281234567890">+62 812-3456-7890</a></p>
+          <p><a href="tel:<?= e(preg_replace('/[^0-9+]/', '', $sPhone)) ?>"><?= e($sPhone) ?></a><br>
+             <span style="font-size:.76rem">WA aktif <?= e($sWaHrs) ?></span></p>
         </div>
       </div>
       <div class="ci-card">
-        <div class="ci-card-icon">📍</div>
+        <div class="ci-card-icon" aria-hidden="true">📍</div>
         <div>
           <h4>Alamat Studio</h4>
-          <p>Jl. Kemang Raya No. 12B,<br>Jakarta Selatan, 12730</p>
+          <p><?= nl2br(e($sAddr)) ?></p>
         </div>
       </div>
       <div class="ci-card">
-        <div class="ci-card-icon">🕐</div>
+        <div class="ci-card-icon" aria-hidden="true">🕐</div>
         <div>
           <h4>Jam Operasional</h4>
-          <p>Senin – Jumat: 09.00 – 18.00 WIB<br>Sabtu: 09.00 – 13.00 WIB</p>
+          <p><?= e($sHours) ?></p>
         </div>
       </div>
+      <?php if ($sMeet): ?>
+      <div class="ci-card">
+        <div class="ci-card-icon" aria-hidden="true">🗓</div>
+        <div>
+          <h4>Jadwalkan Meeting</h4>
+          <p><a href="<?= e($sMeet) ?>" target="_blank" rel="noopener">Pilih waktu konsultasi →</a></p>
+        </div>
+      </div>
+      <?php endif; ?>
     </div>
 
-    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain')) ?>" class="wa-card" target="_blank" rel="noopener">
-      <span class="wa-icon">💬</span>
+    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain')) ?>" class="wa-card" target="_blank" rel="noopener" data-cta="contact-wa">
+      <span class="wa-icon" aria-hidden="true">💬</span>
       <div>
         <div class="wa-title">Chat via WhatsApp</div>
         <div class="wa-sub">Cara tercepat menghubungi kami</div>
       </div>
-      <span class="wa-arrow">→</span>
+      <span class="wa-arrow" aria-hidden="true">→</span>
     </a>
   </div>
 
@@ -202,10 +220,13 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
     <div class="cf-sub">Isi form di bawah dan kami akan segera menghubungi Anda.</div>
 
     <?php if ($ok = Session::getFlash('success')): ?>
-      <div class="alert alert-success" style="margin-bottom:1.5rem">✓ <?= e($ok) ?></div>
+      <div class="alert alert-success" role="status" aria-live="polite" style="margin-bottom:1.5rem">✓ <?= e($ok) ?></div>
     <?php endif; ?>
 
     <?php $errors = Session::getFlash('errors', []); $old = Session::getFlash('old', []); ?>
+    <?php if (!empty($errors)): ?>
+      <div class="alert alert-error" role="alert">Periksa kembali field yang ditandai di bawah.</div>
+    <?php endif; ?>
 
     <form method="POST" action="<?= APP_URL ?>/contact" id="contact-form">
       <?= csrfField() ?>
@@ -226,6 +247,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
           <input type="text" id="name" name="name"
                  value="<?= e($old['name'] ?? (Session::isLoggedIn() ? Session::get('user_name') : '')) ?>"
                  class="<?= isset($errors['name']) ? 'err' : '' ?>"
+                 autocomplete="name"
                  placeholder="Nama Anda" required>
           <?php if (!empty($errors['name'])): ?>
             <div class="field-error"><?= e($errors['name'][0]) ?></div>
@@ -236,6 +258,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
           <input type="email" id="email" name="email"
                  value="<?= e($old['email'] ?? (Session::isLoggedIn() ? Session::get('user_email') : '')) ?>"
                  class="<?= isset($errors['email']) ? 'err' : '' ?>"
+                 autocomplete="email"
                  placeholder="nama@email.com" required>
           <?php if (!empty($errors['email'])): ?>
             <div class="field-error"><?= e($errors['email'][0]) ?></div>
@@ -248,6 +271,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
           <label for="phone">No. WhatsApp <span class="opt">(opsional)</span></label>
           <input type="tel" id="phone" name="phone"
                  value="<?= e($old['phone'] ?? '') ?>"
+                 inputmode="tel" autocomplete="tel"
                  placeholder="+62 812...">
         </div>
         <div class="form-group" id="budget-group">
@@ -291,7 +315,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
         <?php endif; ?>
       </div>
 
-      <button type="submit" class="btn-submit" id="btn-submit">
+      <button type="submit" class="btn-submit" id="btn-submit" data-cta="contact-submit">
         <span id="btn-text">Kirim Pesan →</span>
         <span id="btn-loader" style="display:none">Mengirim...</span>
       </button>
@@ -307,9 +331,9 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
     <div class="map-wrap">
       <!-- Ganti dengan embed Google Maps: iframe src="https://maps.google.com/..." -->
       <div class="map-placeholder">
-        <div class="icon">📍</div>
-        <p>Jl. Kemang Raya No. 12B, Jakarta Selatan<br>
-        <a href="https://maps.google.com/?q=Kemang+Raya+Jakarta" target="_blank" rel="noopener">Buka di Google Maps →</a></p>
+        <div class="icon" aria-hidden="true">📍</div>
+        <p><?= nl2br(e($sAddr)) ?><br>
+        <a href="https://maps.google.com/?q=<?= urlencode(site_setting('site_maps_query')) ?>" target="_blank" rel="noopener">Buka di Google Maps →</a></p>
       </div>
     </div>
   </div>

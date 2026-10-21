@@ -6,7 +6,6 @@
 <title>Portfolio — Creative Studio</title>
 <meta name="description" content="Lihat karya-karya terbaik kami — branding, UI/UX, social media, motion graphic, dan print design untuk berbagai industri.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Filter ─────────────────────────────────────────────── */
@@ -134,7 +133,7 @@
 <?php $activeNav = 'portfolio'; require VIEW_PATH . '/partials/nav.php'; ?>
 
 <!-- PAGE HERO -->
-<section class="page-hero">
+<section class="page-hero" id="main">
   <div class="s-inner">
     <div class="breadcrumb">
       <a href="<?= APP_URL ?>/">Beranda</a>
@@ -269,8 +268,8 @@
       <p>Konsultasikan kebutuhan visual bisnis Anda. Gratis, tanpa komitmen, dan kami siap membantu.</p>
     </div>
     <div class="cta-strip-btns">
-      <a href="<?= APP_URL ?>/services" class="btn-cta-p">Lihat Layanan →</a>
-      <a href="<?= APP_URL ?>/contact"  class="btn-cta-g">💬 Hubungi Kami</a>
+      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="portfolio-cta-wa">💬 Konsultasi Gratis →</a>
+      <a href="<?= APP_URL ?>/services" class="btn-cta-g" data-cta="portfolio-cta-services">Lihat Layanan</a>
     </div>
   </div>
 </section>
@@ -297,6 +296,7 @@ function filterPortfolio(btn, filterId) {
 // ── Lightbox ─────────────────────────────────────────────
 let lbItems = [];
 let lbIdx   = 0;
+let lbLastFocus = null;
 
 // Build data array from DOM
 document.addEventListener('DOMContentLoaded', () => {
@@ -308,18 +308,27 @@ document.addEventListener('DOMContentLoaded', () => {
       bg:     item.querySelector('.p-thumb')?.style.background || '#111',
     });
   });
+  // Akses keyboard untuk kartu portfolio
+  document.querySelectorAll('.p-item[role="button"]').forEach(item => {
+    item.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
+    });
+  });
 });
 
 function openLightbox(i) {
   lbIdx = i;
+  lbLastFocus = document.activeElement;
   renderLb();
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.querySelector('.lb-close')?.focus();
 }
 
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow = '';
+  if (lbLastFocus) { lbLastFocus.focus(); lbLastFocus = null; }
 }
 
 function lbNav(dir) {
@@ -352,6 +361,17 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach((e,i) => { if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*70);obs.unobserve(e.target);} });
 },{threshold:.07});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── Sinkronkan jumlah pada tombol filter dengan karya yang tampil ──
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.p-item');
+  document.querySelectorAll('.fbtn').forEach(btn => {
+    const f = btn.dataset.filter;
+    const n = f === 'all' ? items.length : [...items].filter(i => i.dataset.cat === f).length;
+    const badge = btn.querySelector('.fbtn-count');
+    if (badge) badge.textContent = n;
+  });
+});
 </script>
 <?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>

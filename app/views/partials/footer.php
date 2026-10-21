@@ -4,6 +4,14 @@
  */
 ?>
 <footer class="footer">
+  <div class="footer-cta">
+    <div>
+      <div class="fc-title">Siap mulai proyek Anda?</div>
+      <p>Konsultasi pertama gratis dan tanpa komitmen. Ceritakan kebutuhan Anda — kami bantu tentukan langkah terbaik.</p>
+    </div>
+    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>"
+       class="btn btn-accent" target="_blank" rel="noopener" data-cta="footer-consult">Konsultasi Gratis →</a>
+  </div>
   <div class="footer-top">
     <div>
       <div class="f-logo">creative<span>.</span></div>

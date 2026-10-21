@@ -6,7 +6,6 @@
 <title>Tentang Kami — Creative Studio</title>
 <meta name="description" content="Kami adalah studio desain profesional Indonesia yang membantu bisnis tumbuh lewat visual yang strategis dan berkarakter.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── About-specific ─────────────────────────────────────── */
@@ -100,7 +99,7 @@
 <?php $activeNav = 'about'; require VIEW_PATH . '/partials/nav.php'; ?>
 
 <!-- PAGE HERO -->
-<section class="page-hero">
+<section class="page-hero" id="main">
   <div class="s-inner">
     <div class="breadcrumb">
       <a href="<?= APP_URL ?>/">Beranda</a>
@@ -286,8 +285,8 @@
       <p>Bergabunglah dengan 150+ bisnis yang sudah mempercayakan identitas visual mereka kepada kami.</p>
     </div>
     <div class="cta-strip-btns">
-      <a href="<?= APP_URL ?>/services" class="btn-cta-p">Lihat Layanan Kami →</a>
-      <a href="<?= APP_URL ?>/contact"  class="btn-cta-g">💬 Hubungi Kami</a>
+      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="about-cta-wa">💬 Konsultasi Gratis →</a>
+      <a href="<?= APP_URL ?>/services" class="btn-cta-g" data-cta="about-cta-services">Lihat Layanan Kami</a>
     </div>
   </div>
 </section>

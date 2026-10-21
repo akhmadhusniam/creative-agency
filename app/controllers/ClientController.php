@@ -22,6 +22,7 @@ class ClientController
 
     public function dashboard(): void
     {
+        Session::requirePermission('view_own_orders');
         $userId = Session::userId();
         $orders = $this->db->prepare('
             SELECT o.*, s.name AS service_name
@@ -42,6 +43,7 @@ class ClientController
 
     public function orders(): void
     {
+        Session::requirePermission('view_own_orders');
         $userId = Session::userId();
         $orders = $this->db->prepare('
             SELECT o.*, s.name AS service_name, p.status AS payment_status
@@ -60,6 +62,7 @@ class ClientController
 
     public function profile(): void
     {
+        Session::requirePermission('edit_profile');
         $userId = Session::userId();
         $userModel = new User();
         $user = $userModel->findById($userId);
@@ -71,6 +74,7 @@ class ClientController
 
     public function updateProfile(): void
     {
+        Session::requirePermission('edit_profile');
         verifyCsrf();
         $userId = Session::userId();
 

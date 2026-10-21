@@ -94,7 +94,7 @@ class RolePermission
         $role = $user['role'] ?? 'client';
 
         // Owner memiliki akses penuh
-        if ($role === 'owner' || self::PERMISSIONS[$role]['*'] ?? false) {
+        if ($role === 'owner' || (self::PERMISSIONS[$role]['*'] ?? false)) {
             return true;
         }
 

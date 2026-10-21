@@ -1,43 +1,53 @@
 <script>
-// partials/nav-script.php — toggle menu mobile, dipakai di semua halaman publik
-// supaya perilakunya konsisten (sebelumnya cuma home.php yang punya ini).
+// partials/nav-script.php — toggle menu mobile, dipakai di semua halaman publik.
 (function () {
   var hamburger = document.getElementById('hamburger');
   var nav = document.getElementById('main-nav');
   if (!hamburger || !nav) return;
 
+  function setOpen(open) {
+    nav.classList.toggle('mobile-open', open);
+    hamburger.classList.toggle('active', open);
+    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    hamburger.setAttribute('aria-label', open ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
   hamburger.addEventListener('click', function () {
-    var isOpen = nav.classList.toggle('mobile-open');
-    hamburger.classList.toggle('active', isOpen);
-    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    setOpen(!nav.classList.contains('mobile-open'));
   });
 
-  // Tutup menu otomatis begitu salah satu link diklik
   nav.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      nav.classList.remove('mobile-open');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', function () { setOpen(false); });
+  });
+
+  // Tutup dengan Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('mobile-open')) {
+      setOpen(false);
+      hamburger.focus();
+    }
+  });
+
+  // Klik di luar menu menutup drawer
+  document.addEventListener('click', function (e) {
+    if (!nav.classList.contains('mobile-open')) return;
+    if (nav.contains(e.target) || hamburger.contains(e.target)) return;
+    setOpen(false);
+  });
+
+  // Reset saat layar dibesarkan
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768 && nav.classList.contains('mobile-open')) setOpen(false);
   });
 })();
 
-// ── Efek magnetic di tombol utama (sesuai gaya desain baru) ──
-// Nonaktif otomatis di layar sentuh / preferensi reduced-motion, biar nggak ganggu.
-(function () {
-  if (window.matchMedia('(hover: none)').matches) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  document.querySelectorAll('.btn-primary, .btn-cta-p, .btn-outline, .btn-cta-g').forEach(function (el) {
-    el.addEventListener('mousemove', function (e) {
-      var r = el.getBoundingClientRect();
-      var x = e.clientX - r.left - r.width / 2;
-      var y = e.clientY - r.top - r.height / 2;
-      el.style.transform = 'translate(' + (x * 0.12) + 'px,' + (y * 0.25) + 'px)';
-    });
-    el.addEventListener('mouseleave', function () {
-      el.style.transform = '';
-    });
-  });
-})();
+// ── Tandai CTA yang diklik (siap dihubungkan ke analytics) ──
+document.addEventListener('click', function (e) {
+  var el = e.target.closest('[data-cta]');
+  if (!el) return;
+  document.dispatchEvent(new CustomEvent('cta:click', {
+    detail: { name: el.getAttribute('data-cta'), href: el.getAttribute('href') || '' }
+  }));
+});
 </script>

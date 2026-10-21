@@ -262,10 +262,11 @@
 <body>
 
 <!-- NAV -->
+<a href="#main" class="skip-link">Lewati ke konten utama</a>
 <?php require VIEW_PATH . '/partials/marquee.php'; ?>
-<nav class="nav" id="main-nav">
+<nav class="nav" id="main-nav" aria-label="Navigasi utama">
   <div class="nav-inner">
-    <a href="<?= APP_URL ?>/" class="nav-logo">creative<span>.</span></a>
+    <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
     <ul class="nav-links">
       <li><a href="<?= APP_URL ?>/services" class="active">Layanan</a></li>
       <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
@@ -274,20 +275,20 @@
     </ul>
     <div class="nav-cta">
       <?php if (Session::isLoggedIn()): ?>
-        <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline">Dashboard</a>
+        <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
       <?php else: ?>
-        <a href="<?= APP_URL ?>/login" class="btn btn-outline">Masuk</a>
-        <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn btn-primary" target="_blank" rel="noopener">Mulai Proyek</a>
+        <a href="<?= APP_URL ?>/login" class="btn btn-outline btn-sm">Masuk</a>
       <?php endif; ?>
+      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-cta="nav-consult">Konsultasi</a>
     </div>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+    <button class="nav-hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="page-hero">
+<section class="page-hero" id="main">
   <div class="container">
     <div class="breadcrumb">
       <a href="<?= APP_URL ?>/">Beranda</a>
@@ -399,7 +400,7 @@
                 <div class="price-label"><?= $ptype === 'starting_from' ? 'Mulai dari' : 'Harga' ?></div>
                 <div class="price-value"><?= formatRupiah($price) ?></div>
               </div>
-              <a href="<?= APP_URL ?>/services/<?= $slug ?>" class="card-cta">
+              <a href="<?= APP_URL ?>/services/<?= $slug ?>" class="card-cta" data-cta="service-card">
                 Detail <span class="card-cta-arrow">→</span>
               </a>
             </div>
@@ -418,7 +419,7 @@
           <div class="card-accent-bar" style="background:<?= $accentColor ?>"></div>
           <div class="card-thumb" style="background:<?= $bgColor ?>">
             <?php if ($svc['thumbnail']): ?>
-              <img src="<?= APP_URL ?>/uploads/<?= e($svc['thumbnail']) ?>" alt="<?= e($svc['name']) ?>">
+              <img src="<?= APP_URL ?>/uploads/<?= e($svc['thumbnail']) ?>" alt="<?= e($svc['name']) ?>" loading="lazy">
             <?php else: ?>
               <div class="card-thumb-icon"><?= $icon ?></div>
             <?php endif; ?>
@@ -450,7 +451,7 @@
                   <?= $svc['price_type'] === 'custom' ? 'Hubungi Kami' : formatRupiah((float)$svc['price']) ?>
                 </div>
               </div>
-              <a href="<?= APP_URL ?>/services/<?= e($svc['slug']) ?>" class="card-cta">
+              <a href="<?= APP_URL ?>/services/<?= e($svc['slug']) ?>" class="card-cta" data-cta="service-card">
                 Detail <span class="card-cta-arrow">→</span>
               </a>
             </div>
@@ -475,24 +476,14 @@
       <p>Ceritakan kebutuhan Anda, kami akan bantu rekomendasikan layanan yang paling sesuai — gratis, tanpa komitmen. Mulai proyek cukup dengan DP, pelunasan setelah hasil selesai.</p>
     </div>
     <div class="consult-actions">
-      <a href="<?= e(site_wa_url('Halo, saya butuh rekomendasi layanan yang cocok untuk kebutuhan saya.')) ?>" class="btn btn-white" target="_blank" rel="noopener">💬 Chat WhatsApp</a>
-      <a href="<?= APP_URL ?>/contact" class="btn btn-ghost">Isi Form Konsultasi</a>
+      <a href="<?= e(site_wa_url('Halo, saya butuh rekomendasi layanan yang cocok untuk kebutuhan saya.')) ?>" class="btn btn-white" target="_blank" rel="noopener" data-cta="services-consult-wa">💬 Chat WhatsApp</a>
+      <a href="<?= APP_URL ?>/contact" class="btn btn-ghost" data-cta="services-consult-form">Isi Form Konsultasi</a>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-logo">creative<span>.</span></div>
-    <ul class="footer-links">
-      <li><a href="<?= APP_URL ?>/services">Layanan</a></li>
-      <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
-      <li><a href="<?= APP_URL ?>/contact">Kontak</a></li>
-    </ul>
-    <p class="footer-copy">© <?= date('Y') ?> Creative Studio</p>
-  </div>
-</footer>
+<?php require VIEW_PATH . '/partials/footer.php'; ?>
 
 <script>
 // ── Filter layanan ────────────────────────────────────────
@@ -533,6 +524,17 @@ document.querySelectorAll('.service-card').forEach(card => {
   card.style.transform = 'translateY(18px)';
   card.style.transition = 'opacity .4s ease, transform .4s ease';
   observer.observe(card);
+});
+
+// ── Sinkronkan jumlah pada tombol filter dengan kartu yang tampil ──
+document.addEventListener('DOMContentLoaded', function () {
+  var cards = document.querySelectorAll('.service-card');
+  document.querySelectorAll('.filter-btn').forEach(function (btn) {
+    var f = btn.dataset.filter;
+    var n = f === 'all' ? cards.length : Array.prototype.filter.call(cards, function (c) { return c.dataset.category === f; }).length;
+    var badge = btn.querySelector('.filter-count');
+    if (badge) badge.textContent = n;
+  });
 });
 </script>
 

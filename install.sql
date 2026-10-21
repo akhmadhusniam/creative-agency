@@ -186,7 +186,7 @@ CREATE TABLE settings (
 -- Admin user (password: Admin@1234 — ganti setelah deploy!)
 INSERT INTO users (name, email, password, role, is_verified) VALUES
 ('Admin Agency', 'admin@creativeagency.id',
- '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uHxQfmA6w',
+ '$2y$12$OLt9agt/M62hGkJS.KtHXekCsJkAF8MbKGJE.ufgOuhEJRctnxLte',
  'admin', 1);
 
 -- Kategori layanan
@@ -256,14 +256,17 @@ INSERT INTO settings (`key`, `value`) VALUES
 -- -------------------------------------------------------
 
 -- 1. Perluas tabel users dengan kolom RBAC
-ALTER TABLE users ADD COLUMN IF NOT EXISTS role ENUM('client','designer','manager','finance','admin','owner') NOT NULL DEFAULT 'client' AFTER is_verified;
+-- Pastikan kolom role memakai ENUM terbaru (schema lama mungkin hanya 'client','admin')
+ALTER TABLE users MODIFY COLUMN role ENUM('client','designer','manager','finance','admin','owner') NOT NULL DEFAULT 'client';
 ALTER TABLE users ADD COLUMN IF NOT EXISTS department VARCHAR(50) DEFAULT NULL AFTER role;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS is_active TINYINT(1) NOT NULL DEFAULT 1 AFTER department;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS hire_date DATE DEFAULT NULL AFTER is_active;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS salary DECIMAL(12,2) DEFAULT NULL AFTER hire_date;
 
 -- Create index untuk role dan department untuk query yang lebih cepat
+DROP INDEX IF EXISTS idx_users_role ON users;
 CREATE INDEX idx_users_role ON users(role);
+DROP INDEX IF EXISTS idx_users_department ON users;
 CREATE INDEX idx_users_department ON users(department);
 
 -- -------------------------------------------------------
@@ -279,15 +282,19 @@ ALTER TABLE orders ADD COLUMN IF NOT EXISTS revision_count TINYINT UNSIGNED NOT 
 ALTER TABLE orders ADD COLUMN IF NOT EXISTS max_revisions TINYINT UNSIGNED NOT NULL DEFAULT 2 AFTER revision_count;
 
 -- Foreign keys untuk assigned_to dan manager_id
-ALTER TABLE orders 
-ADD CONSTRAINT fk_orders_assigned_to FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL;
-ALTER TABLE orders 
-ADD CONSTRAINT fk_orders_manager_id FOREIGN KEY (manager_id) REFERENCES users(id) ON DELETE SET NULL;
+ALTER TABLE orders DROP FOREIGN KEY IF EXISTS fk_orders_assigned_to;
+ALTER TABLE orders DROP FOREIGN KEY IF EXISTS fk_orders_manager_id;
 
 -- Create indexes untuk performance
+DROP INDEX IF EXISTS idx_orders_assigned_to ON orders;
 CREATE INDEX idx_orders_assigned_to ON orders(assigned_to);
+DROP INDEX IF EXISTS idx_orders_manager_id ON orders;
 CREATE INDEX idx_orders_manager_id ON orders(manager_id);
+DROP INDEX IF EXISTS idx_orders_priority ON orders;
 CREATE INDEX idx_orders_priority ON orders(priority);
+ALTER TABLE orders ADD CONSTRAINT fk_orders_assigned_to FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL;
+ALTER TABLE orders ADD CONSTRAINT fk_orders_manager_id FOREIGN KEY (manager_id) REFERENCES users(id) ON DELETE SET NULL;
+
 
 -- -------------------------------------------------------
 -- 3. Perluas tabel payments dengan finance tracking
@@ -298,10 +305,11 @@ ALTER TABLE payments ADD COLUMN IF NOT EXISTS approver_id INT UNSIGNED DEFAULT N
 ALTER TABLE payments ADD COLUMN IF NOT EXISTS notes TEXT DEFAULT NULL AFTER approver_id;
 
 -- Foreign key untuk approver
-ALTER TABLE payments 
-ADD CONSTRAINT fk_payments_approver_id FOREIGN KEY (approver_id) REFERENCES users(id) ON DELETE SET NULL;
+ALTER TABLE payments DROP FOREIGN KEY IF EXISTS fk_payments_approver_id;
 
+DROP INDEX IF EXISTS idx_payments_approver_id ON payments;
 CREATE INDEX idx_payments_approver_id ON payments(approver_id);
+ALTER TABLE payments ADD CONSTRAINT fk_payments_approver_id FOREIGN KEY (approver_id) REFERENCES users(id) ON DELETE SET NULL;
 
 -- -------------------------------------------------------
 -- 4. Buat tabel audit log untuk tracking
@@ -352,7 +360,7 @@ INSERT INTO users (name, email, password, phone, role, department, is_active, is
 VALUES (
     'Rizki Designer',
     'rizki@creativeagency.id',
-    '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uHxQfmA6w',
+    '$2y$12$OLt9agt/M62hGkJS.KtHXekCsJkAF8MbKGJE.ufgOuhEJRctnxLte',
     '081234567890',
     'designer',
     'Design',
@@ -366,7 +374,7 @@ INSERT INTO users (name, email, password, phone, role, department, is_active, is
 VALUES (
     'Sinta Manager',
     'sinta@creativeagency.id',
-    '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uHxQfmA6w',
+    '$2y$12$OLt9agt/M62hGkJS.KtHXekCsJkAF8MbKGJE.ufgOuhEJRctnxLte',
     '081234567891',
     'manager',
     'Operations',
@@ -380,7 +388,7 @@ INSERT INTO users (name, email, password, phone, role, department, is_active, is
 VALUES (
     'Budi Finance',
     'budi@creativeagency.id',
-    '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uHxQfmA6w',
+    '$2y$12$OLt9agt/M62hGkJS.KtHXekCsJkAF8MbKGJE.ufgOuhEJRctnxLte',
     '081234567892',
     'finance',
     'Finance',
@@ -394,6 +402,18 @@ UPDATE users SET role = 'owner' WHERE email = 'admin@creativeagency.id' LIMIT 1;
 
 -- Kategori jenis kebutuhan di form kontak (Klien Baru / Kerja Sama / Karir / Lainnya)
 ALTER TABLE messages ADD COLUMN IF NOT EXISTS inquiry_type VARCHAR(50) DEFAULT NULL AFTER user_id;
+
+-- ============================================================
+--  Phase 3: Two-Factor Authentication (TOTP)
+--  Wajib untuk owner & admin, opsional untuk staff lain.
+-- ============================================================
+
+-- Secret TOTP (Base32) — disimpan per user, NULL berarti belum di-setup
+ALTER TABLE users ADD COLUMN IF NOT EXISTS twofa_secret   VARCHAR(64)  DEFAULT NULL AFTER salary;
+-- 0 = 2FA nonaktif, 1 = 2FA aktif
+ALTER TABLE users ADD COLUMN IF NOT EXISTS twofa_enabled  TINYINT(1)   NOT NULL DEFAULT 0 AFTER twofa_secret;
+-- JSON array kode recovery yang sudah di-hash (password_hash), dipakai sekali
+ALTER TABLE users ADD COLUMN IF NOT EXISTS twofa_recovery TEXT         DEFAULT NULL AFTER twofa_enabled;
 
 -- ============================================================
 --  Status: Ready untuk Phase 1 & 2

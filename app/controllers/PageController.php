@@ -140,6 +140,68 @@ class PageController
         require VIEW_PATH . '/contact.php';
     }
 
+    // ---------- SEO: ROBOTS.TXT ----------
+    public function robots(): void
+    {
+        header('Content-Type: text/plain; charset=UTF-8');
+
+        echo "User-agent: *\n";
+        echo "Allow: /\n";
+
+        foreach ([
+            '/admin', '/dashboard', '/designer', '/manager', '/finance',
+            '/notifications', '/login', '/register', '/forgot-password',
+            '/reset-password', '/verify-email',
+        ] as $path) {
+            echo 'Disallow: ' . $path . "\n";
+        }
+
+        echo "\nSitemap: " . APP_URL . "/sitemap.xml\n";
+    }
+
+    // ---------- SEO: SITEMAP.XML ----------
+    public function sitemap(): void
+    {
+        $urls = [
+            ['loc' => APP_URL . '/',          'changefreq' => 'weekly',  'priority' => '1.0'],
+            ['loc' => APP_URL . '/services',  'changefreq' => 'weekly',  'priority' => '0.9'],
+            ['loc' => APP_URL . '/portfolio', 'changefreq' => 'weekly',  'priority' => '0.9'],
+            ['loc' => APP_URL . '/about',     'changefreq' => 'monthly', 'priority' => '0.6'],
+            ['loc' => APP_URL . '/contact',   'changefreq' => 'monthly', 'priority' => '0.7'],
+        ];
+
+        $services = $this->db->query('
+            SELECT slug, created_at FROM services WHERE is_active = 1 ORDER BY sort_order
+        ')->fetchAll();
+
+        foreach ($services as $svc) {
+            $urls[] = [
+                'loc'        => APP_URL . '/services/' . $svc['slug'],
+                'lastmod'    => !empty($svc['created_at']) ? date('Y-m-d', strtotime($svc['created_at'])) : null,
+                'changefreq' => 'monthly',
+                'priority'   => '0.8',
+            ];
+        }
+
+        header('Content-Type: application/xml; charset=UTF-8');
+
+        echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+        foreach ($urls as $u) {
+            echo "  <url>\n";
+            echo '    <loc>' . htmlspecialchars($u['loc'], ENT_XML1 | ENT_QUOTES, 'UTF-8') . "</loc>\n";
+            if (!empty($u['lastmod'])) {
+                echo '    <lastmod>' . $u['lastmod'] . "</lastmod>\n";
+            }
+            echo '    <changefreq>' . $u['changefreq'] . "</changefreq>\n";
+            echo '    <priority>' . $u['priority'] . "</priority>\n";
+            echo "  </url>\n";
+        }
+
+        echo '</urlset>';
+    }
+
     public function sendContact(): void
     {
         verifyCsrf();

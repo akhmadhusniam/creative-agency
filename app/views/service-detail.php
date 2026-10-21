@@ -329,10 +329,11 @@ $catSlug   = $service['category_slug'] ?? 'default';
 <body>
 
 <!-- NAV -->
+<a href="#main" class="skip-link">Lewati ke konten utama</a>
 <?php require VIEW_PATH . '/partials/marquee.php'; ?>
-<nav class="nav" id="main-nav">
+<nav class="nav" id="main-nav" aria-label="Navigasi utama">
   <div class="nav-inner">
-    <a href="<?= APP_URL ?>/" class="nav-logo">creative<span>.</span></a>
+    <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
     <ul class="nav-links">
       <li><a href="<?= APP_URL ?>/services" class="active">Layanan</a></li>
       <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
@@ -341,20 +342,20 @@ $catSlug   = $service['category_slug'] ?? 'default';
     </ul>
     <div class="nav-cta">
       <?php if (Session::isLoggedIn()): ?>
-        <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline">Dashboard</a>
+        <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
       <?php else: ?>
-        <a href="<?= APP_URL ?>/login" class="btn btn-outline">Masuk</a>
-        <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn btn-primary" target="_blank" rel="noopener">Mulai Proyek</a>
+        <a href="<?= APP_URL ?>/login" class="btn btn-outline btn-sm">Masuk</a>
       <?php endif; ?>
+      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-cta="nav-consult">Konsultasi</a>
     </div>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+    <button class="nav-hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
 <!-- BREADCRUMB -->
-<div class="breadcrumb-bar">
+<div class="breadcrumb-bar" id="main">
   <div class="container">
     <div class="breadcrumb">
       <a href="<?= APP_URL ?>/">Beranda</a>
@@ -563,11 +564,11 @@ $catSlug   = $service['category_slug'] ?? 'default';
           </div>
 
           <a href="<?= e(site_wa_url("Halo, saya tertarik dengan layanan {$service['name']}. Bisa dibantu info lebih lanjut?")) ?>"
-             class="order-cta-main order-cta-whatsapp-main" target="_blank" rel="noopener">
-            💬 Pesan via WhatsApp →
+             class="order-cta-main order-cta-whatsapp-main" target="_blank" rel="noopener" data-cta="service-detail-wa">
+            💬 Konsultasi via WhatsApp →
           </a>
 
-          <a href="<?= APP_URL ?>/contact" class="order-cta-secondary">
+          <a href="<?= APP_URL ?>/contact" class="order-cta-secondary" data-cta="service-detail-form">
             ✉ Tanya Lewat Form
           </a>
 
@@ -654,12 +655,7 @@ $otherServices = $otherStmt->fetchAll();
 <?php endif; ?>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-logo">creative<span>.</span></div>
-    <p class="footer-copy">© <?= date('Y') ?> Creative Studio. Semua hak dilindungi.</p>
-  </div>
-</footer>
+<?php require VIEW_PATH . '/partials/footer.php'; ?>
 
 <script>
 // ── FAQ accordion ─────────────────────────────────────────

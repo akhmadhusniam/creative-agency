@@ -12,9 +12,10 @@ RewriteRule ^(.*)$ index.php [QSA,L]
     Deny from all
 </FilesMatch>
 
-# Blokir akses ke folder selain public
+# Blokir akses ke folder internal (uploads/ tetap publik; eksekusi PHP di dalamnya
+# sudah diblokir oleh public/uploads/.htaccess)
 <IfModule mod_rewrite.c>
-    RewriteRule ^(app|config|database|uploads)/ - [F,L]
+    RewriteRule ^(app|config|database)/ - [F,L]
 </IfModule>
 
 # Header keamanan

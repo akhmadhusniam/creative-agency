@@ -24,6 +24,9 @@ CREATE TABLE users (
     verify_token VARCHAR(64)  DEFAULT NULL,
     reset_token  VARCHAR(64)  DEFAULT NULL,
     reset_expires DATETIME    DEFAULT NULL,
+    twofa_secret  VARCHAR(64) DEFAULT NULL,
+    twofa_enabled TINYINT(1)  NOT NULL DEFAULT 0,
+    twofa_recovery TEXT       DEFAULT NULL,
     created_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;

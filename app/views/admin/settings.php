@@ -98,6 +98,12 @@
 
     <button type="submit" class="btn-primary">Simpan Pengaturan</button>
   </form>
+
+  <div class="card">
+    <h2>Keamanan Akun</h2>
+    <p style="font-size:.85rem;color:#5C6862;margin-bottom:1rem;">Kelola verifikasi dua faktor (2FA) untuk akun Anda.</p>
+    <a href="<?= APP_URL ?>/admin/2fa/settings" style="display:inline-block;text-decoration:none;padding:.7rem 1.3rem;background:var(--ink);color:var(--accent);border-radius:6px;font-weight:600;font-size:.85rem;">Kelola 2FA</a>
+  </div>
 </main>
 
 </body>

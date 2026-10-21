@@ -198,4 +198,46 @@ class User
         $user = $stmt->fetch();
         return $user && $user['is_active'];
     }
+
+    // ========== TWO-FACTOR AUTHENTICATION (2FA) ==========
+
+    /**
+     * Aktifkan 2FA: simpan secret + kode recovery ter-hash.
+     */
+    public function setTwoFactor(int $id, string $secret, string $recoveryJson): bool
+    {
+        return $this->update($id, [
+            'twofa_secret'   => $secret,
+            'twofa_enabled'  => 1,
+            'twofa_recovery' => $recoveryJson,
+        ]);
+    }
+
+    /**
+     * Matikan 2FA dan bersihkan data terkait.
+     */
+    public function clearTwoFactor(int $id): bool
+    {
+        return $this->update($id, [
+            'twofa_secret'   => null,
+            'twofa_enabled'  => 0,
+            'twofa_recovery' => null,
+        ]);
+    }
+
+    /**
+     * Perbarui daftar kode recovery (setelah satu kode dipakai).
+     */
+    public function updateRecoveryCodes(int $id, string $recoveryJson): bool
+    {
+        return $this->update($id, ['twofa_recovery' => $recoveryJson]);
+    }
+
+    /**
+     * Apakah 2FA aktif untuk user ini?
+     */
+    public function isTwoFactorEnabled(array $user): bool
+    {
+        return !empty($user['twofa_enabled']) && !empty($user['twofa_secret']);
+    }
 }
