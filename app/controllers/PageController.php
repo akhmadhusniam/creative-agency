@@ -33,8 +33,11 @@ class PageController
 
         // Portfolio featured
         $portfolio = $this->db->query('
-            SELECT * FROM portfolio WHERE is_featured = 1
-            ORDER BY sort_order ASC LIMIT 6
+            SELECT p.*, sc.name AS category_name, sc.slug AS category_slug
+            FROM portfolio p
+            LEFT JOIN service_categories sc ON p.category_id = sc.id
+            WHERE p.is_featured = 1 AND p.is_published = 1
+            ORDER BY p.sort_order ASC LIMIT 6
         ')->fetchAll();
 
         // Testimonial featured
@@ -116,14 +119,112 @@ class PageController
         ')->fetchAll();
 
         $portfolio = $this->db->query('
-            SELECT p.*, sc.name AS category_name
+            SELECT p.*, sc.name AS category_name, sc.slug AS category_slug
             FROM portfolio p
             LEFT JOIN service_categories sc ON p.category_id = sc.id
+            WHERE p.is_published = 1
             ORDER BY p.sort_order, p.id DESC
         ')->fetchAll();
 
         $title = 'Portfolio';
         require VIEW_PATH . '/portfolio.php';
+    }
+
+    // ---------- PORTFOLIO DETAIL (STUDI KASUS) ----------
+    public function portfolioDetail(string $slug): void
+    {
+        $stmt = $this->db->prepare('
+            SELECT p.*, sc.name AS category_name, sc.slug AS category_slug
+            FROM portfolio p
+            LEFT JOIN service_categories sc ON p.category_id = sc.id
+            WHERE p.slug = ? AND p.is_published = 1
+        ');
+        $stmt->execute([$slug]);
+        $portfolio = $stmt->fetch();
+
+        if (!$portfolio) {
+            http_response_code(404);
+            $title = 'Karya Tidak Ditemukan';
+            require VIEW_PATH . '/partials/404.php';
+            return;
+        }
+
+        // Daftar layanan yang dipakai (dipisah koma di database)
+        $portfolio['services_list'] = array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) ($portfolio['services_used'] ?? ''))
+        )));
+
+        // Galeri gambar (JSON array path relatif terhadap /uploads)
+        $portfolio['gallery'] = [];
+        if (!empty($portfolio['images'])) {
+            $decoded = json_decode($portfolio['images'], true);
+            if (is_array($decoded)) {
+                $portfolio['gallery'] = array_values(array_filter(array_map(
+                    fn($img) => is_string($img) ? trim($img) : '',
+                    $decoded
+                )));
+            }
+        }
+
+        // Karya terkait: kategori sama dulu, lalu lengkapi dari kategori lain
+        $relatedStmt = $this->db->prepare('
+            SELECT p.id, p.title, p.slug, p.client_name, p.cover_image, p.category_id,
+                   sc.name AS category_name, sc.slug AS category_slug
+            FROM portfolio p
+            LEFT JOIN service_categories sc ON p.category_id = sc.id
+            WHERE p.is_published = 1 AND p.id <> ?
+            ORDER BY (p.category_id = ?) DESC, p.sort_order ASC, p.id DESC
+            LIMIT 3
+        ');
+        $relatedStmt->execute([$portfolio['id'], $portfolio['category_id']]);
+        $related = $relatedStmt->fetchAll();
+
+        $coverUrl = $portfolio['cover_image'] !== ''
+            ? APP_URL . '/uploads/' . ltrim($portfolio['cover_image'], '/')
+            : '';
+
+        $canonical = APP_URL . '/portfolio/' . rawurlencode($portfolio['slug']);
+
+        $title = $portfolio['title'];
+        $seo = [
+            'title'       => $portfolio['meta_title'] ?: $portfolio['title'],
+            'description' => $portfolio['meta_description']
+                ?: mb_substr(strip_tags((string) $portfolio['description']), 0, 160),
+            'canonical'   => $canonical,
+            'type'        => 'article',
+            'image'       => $coverUrl,
+            'jsonLd'      => [
+                [
+                    '@context'      => 'https://schema.org',
+                    '@type'         => 'CreativeWork',
+                    'name'          => $portfolio['title'],
+                    'headline'      => $portfolio['title'],
+                    'description'   => $portfolio['meta_description'] ?: strip_tags((string) $portfolio['description']),
+                    'url'           => $canonical,
+                    'image'         => $coverUrl ?: null,
+                    'dateCreated'   => $portfolio['year'] ? (string) $portfolio['year'] : null,
+                    'keywords'      => $portfolio['tags'] ?: null,
+                    'creator'       => [
+                        '@type' => 'Organization',
+                        'name'  => site_setting('site_name', APP_NAME),
+                        'url'   => APP_URL . '/',
+                    ],
+                    'about'         => $portfolio['category_name'] ?: null,
+                ],
+                [
+                    '@context'        => 'https://schema.org',
+                    '@type'           => 'BreadcrumbList',
+                    'itemListElement' => [
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => APP_URL . '/'],
+                        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Portfolio', 'item' => APP_URL . '/portfolio'],
+                        ['@type' => 'ListItem', 'position' => 3, 'name' => $portfolio['title'], 'item' => $canonical],
+                    ],
+                ],
+            ],
+        ];
+
+        require VIEW_PATH . '/portfolio-detail.php';
     }
 
     // ---------- ABOUT ----------
@@ -180,6 +281,21 @@ class PageController
                 'lastmod'    => !empty($svc['created_at']) ? date('Y-m-d', strtotime($svc['created_at'])) : null,
                 'changefreq' => 'monthly',
                 'priority'   => '0.8',
+            ];
+        }
+
+        $projects = $this->db->query('
+            SELECT slug, created_at FROM portfolio
+            WHERE is_published = 1
+            ORDER BY sort_order, id DESC
+        ')->fetchAll();
+
+        foreach ($projects as $project) {
+            $urls[] = [
+                'loc'        => APP_URL . '/portfolio/' . rawurlencode($project['slug']),
+                'lastmod'    => !empty($project['created_at']) ? date('Y-m-d', strtotime($project['created_at'])) : null,
+                'changefreq' => 'monthly',
+                'priority'   => '0.7',
             ];
         }
 

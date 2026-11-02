@@ -178,7 +178,9 @@ h2.stitle{
   grid-template-rows:200px 200px;
   gap:1rem;margin-top:3rem;
 }
-.pm{border-radius:12px;overflow:hidden;position:relative}
+.pm{border-radius:12px;overflow:hidden;position:relative;display:block;transition:transform .2s,box-shadow .2s}
+.pm:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.pm:focus-visible .pm-overlay{opacity:1}
 .pm-1{grid-column:1/6;grid-row:1/3}
 .pm-2{grid-column:6/9;grid-row:1/2}
 .pm-3{grid-column:9/13;grid-row:1/2}
@@ -195,10 +197,18 @@ h2.stitle{
 .pm-img{width:100%;height:100%;object-fit:cover}
 .pm-tag{
   position:absolute;top:.85rem;left:.85rem;
-  background:rgba(200,65,43,.92);color:#fff;
-  font-family:var(--fh);font-size:.62rem;font-weight:700;
+  background:var(--ink);color:#fff;
+  border:1px solid var(--accent);
+  font-family:var(--fm);font-size:.62rem;font-weight:700;
   letter-spacing:.08em;text-transform:uppercase;
-  padding:.2rem .65rem;border-radius:2rem;z-index:2;
+  padding:.2rem .65rem;border-radius:0;z-index:2;
+}
+.pm-sample{
+  position:absolute;top:.85rem;right:.85rem;z-index:2;
+  background:var(--accent);color:var(--ink);
+  font-family:var(--fm);font-size:.58rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:.18rem .55rem;border-radius:999px;border:1px solid var(--ink);
 }
 .pm-overlay{
   position:absolute;inset:0;
@@ -208,7 +218,12 @@ h2.stitle{
 }
 .pm:hover .pm-overlay{opacity:1}
 .pm-overlay h3{font-family:var(--fh);font-weight:700;color:#fff;font-size:1rem;margin-bottom:.2rem}
-.pm-overlay p{font-size:.75rem;color:#999}
+.pm-overlay p{font-size:.75rem;color:#B9C4BD}
+.pm-overlay span{margin-top:.6rem;font-family:var(--fm);font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+.pm-fill{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;background:var(--cream-2);border:1.5px dashed var(--line);text-align:center;padding:1.25rem}
+.pm-fill b{font-family:var(--fh);font-size:.85rem;text-transform:uppercase;letter-spacing:.02em}
+.pm-fill small{font-family:var(--fm);font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+@media(hover:none){.pm-overlay{opacity:1}}
 
 /* ── NUMBERS (dark bg) ──────────────────────────────────── */
 .num-section{background:var(--ink);padding:6rem clamp(1rem,4vw,3rem)}
@@ -260,12 +275,12 @@ h2.stitle{
 .testi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;margin-top:3rem}
 .testi-card{
   background:var(--white);border:1px solid rgba(0,0,0,.06);
-  border-radius:12px;padding:1.75rem;
+  border-radius:12px;padding:1.75rem;position:relative;
 }
 .testi-card.dark{background:var(--ink);border-color:var(--ink)}
 .testi-q{font-size:2.25rem;line-height:1;color:var(--accent);font-family:Georgia,serif;margin-bottom:.6rem}
 .testi-body{font-size:.875rem;line-height:1.8;color:var(--muted);margin-bottom:1.5rem}
-.testi-card.dark .testi-body{color:#666}
+.testi-card.dark .testi-body{color:#C7D4CB}
 .testi-stars{color:#F5A623;font-size:.8rem;margin-bottom:.6rem;letter-spacing:.1em}
 .testi-author{display:flex;align-items:center;gap:.75rem}
 .testi-av{
@@ -274,10 +289,21 @@ h2.stitle{
   font-family:var(--fh);font-weight:700;font-size:.8rem;color:var(--muted);
   flex-shrink:0;
 }
-.testi-card.dark .testi-av{background:#1a1a1a;color:#555}
+.testi-card.dark .testi-av{background:#1F3A2A;color:var(--accent)}
 .testi-nm{font-family:var(--fh);font-weight:700;font-size:.875rem}
 .testi-card.dark .testi-nm{color:#fff}
 .testi-role{font-size:.75rem;color:var(--muted)}
+.testi-card.dark .testi-role{color:#8FA396}
+.testi-sample{
+  position:absolute;top:1rem;right:1rem;
+  font-family:var(--fm);font-size:.58rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:.18rem .5rem;border-radius:999px;
+  background:var(--cream-2);color:var(--muted);border:1px solid var(--line);
+}
+.testi-card.dark .testi-sample{background:rgba(255,255,255,.08);color:#B9C4BD;border-color:rgba(255,255,255,.18)}
+.testi-link{display:inline-flex;font-family:var(--fm);font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+.testi-link:hover{color:#fff}
 
 /* ── CTA BANNER ─────────────────────────────────────────── */
 .cta-wrap{background:var(--ink);padding:6rem clamp(1rem,4vw,3rem);border-top:var(--bw) solid var(--ink);border-bottom:var(--bw) solid var(--ink)}
@@ -568,33 +594,49 @@ h2.stitle{
 
     <div class="p-mosaic reveal" style="transition-delay:.12s">
       <?php
-      $pmDemos = [
-        ['pm-1','#1e1e1e','✦','Branding','Full Brand System — TechVenture','Logo · Color System · Guideline'],
-        ['pm-2','#e8e4dc','◈','UI/UX','Landing Page — StartupX','Figma · Responsive'],
-        ['pm-3','#d4e8d4','◉','Social Media','Social Kit — BeautyBrand','Feed · Story · Highlight'],
-        ['pm-4','#f0e8d4','◎','Motion','Intro Animasi — EventKreatiF','After Effects · 30 detik'],
-        ['pm-5','#e8d4d4','◆','Print','Stationery — PT Maju','Kartu Nama · Amplop · KOP'],
-      ];
-      $pItems = !empty($portfolio) ? array_slice($portfolio,0,5) : null;
-      foreach ($pmDemos as $i => [$cls,$bg,$icon,$cat,$title,$sub]):
-        $p = $pItems[$i] ?? null;
-      ?>
-        <div class="pm <?= $cls ?>" style="background:<?= $bg ?>">
-          <?php if ($p && $p['cover_image']): ?>
-            <img class="pm-img" src="<?= APP_URL ?>/uploads/<?= e($p['cover_image']) ?>" alt="<?= e($p['title']) ?>">
-          <?php else: ?>
-            <div class="pm-ph">
-              <div class="pm-ph-icon"><?= $icon ?></div>
-              <div class="pm-ph-cat"><?= $cat ?></div>
+      $pmClasses = ['pm-1', 'pm-2', 'pm-3', 'pm-4', 'pm-5'];
+      $pmColors  = ['branding' => '#122A1C', 'uiux' => '#DCEEDF', 'socmed' => '#D4EEDC', 'motion' => '#EAF5D0', 'print' => '#D8EAE2'];
+      $pmFg      = ['branding' => '#C8FF4D', 'uiux' => '#122A1C', 'socmed' => '#122A1C', 'motion' => '#122A1C', 'print' => '#122A1C'];
+      $pmIcons   = ['branding' => '✦', 'uiux' => '◈', 'socmed' => '◉', 'motion' => '◎', 'print' => '◆'];
+      $pmItems   = array_slice($portfolio, 0, 5);
+
+      foreach ($pmClasses as $i => $cls):
+        $p = $pmItems[$i] ?? null;
+
+        if (!$p): ?>
+          <a class="pm <?= $cls ?> pm-fill" href="<?= APP_URL ?>/portfolio">
+            <b>Lihat Semua Karya</b>
+            <small>Portfolio →</small>
+          </a>
+        <?php else:
+          $slug  = $p['category_slug'] ?? 'branding';
+          $bg    = $pmColors[$slug] ?? '#E4E9E5';
+          $fg    = $pmFg[$slug] ?? '#122A1C';
+          $icon  = $pmIcons[$slug] ?? '★';
+          $href  = APP_URL . '/portfolio/' . rawurlencode($p['slug']);
+        ?>
+          <a class="pm <?= $cls ?>" href="<?= e($href) ?>" style="background:<?= e($bg) ?>;color:<?= e($fg) ?>"
+             aria-label="Baca studi kasus <?= e($p['title']) ?>">
+            <?php if ($p['cover_image']): ?>
+              <img class="pm-img" src="<?= APP_URL ?>/uploads/<?= e($p['cover_image']) ?>" alt="<?= e($p['title']) ?>" loading="lazy">
+            <?php else: ?>
+              <div class="pm-ph" style="background:<?= e($bg) ?>">
+                <div class="pm-ph-icon"><?= $icon ?></div>
+                <div class="pm-ph-cat"><?= e($p['category_name'] ?? '') ?></div>
+              </div>
+            <?php endif; ?>
+            <span class="pm-tag"><?= e($p['category_name'] ?? 'Portfolio') ?></span>
+            <?php if (!empty($p['is_sample'])): ?>
+              <span class="pm-sample">Sampel</span>
+            <?php endif; ?>
+            <div class="pm-overlay">
+              <h3><?= e($p['title']) ?></h3>
+              <p><?= e($p['client_name'] ?? '') ?></p>
+              <span>Baca Studi Kasus →</span>
             </div>
-          <?php endif; ?>
-          <span class="pm-tag"><?= $cat ?></span>
-          <div class="pm-overlay">
-            <h3><?= $p ? e($p['title']) : $title ?></h3>
-            <p><?= $p ? e($p['client_name'] ?? '') : $sub ?></p>
-          </div>
-        </div>
-      <?php endforeach; ?>
+          </a>
+        <?php endif;
+      endforeach; ?>
     </div>
   </div>
 </section>
@@ -673,13 +715,16 @@ h2.stitle{
     </div>
     <div class="testi-grid reveal" style="transition-delay:.12s">
       <?php if (!empty($testimonials)):
-        foreach (array_slice($testimonials,0,3) as $i => $t): ?>
+        foreach (array_slice($testimonials, 0, 3) as $i => $t): ?>
           <div class="testi-card <?= $i === 0 ? 'dark' : '' ?>">
+            <?php if (!empty($t['is_sample'])): ?>
+              <span class="testi-sample">Contoh</span>
+            <?php endif; ?>
             <div class="testi-q">"</div>
             <div class="testi-body"><?= e($t['content']) ?></div>
-            <div class="testi-stars"><?= str_repeat('★',(int)$t['rating']) ?></div>
+            <div class="testi-stars"><?= str_repeat('★', max(1, min(5, (int) $t['rating']))) ?></div>
             <div class="testi-author">
-              <div class="testi-av"><?= strtoupper(substr($t['client_name'],0,2)) ?></div>
+              <div class="testi-av"><?= e(strtoupper(mb_substr($t['client_name'], 0, 2))) ?></div>
               <div>
                 <div class="testi-nm"><?= e($t['client_name']) ?></div>
                 <div class="testi-role"><?= e($t['client_title'] ?? '') ?></div>
@@ -687,27 +732,13 @@ h2.stitle{
             </div>
           </div>
         <?php endforeach;
-      else:
-        $demotesti = [
-          ['RK','Rina Kusuma','CEO Skincare Brand','Hasilnya jauh melampaui ekspektasi kami. Tim ini benar-benar memahami karakter brand — bukan sekadar membuat logo cantik, tapi identitas yang punya makna.', true],
-          ['DP','Danu Prasetyo','Founder App Startup','UI yang mereka buat langsung disukai investor di pitching. Prosesnya sangat terstruktur dan komunikatif. Akan terus pakai jasa mereka.', false],
-          ['SD','Sari Dewanti','Marketing Manager','Template social media yang kami terima sangat premium. Konten jadi jauh lebih konsisten dan engagement naik signifikan bulan pertama.', false],
-        ];
-        foreach ($demotesti as [$av,$nm,$role,$body,$dark]): ?>
-          <div class="testi-card <?= $dark ? 'dark' : '' ?>">
-            <div class="testi-q">"</div>
-            <div class="testi-body"><?= $body ?></div>
-            <div class="testi-stars">★★★★★</div>
-            <div class="testi-author">
-              <div class="testi-av"><?= $av ?></div>
-              <div>
-                <div class="testi-nm"><?= $nm ?></div>
-                <div class="testi-role"><?= $role ?></div>
-              </div>
-            </div>
-          </div>
-        <?php endforeach;
-      endif; ?>
+      else: ?>
+        <div class="testi-card dark">
+          <div class="testi-q">"</div>
+          <div class="testi-body">Kami sedang mengumpulkan cerita dari klien terbaru. Ingin jadi yang berikutnya?</div>
+          <a href="<?= APP_URL ?>/contact#konsultasi" class="testi-link">Mulai konsultasi →</a>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 </section>

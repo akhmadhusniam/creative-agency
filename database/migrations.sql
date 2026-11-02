@@ -167,6 +167,29 @@ ALTER TABLE users ADD COLUMN IF NOT EXISTS twofa_enabled  TINYINT(1)   NOT NULL 
 ALTER TABLE users ADD COLUMN IF NOT EXISTS twofa_recovery TEXT         DEFAULT NULL AFTER twofa_enabled;
 
 -- ============================================================
+--  Phase 4: Portfolio case-study & social proof
+--  Menambah kolom studi kasus, status publikasi, dan penanda sampel.
+-- ============================================================
+
+-- Portfolio: studi kasus lengkap
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS year            SMALLINT UNSIGNED DEFAULT NULL AFTER client_name;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS challenge       TEXT DEFAULT NULL AFTER description;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS solution        TEXT DEFAULT NULL AFTER challenge;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS result          TEXT DEFAULT NULL AFTER solution;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS services_used   VARCHAR(255) DEFAULT NULL AFTER result;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS duration        VARCHAR(50) DEFAULT NULL AFTER services_used;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS meta_title      VARCHAR(160) DEFAULT NULL AFTER tags;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS meta_description VARCHAR(255) DEFAULT NULL AFTER meta_title;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS is_published    TINYINT(1) NOT NULL DEFAULT 1 AFTER is_featured;
+ALTER TABLE portfolio ADD COLUMN IF NOT EXISTS is_sample       TINYINT(1) NOT NULL DEFAULT 0 AFTER is_published;
+
+DROP INDEX IF EXISTS idx_portfolio_published ON portfolio;
+CREATE INDEX idx_portfolio_published ON portfolio(is_published);
+
+-- Testimoni: penanda konten contoh
+ALTER TABLE testimonials ADD COLUMN IF NOT EXISTS is_sample TINYINT(1) NOT NULL DEFAULT 0 AFTER is_featured;
+
+-- ============================================================
 --  Status: Ready untuk Phase 1 & 2
 --  Jalankan script ini di MySQL untuk setup database
 -- ============================================================

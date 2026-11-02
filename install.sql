@@ -127,13 +127,24 @@ CREATE TABLE portfolio (
     title       VARCHAR(120) NOT NULL,
     slug        VARCHAR(120) NOT NULL UNIQUE,
     client_name VARCHAR(100) DEFAULT NULL,
+    year        SMALLINT UNSIGNED DEFAULT NULL,
     description TEXT         DEFAULT NULL,
+    challenge   TEXT         DEFAULT NULL,
+    solution    TEXT         DEFAULT NULL,
+    result      TEXT         DEFAULT NULL,
+    services_used VARCHAR(255) DEFAULT NULL,
+    duration    VARCHAR(50)  DEFAULT NULL,
     cover_image VARCHAR(255) NOT NULL,
     images      JSON         DEFAULT NULL,
     tags        VARCHAR(255) DEFAULT NULL,
+    meta_title  VARCHAR(160) DEFAULT NULL,
+    meta_description VARCHAR(255) DEFAULT NULL,
     is_featured TINYINT(1)  NOT NULL DEFAULT 0,
+    is_published TINYINT(1) NOT NULL DEFAULT 1,
+    is_sample   TINYINT(1)  NOT NULL DEFAULT 0,
     sort_order  TINYINT UNSIGNED NOT NULL DEFAULT 0,
     created_at  DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_portfolio_published (is_published),
     FOREIGN KEY (category_id) REFERENCES service_categories(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
@@ -149,6 +160,7 @@ CREATE TABLE testimonials (
     content     TEXT         NOT NULL,
     rating      TINYINT UNSIGNED NOT NULL DEFAULT 5,
     is_featured TINYINT(1)  NOT NULL DEFAULT 0,
+    is_sample   TINYINT(1)  NOT NULL DEFAULT 0,
     created_at  DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;

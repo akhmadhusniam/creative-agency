@@ -213,6 +213,387 @@ class AdminController
     }
 
     /**
+     * Form tambah portfolio
+     */
+    public function createPortfolio(): void
+    {
+        Session::requirePermission('manage_portfolio');
+
+        $categories = $this->db->query('
+            SELECT id, name FROM service_categories ORDER BY sort_order, name
+        ')->fetchAll();
+
+        $portfolio  = null;
+        $isEdit     = false;
+        $formAction = APP_URL . '/admin/portfolio';
+        $title      = 'Tambah Portfolio';
+
+        require VIEW_PATH . '/admin/portfolio-form.php';
+    }
+
+    /**
+     * Simpan portfolio baru
+     */
+    public function storePortfolio(): void
+    {
+        Session::requirePermission('manage_portfolio');
+        verifyCsrf();
+
+        $data = $this->portfolioPayload();
+        if ($data === null) {
+            redirect(APP_URL . '/admin/portfolio/create');
+        }
+
+        $upload = $this->handlePortfolioCover();
+        if ($upload['error'] !== null) {
+            Session::flash('errors', ['cover_image' => [$upload['error']]]);
+            Session::flash('old', $_POST);
+            redirect(APP_URL . '/admin/portfolio/create');
+        }
+        $data['cover_image'] = $upload['path'] ?? '';
+
+        try {
+            $stmt = $this->db->prepare('
+                INSERT INTO portfolio
+                    (category_id, title, slug, client_name, year, description,
+                     challenge, solution, result, services_used, duration,
+                     cover_image, tags, meta_title, meta_description,
+                     is_featured, is_published, is_sample, sort_order)
+                VALUES
+                    (:category_id, :title, :slug, :client_name, :year, :description,
+                     :challenge, :solution, :result, :services_used, :duration,
+                     :cover_image, :tags, :meta_title, :meta_description,
+                     :is_featured, :is_published, :is_sample, :sort_order)
+            ');
+            $stmt->execute($data);
+        } catch (PDOException $e) {
+            error_log('[portfolio.store] ' . $e->getMessage());
+            Session::flash('error', 'Portfolio gagal disimpan. Periksa kembali data Anda.');
+            Session::flash('old', $_POST);
+            redirect(APP_URL . '/admin/portfolio/create');
+        }
+
+        $id = (int) $this->db->lastInsertId();
+        logAudit('portfolio', $id, 'create', [
+            'title'  => $data['title'],
+            'slug'   => $data['slug'],
+            'status' => $data['is_published'] ? 'published' : 'draft',
+        ]);
+
+        Session::flash('success', 'Portfolio berhasil ditambahkan.');
+        redirect(APP_URL . '/admin/portfolio');
+    }
+
+    /**
+     * Form edit portfolio
+     */
+    public function editPortfolio(int $id): void
+    {
+        Session::requirePermission('manage_portfolio');
+
+        $stmt = $this->db->prepare('SELECT * FROM portfolio WHERE id = ?');
+        $stmt->execute([$id]);
+        $portfolio = $stmt->fetch();
+
+        if (!$portfolio) {
+            Session::flash('error', 'Portfolio tidak ditemukan.');
+            redirect(APP_URL . '/admin/portfolio');
+        }
+
+        $categories = $this->db->query('
+            SELECT id, name FROM service_categories ORDER BY sort_order, name
+        ')->fetchAll();
+
+        $isEdit     = true;
+        $formAction = APP_URL . '/admin/portfolio/' . $id . '/update';
+        $title      = 'Edit Portfolio';
+
+        require VIEW_PATH . '/admin/portfolio-form.php';
+    }
+
+    /**
+     * Simpan perubahan portfolio
+     */
+    public function updatePortfolio(int $id): void
+    {
+        Session::requirePermission('manage_portfolio');
+        verifyCsrf();
+
+        $stmt = $this->db->prepare('SELECT * FROM portfolio WHERE id = ?');
+        $stmt->execute([$id]);
+        $existing = $stmt->fetch();
+
+        if (!$existing) {
+            Session::flash('error', 'Portfolio tidak ditemukan.');
+            redirect(APP_URL . '/admin/portfolio');
+        }
+
+        $data = $this->portfolioPayload($id);
+        if ($data === null) {
+            redirect(APP_URL . '/admin/portfolio/' . $id . '/edit');
+        }
+
+        $upload = $this->handlePortfolioCover();
+        if ($upload['error'] !== null) {
+            Session::flash('errors', ['cover_image' => [$upload['error']]]);
+            Session::flash('old', $_POST);
+            redirect(APP_URL . '/admin/portfolio/' . $id . '/edit');
+        }
+
+        $oldCover = (string) $existing['cover_image'];
+        $newCover = $oldCover;
+
+        if ($upload['path'] !== null) {
+            $newCover = $upload['path'];
+        } elseif (!empty($_POST['remove_cover'])) {
+            $newCover = '';
+        }
+        $data['cover_image'] = $newCover;
+
+        try {
+            $stmt = $this->db->prepare('
+                UPDATE portfolio SET
+                    category_id = :category_id, title = :title, slug = :slug,
+                    client_name = :client_name, year = :year, description = :description,
+                    challenge = :challenge, solution = :solution, result = :result,
+                    services_used = :services_used, duration = :duration,
+                    cover_image = :cover_image, tags = :tags,
+                    meta_title = :meta_title, meta_description = :meta_description,
+                    is_featured = :is_featured, is_published = :is_published,
+                    is_sample = :is_sample, sort_order = :sort_order
+                WHERE id = :id
+            ');
+            $data['id'] = $id;
+            $stmt->execute($data);
+        } catch (PDOException $e) {
+            error_log('[portfolio.update] ' . $e->getMessage());
+            Session::flash('error', 'Perubahan gagal disimpan. Periksa kembali data Anda.');
+            Session::flash('old', $_POST);
+            redirect(APP_URL . '/admin/portfolio/' . $id . '/edit');
+        }
+
+        if ($newCover !== $oldCover) {
+            $this->deletePortfolioCover($oldCover);
+        }
+
+        logAudit('portfolio', $id, 'update', [
+            'title'  => $data['title'],
+            'slug'   => $data['slug'],
+            'status' => $data['is_published'] ? 'published' : 'draft',
+        ], [
+            'title'  => $existing['title'],
+            'slug'   => $existing['slug'],
+            'status' => $existing['is_published'] ? 'published' : 'draft',
+        ]);
+
+        Session::flash('success', 'Perubahan portfolio berhasil disimpan.');
+        redirect(APP_URL . '/admin/portfolio');
+    }
+
+    /**
+     * Hapus portfolio
+     */
+    public function deletePortfolio(int $id): void
+    {
+        Session::requirePermission('manage_portfolio');
+        verifyCsrf();
+
+        $stmt = $this->db->prepare('SELECT title, slug, cover_image FROM portfolio WHERE id = ?');
+        $stmt->execute([$id]);
+        $existing = $stmt->fetch();
+
+        if (!$existing) {
+            Session::flash('error', 'Portfolio tidak ditemukan.');
+            redirect(APP_URL . '/admin/portfolio');
+        }
+
+        $this->db->prepare('DELETE FROM portfolio WHERE id = ?')->execute([$id]);
+        $this->deletePortfolioCover((string) $existing['cover_image']);
+
+        logAudit('portfolio', $id, 'delete', [], [
+            'title' => $existing['title'],
+            'slug'  => $existing['slug'],
+        ]);
+
+        Session::flash('success', 'Portfolio berhasil dihapus.');
+        redirect(APP_URL . '/admin/portfolio');
+    }
+
+    /**
+     * Toggle status publikasi portfolio
+     */
+    public function togglePortfolio(int $id): void
+    {
+        Session::requirePermission('manage_portfolio');
+        verifyCsrf();
+
+        $stmt = $this->db->prepare('SELECT is_published FROM portfolio WHERE id = ?');
+        $stmt->execute([$id]);
+        $current = $stmt->fetchColumn();
+
+        if ($current === false) {
+            Session::flash('error', 'Portfolio tidak ditemukan.');
+            redirect(APP_URL . '/admin/portfolio');
+        }
+
+        $next = $current ? 0 : 1;
+        $this->db->prepare('UPDATE portfolio SET is_published = ? WHERE id = ?')->execute([$next, $id]);
+
+        logAudit('portfolio', $id, 'toggle_publish', ['is_published' => $next], ['is_published' => (int) $current]);
+
+        Session::flash('success', $next ? 'Portfolio dipublikasikan.' : 'Portfolio dijadikan draft.');
+        redirect(APP_URL . '/admin/portfolio');
+    }
+
+    /**
+     * Validasi & normalisasi input portfolio.
+     * Mengembalikan null (dan menyimpan flash error) bila tidak valid.
+     */
+    private function portfolioPayload(int $ignoreId = 0): ?array
+    {
+        $v = new Validator($_POST);
+        $v->required(['title', 'description']);
+        $errors = $v->errors();
+
+        $year = null;
+        $yearRaw = trim((string) ($_POST['year'] ?? ''));
+        if ($yearRaw !== '') {
+            if (!ctype_digit($yearRaw) || (int) $yearRaw < 1990 || (int) $yearRaw > 2100) {
+                $errors['year'][] = 'Tahun harus berupa angka antara 1990 dan 2100.';
+            } else {
+                $year = (int) $yearRaw;
+            }
+        }
+
+        $sortOrder = (int) ($_POST['sort_order'] ?? 0);
+        $sortOrder = max(0, min(255, $sortOrder));
+
+        $categoryId = null;
+        $categoryRaw = trim((string) ($_POST['category_id'] ?? ''));
+        if ($categoryRaw !== '') {
+            $check = $this->db->prepare('SELECT id FROM service_categories WHERE id = ?');
+            $check->execute([(int) $categoryRaw]);
+            if ($check->fetchColumn()) {
+                $categoryId = (int) $categoryRaw;
+            } else {
+                $errors['category_id'][] = 'Kategori yang dipilih tidak valid.';
+            }
+        }
+
+        if ($errors) {
+            Session::flash('errors', $errors);
+            Session::flash('old', $_POST);
+            return null;
+        }
+
+        $title = trim((string) $_POST['title']);
+        $slugInput = trim((string) ($_POST['slug'] ?? ''));
+        $slug = $this->uniquePortfolioSlug($slugInput !== '' ? $slugInput : $title, $ignoreId);
+
+        return [
+            'category_id'      => $categoryId,
+            'title'            => $title,
+            'slug'             => $slug,
+            'client_name'      => trim((string) ($_POST['client_name'] ?? '')) ?: null,
+            'year'             => $year,
+            'description'      => trim((string) $_POST['description']),
+            'challenge'        => trim((string) ($_POST['challenge'] ?? '')) ?: null,
+            'solution'         => trim((string) ($_POST['solution'] ?? '')) ?: null,
+            'result'           => trim((string) ($_POST['result'] ?? '')) ?: null,
+            'services_used'    => trim((string) ($_POST['services_used'] ?? '')) ?: null,
+            'duration'         => trim((string) ($_POST['duration'] ?? '')) ?: null,
+            'tags'             => trim((string) ($_POST['tags'] ?? '')) ?: null,
+            'meta_title'       => trim((string) ($_POST['meta_title'] ?? '')) ?: null,
+            'meta_description' => trim((string) ($_POST['meta_description'] ?? '')) ?: null,
+            'is_featured'      => !empty($_POST['is_featured']) ? 1 : 0,
+            'is_published'     => !empty($_POST['is_published']) ? 1 : 0,
+            'is_sample'        => !empty($_POST['is_sample']) ? 1 : 0,
+            'sort_order'       => $sortOrder,
+        ];
+    }
+
+    /**
+     * Buat slug unik dari judul/input, dengan suffix angka bila bentrok.
+     */
+    private function uniquePortfolioSlug(string $source, int $ignoreId = 0): string
+    {
+        $slug = strtolower(trim((string) preg_replace('/[^a-z0-9]+/i', '-', $source), '-'));
+        if ($slug === '') {
+            $slug = 'portfolio';
+        }
+        $slug = substr($slug, 0, 100);
+
+        $base = $slug;
+        $n = 2;
+        $stmt = $this->db->prepare('SELECT COUNT(*) FROM portfolio WHERE slug = ? AND id <> ?');
+
+        do {
+            $stmt->execute([$slug, $ignoreId]);
+            $exists = (int) $stmt->fetchColumn() > 0;
+            if ($exists) {
+                $slug = $base . '-' . $n++;
+            }
+        } while ($exists);
+
+        return $slug;
+    }
+
+    /**
+     * Upload cover portfolio. Mengembalikan path relatif /uploads atau error.
+     *
+     * @return array{path: ?string, error: ?string}
+     */
+    private function handlePortfolioCover(): array
+    {
+        $file = $_FILES['cover_image'] ?? null;
+        if (!$file || ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            return ['path' => null, 'error' => null];
+        }
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            return ['path' => null, 'error' => 'Upload cover gagal. Coba lagi.'];
+        }
+        if ($file['size'] > MAX_UPLOAD_MB * 1024 * 1024) {
+            return ['path' => null, 'error' => 'Ukuran cover melebihi ' . MAX_UPLOAD_MB . ' MB.'];
+        }
+
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!in_array($ext, ALLOWED_IMAGES, true)) {
+            return ['path' => null, 'error' => 'Format cover harus JPG, PNG, WEBP, atau GIF.'];
+        }
+        if (@getimagesize($file['tmp_name']) === false) {
+            return ['path' => null, 'error' => 'File cover tidak dikenali sebagai gambar.'];
+        }
+
+        $dir = ROOT_PATH . '/public/uploads/portfolio';
+        if (!is_dir($dir) && !mkdir($dir, 0755, true) && !is_dir($dir)) {
+            return ['path' => null, 'error' => 'Folder upload tidak dapat dibuat.'];
+        }
+
+        $name = date('Ymd') . '-' . bin2hex(random_bytes(6)) . '.' . $ext;
+        if (!move_uploaded_file($file['tmp_name'], $dir . '/' . $name)) {
+            return ['path' => null, 'error' => 'Cover gagal disimpan di server.'];
+        }
+
+        return ['path' => 'portfolio/' . $name, 'error' => null];
+    }
+
+    /**
+     * Hapus file cover lama (hanya di dalam public/uploads/portfolio).
+     */
+    private function deletePortfolioCover(string $path): void
+    {
+        if ($path === '' || !str_starts_with($path, 'portfolio/')) {
+            return;
+        }
+
+        $full = ROOT_PATH . '/public/uploads/' . $path;
+        if (is_file($full)) {
+            @unlink($full);
+        }
+    }
+
+    /**
      * Manage Users/Staff
      */
     public function users(): void

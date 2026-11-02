@@ -29,7 +29,8 @@ creative-agency/
 │   ├── app.php             # Konstanta, loader .env, konfigurasi global
 │   └── database.php        # PDO singleton
 ├── database/
-│   └── migrations.sql      # ALTER + tabel audit_logs/notifications
+│   ├── migrations.sql      # ALTER + tabel audit_logs/notifications + kolom portfolio
+│   └── seed_sample_content.sql  # 3 portfolio + 3 testimoni contoh (is_sample = 1)
 ├── public/                 # Document root (satu-satunya folder publik)
 │   ├── index.php           # Front controller & router
 │   ├── .htaccess
@@ -76,6 +77,16 @@ XENDIT_SECRET_KEY=xnd_development_xxxx
 mysql -u root -p < install.sql
 ```
 
+Untuk database yang sudah berjalan, jalankan migrasi lalu (opsional) isi konten contoh:
+
+```bash
+mysql -u root -p creative_agency < database/migrations.sql
+mysql -u root -p creative_agency < database/seed_sample_content.sql
+```
+
+Semua portfolio/testimoni contoh ditandai `is_sample = 1` dan tampil dengan badge
+**Sampel**/**Contoh**. Hapus atau ganti lewat `/admin/portfolio` setelah konten asli siap.
+
 ### 3. Set Document Root Apache
 
 ```apache
@@ -98,7 +109,7 @@ Atau gunakan Virtual Host:
 ### 4. Permission Upload
 
 ```bash
-chmod -R 755 uploads/
+chmod -R 755 public/uploads/
 ```
 
 ---
@@ -151,17 +162,20 @@ Route lama `/admin/login` dialihkan otomatis ke `/login`.
 - [x] Upload file helper
 - [x] Format Rupiah & generate order code
 - [x] Login tunggal untuk klien & staff (`/login`) + 2FA (TOTP) untuk owner/admin, dengan kode pemulihan
+- [x] Halaman portfolio dengan filter kategori + halaman studi kasus (`/portfolio/{slug}`)
+- [x] CRUD portfolio di admin (tambah, edit, upload cover, publikasi/draft, hapus)
+- [x] SEO portfolio: canonical, Open Graph/Twitter Card, JSON-LD, dan entri sitemap
 
 ## Roadmap Selanjutnya
 
 - [ ] Halaman detail layanan + form order
 - [ ] Proses checkout & integrasi pembayaran live
 - [ ] Webhook handler Midtrans/Xendit
-- [ ] Panel admin (CRUD layanan, kelola pesanan, upload portfolio)
+- [ ] Panel admin (CRUD layanan, kelola pesanan)
 - [ ] Email notifikasi (PHPMailer)
 - [ ] Reset password via email
-- [ ] Halaman portfolio dengan filter kategori
 - [ ] Halaman profil klien dengan upload avatar
+- [ ] Ganti statistik hardcoded (150+, 98%, 5★) dengan data nyata
 
 ---
 
@@ -176,7 +190,6 @@ Route lama `/admin/login` dialihkan otomatis ke `/login`.
 - Prepared statements PDO pada semua query
 - Satu halaman login (`/login`) untuk semua role; hak akses dibedakan per role setelah autentikasi
 - 2FA TOTP wajib untuk owner/admin + kode pemulihan sekali pakai (ter-hash)
-- Password di-hash menggunakan `PASSWORD_BCRYPT` (cost 12)
 
 ---
 
