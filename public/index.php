@@ -17,6 +17,18 @@ $base   = parse_url(APP_URL, PHP_URL_PATH) ?: '';
 $path   = '/' . ltrim(substr($uri, strlen($base)), '/');
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Normalisasi URL: buang trailing slash (kecuali root) dengan redirect permanen.
+// Menjaga satu versi URL kanonik untuk SEO dan mencegah duplikasi halaman.
+if ($path !== '/' && str_ends_with($path, '/')) {
+    $target = APP_URL . rtrim($path, '/');
+    $query  = $_SERVER['QUERY_STRING'] ?? '';
+    if ($query !== '') {
+        $target .= '?' . $query;
+    }
+    header('Location: ' . $target, true, in_array($method, ['GET', 'HEAD'], true) ? 301 : 308);
+    exit;
+}
+
 // ── Routing table ──────────────────────────────────────────
 $routes = [
     'GET'  => [
