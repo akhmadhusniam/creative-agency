@@ -69,3 +69,45 @@ function site_maps_embed_src(): string
     $q = site_setting('site_maps_query', site_setting('site_address'));
     return 'https://maps.google.com/maps?q=' . rawurlencode($q) . '&output=embed';
 }
+
+/**
+ * Statistik publik yang bisa dipertanggungjawabkan (dihitung dari database).
+ * Dipakai untuk menggantikan klaim angka hardcoded di halaman publik.
+ *
+ * @return array{projects:int,categories:int,services:int,testimonials:int}
+ */
+function site_stats(): array
+{
+    static $cache = null;
+    if ($cache !== null) {
+        return $cache;
+    }
+
+    $stats = [
+        'projects'     => 0,
+        'categories'   => 0,
+        'services'     => 0,
+        'testimonials' => 0,
+    ];
+
+    try {
+        $db = db();
+        $stats['projects'] = (int) $db->query(
+            'SELECT COUNT(*) FROM portfolio WHERE is_published = 1'
+        )->fetchColumn();
+        $stats['categories'] = (int) $db->query(
+            'SELECT COUNT(*) FROM service_categories'
+        )->fetchColumn();
+        $stats['services'] = (int) $db->query(
+            'SELECT COUNT(*) FROM services WHERE is_active = 1'
+        )->fetchColumn();
+        $stats['testimonials'] = (int) $db->query(
+            'SELECT COUNT(*) FROM testimonials'
+        )->fetchColumn();
+    } catch (Throwable $e) {
+        // Tabel belum tersedia — biarkan nol, view memakai fallback yang aman.
+    }
+
+    $cache = $stats;
+    return $cache;
+}

@@ -1,3 +1,4 @@
+<?php $publicStats = site_stats(); ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -122,7 +123,7 @@
         <div class="story-body">
           <p>Creative Studio dimulai tahun 2019 dari sebuah kamar kos di Jakarta — satu laptop, satu monitor pinjaman, dan keinginan kuat untuk membuktikan bahwa desain berkualitas studio internasional bisa hadir untuk UMKM Indonesia.</p>
           <p>Kami percaya setiap bisnis, sebesar apa pun, berhak mendapatkan identitas visual yang kuat. Bukan template, bukan generik — tapi desain yang benar-benar mencerminkan siapa mereka dan apa yang mereka tawarkan.</p>
-          <p>Hari ini kami telah menyelesaikan lebih dari 150 proyek untuk klien dari berbagai industri — dari startup teknologi, brand kecantikan, hingga perusahaan properti dan FMCG.</p>
+          <p>Hari ini portfolio kami mencakup branding, UI/UX, social media, motion, dan print — untuk bisnis dari berbagai industri, dari UMKM hingga brand yang sedang tumbuh.</p>
         </div>
       </div>
       <div class="story-visual">
@@ -134,14 +135,14 @@
           </div>
           <div class="sc sc-main">
             <div class="sc-icon">◈</div>
-            <div class="sc-lbl">Total proyek selesai</div>
-            <div class="sc-val">150+</div>
-            <div class="sc-sub">Dari 12+ industri berbeda</div>
+            <div class="sc-lbl">Kategori layanan</div>
+            <div class="sc-val"><?= (int) $publicStats['categories'] ?></div>
+            <div class="sc-sub">Branding hingga print</div>
           </div>
           <div class="sc sc-accent">
-            <div class="sc-lbl">Kepuasan klien</div>
-            <div class="sc-val">98%</div>
-            <div class="sc-sub">Rating rata-rata 5★</div>
+            <div class="sc-lbl">Konsultasi awal</div>
+            <div class="sc-val">Rp0</div>
+            <div class="sc-sub">Tanpa komitmen</div>
           </div>
         </div>
       </div>
@@ -154,15 +155,15 @@
   <div class="stats-bar-inner reveal">
     <?php
     $stats = [
-      ['150+','Proyek selesai'],
-      ['98%', 'Klien puas'],
-      ['12+', 'Industri dilayani'],
-      ['5★',  'Rating rata-rata'],
+      [(string) $publicStats['projects'], 'Studi kasus'],
+      [(string) $publicStats['categories'], 'Kategori layanan'],
+      [(string) $publicStats['services'], 'Paket layanan'],
+      ['Rp0', 'Konsultasi awal'],
     ];
     foreach ($stats as [$n,$l]): ?>
       <div class="sb-item">
-        <div class="sb-num"><?= preg_replace('/([+%★])/', '<em>$1</em>', $n) ?></div>
-        <div class="sb-lbl"><?= $l ?></div>
+        <div class="sb-num"><?= preg_replace('/(\d+)/', '<em>$1</em>', e($n)) ?></div>
+        <div class="sb-lbl"><?= e($l) ?></div>
       </div>
     <?php endforeach; ?>
   </div>
@@ -241,11 +242,11 @@
         <?php
         $milestones = [
           ['2019','Studio Didirikan','Memulai dari proyek logo pertama untuk teman, selesai semalam, dibayar makan malam. Dari situ segalanya dimulai.'],
-          ['2020','10 Klien Pertama','Mendapat kepercayaan dari 10 klien berbayar pertama, termasuk brand kecantikan lokal yang kini sudah go national.'],
+          ['2020','Klien Pertama','Mendapat kepercayaan dari klien berbayar pertama, termasuk brand kecantikan lokal yang membantu kami memahami pentingnya konsistensi visual.'],
           ['2021','Tim Bertambah','Merekrut desainer UI/UX pertama. Studio resmi beroperasi dari co-working space, bukan lagi kamar kos.'],
-          ['2022','100 Proyek Selesai','Mencapai milestone 100 proyek dengan 0 refund. Rating rata-rata 4.9/5 dari semua klien.'],
+          ['2022','Fokus UI/UX','Memperluas layanan ke desain produk digital dan mulai membangun design system internal yang bisa dipakai ulang.'],
           ['2023','Platform Online Diluncurkan','Meluncurkan sistem pemesanan online terintegrasi — klien bisa order, bayar, dan pantau progres secara digital.'],
-          ['2024','Ekspansi Layanan','Menambahkan layanan Motion & Video serta Print Design. Tim tumbuh menjadi 6 orang tetap.'],
+          ['2024','Ekspansi Layanan','Menambahkan layanan Motion & Video serta Print Design, dengan spesialis baru di tiap bidang.'],
           ['2025+','Terus Berkembang','Fokus membangun ekosistem kreatif yang membantu lebih banyak bisnis Indonesia tampil profesional di dunia.'],
         ];
         foreach ($milestones as [$year,$title,$desc]): ?>
@@ -263,15 +264,15 @@
   </div>
 </section>
 
-<!-- CLIENTS -->
+<!-- INDUSTRIES -->
 <div class="clients-strip">
   <div class="clients-inner reveal">
-    <div class="clients-label">Beberapa klien yang telah mempercayai kami</div>
+    <div class="clients-label">Layanan kami dirancang untuk berbagai industri</div>
     <div class="clients-grid">
       <?php
-      $clients = ['TechVenture','Kedai Nusantara','BeautyBrand','PT Maju Bersama','StartupX','EventKreatiF','GreenFood','UrbanSpace','MediCare','Archipelago','FreshMart','BuildCo'];
-      foreach ($clients as $c): ?>
-        <div class="client-logo"><?= $c ?></div>
+      $industries = ['F&B','Beauty & Skincare','Technology','Property','FMCG','Retail','Healthcare','Education','Professional Services','Hospitality','Fashion','Community'];
+      foreach ($industries as $industry): ?>
+        <div class="client-logo"><?= e($industry) ?></div>
       <?php endforeach; ?>
     </div>
   </div>
@@ -282,7 +283,7 @@
   <div class="cta-strip-inner reveal">
     <div>
       <h2>Siap Jadi Bagian dari<br><em>Cerita Selanjutnya?</em></h2>
-      <p>Bergabunglah dengan 150+ bisnis yang sudah mempercayakan identitas visual mereka kepada kami.</p>
+      <p>Ceritakan kebutuhan visual bisnis Anda — kami bantu petakan langkah, estimasi waktu, dan kisaran biayanya.</p>
     </div>
     <div class="cta-strip-btns">
       <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="about-cta-wa">💬 Konsultasi Gratis →</a>

@@ -1,3 +1,7 @@
+<?php
+// Statistik dihitung dari database agar tidak ada klaim angka hardcoded.
+$publicStats = site_stats();
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -457,20 +461,20 @@ h2.stitle{
     <div class="hero-visual" aria-hidden="true">
       <div class="hv-card hv-main">
         <div class="hv-lbl">Proyek Aktif</div>
-        <div class="hv-ttl">Brand Identity — Kedai Nusantara</div>
-        <div class="hv-sub"><span class="hv-dot"></span>Sedang dikerjakan · Hari ke-3 dari 7</div>
+        <div class="hv-ttl">Brand Identity — Proyek Baru</div>
+        <div class="hv-sub"><span class="hv-dot"></span>Sedang dikerjakan · Tahap eksplorasi</div>
         <div class="hv-bar"></div>
       </div>
       <div class="hv-row">
         <div class="hv-sm">
-          <div class="hv-lbl">Proyek Selesai</div>
-          <div class="hv-num">150<sup>+</sup></div>
-          <div class="hv-sub" style="margin-top:.3rem">All time</div>
+          <div class="hv-lbl">Studi Kasus</div>
+          <div class="hv-num"><?= (int) $publicStats['projects'] ?></div>
+          <div class="hv-sub" style="margin-top:.3rem">Terpublikasi</div>
         </div>
         <div class="hv-sm">
-          <div class="hv-lbl">Kepuasan Klien</div>
-          <div class="hv-num">98<sup>%</sup></div>
-          <div class="hv-sub" style="margin-top:.3rem">Rating rata-rata</div>
+          <div class="hv-lbl">Kategori Layanan</div>
+          <div class="hv-num"><?= (int) $publicStats['categories'] ?></div>
+          <div class="hv-sub" style="margin-top:.3rem">Desain &amp; digital</div>
         </div>
         <div class="hv-sm">
           <div class="hv-lbl">Layanan</div>
@@ -489,20 +493,20 @@ h2.stitle{
   <!-- Stats row -->
   <div class="hero-stats">
     <div class="hero-stat">
-      <div class="stat-num">150<em>+</em></div>
-      <div class="stat-lbl">Proyek selesai</div>
+      <div class="stat-num"><?= (int) $publicStats['projects'] ?></div>
+      <div class="stat-lbl">Studi kasus</div>
     </div>
     <div class="hero-stat">
-      <div class="stat-num">98<em>%</em></div>
-      <div class="stat-lbl">Klien puas</div>
+      <div class="stat-num"><?= (int) $publicStats['categories'] ?></div>
+      <div class="stat-lbl">Kategori layanan</div>
     </div>
     <div class="hero-stat">
-      <div class="stat-num">5<em>★</em></div>
-      <div class="stat-lbl">Rating rata-rata</div>
+      <div class="stat-num">Rp<em>0</em></div>
+      <div class="stat-lbl">Konsultasi awal</div>
     </div>
     <div class="hero-stat">
-      <div class="stat-num">3<em>hr</em></div>
-      <div class="stat-lbl">Rata-rata respons pertama</div>
+      <div class="stat-num">1<em>×24</em></div>
+      <div class="stat-lbl">Respons proposal</div>
     </div>
   </div>
 </section>
@@ -658,20 +662,20 @@ h2.stitle{
     </div>
     <div class="num-cards reveal" style="transition-delay:.15s">
       <div class="nc featured">
-        <div class="nc-val">150<em>+</em></div>
-        <div class="nc-lbl">Proyek selesai<br>sejak 2019</div>
+        <div class="nc-val"><?= (int) $publicStats['projects'] ?></div>
+        <div class="nc-lbl">Studi kasus<br>terpublikasi</div>
       </div>
       <div class="nc">
-        <div class="nc-val">98<em style="color:var(--accent)">%</em></div>
-        <div class="nc-lbl">Klien menyatakan<br>puas dengan hasil</div>
+        <div class="nc-val"><?= (int) $publicStats['categories'] ?></div>
+        <div class="nc-lbl">Kategori layanan<br>desain &amp; digital</div>
       </div>
       <div class="nc">
-        <div class="nc-val">5<em style="color:var(--accent)">★</em></div>
-        <div class="nc-lbl">Rating rata-rata<br>semua layanan</div>
+        <div class="nc-val">Rp<em style="color:var(--accent)">0</em></div>
+        <div class="nc-lbl">Konsultasi awal<br>tanpa komitmen</div>
       </div>
       <div class="nc">
-        <div class="nc-val">3<em style="color:var(--accent)">hr</em></div>
-        <div class="nc-lbl">Rata-rata respons<br>pertama kami</div>
+        <div class="nc-val">1<em style="color:var(--accent)">×24</em></div>
+        <div class="nc-lbl">Respons proposal<br>setelah brief</div>
       </div>
     </div>
   </div>

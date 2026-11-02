@@ -1,3 +1,4 @@
+<?php $publicStats = site_stats(); ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -299,7 +300,7 @@
     <p>Dari identitas visual, antarmuka digital, hingga konten kreatif — semua dikerjakan oleh tim berpengalaman dengan standar profesional.</p>
     <div class="hero-meta">
       <div class="hero-meta-item">
-        <div class="hero-meta-num"><?= count($services) ?>+</div>
+        <div class="hero-meta-num"><?= count($services) ?></div>
         <div class="hero-meta-label">Paket layanan tersedia</div>
       </div>
       <div class="hero-meta-item">
@@ -307,12 +308,12 @@
         <div class="hero-meta-label">Kategori desain</div>
       </div>
       <div class="hero-meta-item">
-        <div class="hero-meta-num">150+</div>
-        <div class="hero-meta-label">Proyek selesai</div>
+        <div class="hero-meta-num"><?= (int) $publicStats['projects'] ?></div>
+        <div class="hero-meta-label">Studi kasus</div>
       </div>
       <div class="hero-meta-item">
-        <div class="hero-meta-num">98%</div>
-        <div class="hero-meta-label">Klien puas</div>
+        <div class="hero-meta-num">Rp0</div>
+        <div class="hero-meta-label">Konsultasi awal</div>
       </div>
     </div>
   </div>

@@ -165,6 +165,7 @@ Route lama `/admin/login` dialihkan otomatis ke `/login`.
 - [x] Halaman portfolio dengan filter kategori + halaman studi kasus (`/portfolio/{slug}`)
 - [x] CRUD portfolio di admin (tambah, edit, upload cover, publikasi/draft, hapus)
 - [x] SEO portfolio: canonical, Open Graph/Twitter Card, JSON-LD, dan entri sitemap
+- [x] Statistik publik dihitung dari database (`site_stats()`) — tanpa klaim 150+/98%/5★ hardcoded
 
 ## Roadmap Selanjutnya
 
@@ -175,7 +176,7 @@ Route lama `/admin/login` dialihkan otomatis ke `/login`.
 - [ ] Email notifikasi (PHPMailer)
 - [ ] Reset password via email
 - [ ] Halaman profil klien dengan upload avatar
-- [ ] Ganti statistik hardcoded (150+, 98%, 5★) dengan data nyata
+- [ ] Ganti konten contoh dengan portfolio & testimoni asli
 
 ---
 
