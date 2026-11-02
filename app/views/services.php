@@ -277,8 +277,6 @@
     <div class="nav-cta">
       <?php if (Session::isLoggedIn()): ?>
         <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
-      <?php else: ?>
-        <a href="<?= APP_URL ?>/login" class="btn btn-outline btn-sm">Masuk</a>
       <?php endif; ?>
       <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-cta="nav-consult">Konsultasi</a>
     </div>

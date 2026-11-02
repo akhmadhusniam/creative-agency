@@ -38,10 +38,14 @@
     <div class="f-col">
       <h4>Akun</h4>
       <ul>
-        <li><a href="<?= APP_URL ?>/login">Masuk</a></li>
-        <li><a href="<?= APP_URL ?>/register">Daftar</a></li>
-        <li><a href="<?= APP_URL ?>/dashboard">Dashboard</a></li>
-        <li><a href="<?= APP_URL ?>/dashboard/orders">Lacak Pesanan</a></li>
+        <?php if (Session::isLoggedIn()): ?>
+          <li><a href="<?= APP_URL ?>/dashboard">Dashboard</a></li>
+          <li><a href="<?= APP_URL ?>/dashboard/orders">Lacak Pesanan</a></li>
+          <li><a href="<?= APP_URL ?>/logout">Keluar</a></li>
+        <?php else: ?>
+          <li><a href="<?= APP_URL ?>/login">Portal Klien</a></li>
+          <li><a href="<?= APP_URL ?>/dashboard/orders">Lacak Pesanan</a></li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>

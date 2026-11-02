@@ -39,7 +39,6 @@ p{font-size:.95rem;color:#B7C7BC;line-height:1.8;margin-bottom:2.25rem;max-width
     <a href="<?= APP_URL ?>/services">Layanan</a>
     <a href="<?= APP_URL ?>/portfolio">Portfolio</a>
     <a href="<?= APP_URL ?>/contact">Kontak</a>
-    <a href="<?= APP_URL ?>/login">Masuk</a>
   </div>
 </div>
 </body>
