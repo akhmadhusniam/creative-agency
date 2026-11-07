@@ -9,6 +9,7 @@ $success = Session::getFlash('success');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($title) ?> — <?= e(APP_NAME) ?></title>
+<meta name="description" content="Masuk ke portal klien Creative Studio untuk memantau proyek, pesanan, dan komunikasi desain Anda.">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -27,13 +28,13 @@ a{color:inherit;}
 .brand{position:relative;background:var(--ink);color:#fff;padding:3rem clamp(2rem,4vw,4.5rem);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;}
 .brand::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:46px 46px;pointer-events:none;}
 .brand-glow{position:absolute;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(200,255,77,.20),transparent 62%);top:-130px;right:-130px;pointer-events:none;}
-.brand>*{position:relative;z-index:1;}
+.brand>*:not(.brand-glow){position:relative;z-index:1;}
 .brand-logo{font-family:var(--fh);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;text-decoration:none;color:#fff;align-self:flex-start;}
 .brand-logo span{color:var(--accent);}
 .brand-mid{max-width:36ch;}
 .brand-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(200,255,77,.3);border-radius:999px;padding:.35rem .85rem;margin-bottom:1.5rem;}
-.brand-mid h2{font-family:var(--fh);font-weight:800;font-size:clamp(1.9rem,3vw,2.85rem);line-height:1.06;letter-spacing:-.03em;margin-bottom:1.25rem;color:#fff;}
-.brand-mid h2 em{font-style:normal;color:var(--accent);}
+.brand-mid .brand-title{font-family:var(--fh);font-weight:800;font-size:clamp(1.9rem,3vw,2.85rem);line-height:1.06;letter-spacing:-.03em;margin-bottom:1.25rem;color:#fff;}
+.brand-mid .brand-title em{font-style:normal;color:var(--accent);}
 .brand-mid p{color:#9FB0A6;font-size:.92rem;line-height:1.75;margin-bottom:1.9rem;}
 .brand-list{list-style:none;display:grid;gap:.7rem;}
 .brand-list li{display:flex;align-items:center;gap:.7rem;font-size:.86rem;color:#C7D4CB;}
@@ -59,10 +60,10 @@ input{width:100%;padding:.82rem 1rem;border:1.5px solid var(--line);border-radiu
 input::placeholder{color:#9AA79F;}
 input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(18,42,28,.08);}
 input.has-toggle{padding-right:4.4rem;}
-.toggle-pw{position:absolute;right:.55rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-family:var(--fb);font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:.35rem .5rem;border-radius:6px;transition:background .15s,color .15s;}
+.toggle-pw{position:absolute;right:.55rem;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;justify-content:center;min-width:56px;min-height:44px;background:none;border:none;color:var(--muted);cursor:pointer;font-family:var(--fb);font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:.35rem .5rem;border-radius:6px;transition:background .15s,color .15s;}
 .toggle-pw:hover{color:var(--ink);background:var(--cream);}
 .row-between{display:flex;justify-content:flex-end;margin-top:.5rem;}
-.row-between a{font-size:.78rem;color:var(--muted);text-decoration:none;}
+.row-between a{display:inline-flex;align-items:center;min-height:44px;font-size:.78rem;color:var(--muted);text-decoration:none;}
 .row-between a:hover{color:var(--ink);text-decoration:underline;}
 
 .btn{display:flex;align-items:center;justify-content:center;gap:.55rem;width:100%;padding:.9rem;border:2px solid var(--ink);border-radius:10px;font-family:var(--fb);font-weight:700;font-size:.9rem;letter-spacing:.02em;cursor:pointer;background:var(--accent);color:var(--ink);transition:background .15s,color .15s;}
@@ -74,17 +75,19 @@ input.has-toggle{padding-right:4.4rem;}
 
 .form-foot{text-align:center;font-size:.85rem;color:var(--muted);margin-top:1.5rem;}
 .form-foot a{font-weight:600;color:var(--ink);text-decoration:underline;}
-.back-site{display:inline-flex;align-items:center;gap:.35rem;margin-top:1.6rem;font-size:.8rem;color:var(--muted);text-decoration:none;}
+.back-site{display:inline-flex;align-items:center;justify-content:center;min-height:44px;gap:.35rem;margin-top:1rem;font-size:.8rem;color:var(--muted);text-decoration:none;}
 .back-site:hover{color:var(--ink);}
 
 @media(max-width:880px){
-  .split{grid-template-columns:1fr;}
-  .brand{padding:2rem 1.5rem;justify-content:flex-start;gap:1.25rem;}
-  .brand-mid h2{font-size:1.7rem;}
+  .split{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;}
+  .brand{padding:1.5rem;justify-content:flex-start;gap:0;min-height:auto;}
+  .brand-tag{margin-bottom:.9rem;}
+  .brand-mid .brand-title{font-size:1.55rem;margin-bottom:.5rem;max-width:22ch;}
   .brand-mid p{display:none;}
   .brand-list{display:none;}
   .brand-foot{display:none;}
-  .form-side{padding:2.5rem 1.5rem;}
+  .form-side{padding:2rem 1.5rem;align-items:flex-start;}
+  .form-head{margin-bottom:1.5rem;}
 }
 </style>
 </head>
@@ -95,7 +98,7 @@ input.has-toggle{padding-right:4.4rem;}
     <a href="<?= APP_URL ?>/" class="brand-logo">creative<span>.</span></a>
     <div class="brand-mid">
       <span class="brand-tag">Studio Desain Profesional</span>
-      <h2>Masuk &amp; lanjutkan <em>karya Anda.</em></h2>
+      <div class="brand-title">Masuk &amp; lanjutkan <em>karya Anda.</em></div>
       <p>Satu pintu untuk klien dan tim. Kelola proyek, pantau progres, dan koordinasi desain dengan rapi dari satu dasbor.</p>
       <ul class="brand-list">
         <li><span class="tick">✓</span> Branding &amp; Identitas Visual</li>
@@ -136,7 +139,7 @@ input.has-toggle{padding-right:4.4rem;}
           <div class="input-wrap">
             <input type="password" id="password" name="password" class="has-toggle"
                    placeholder="Masukkan password" required autocomplete="current-password">
-            <button type="button" class="toggle-pw" id="toggleBtn" aria-label="Tampilkan password">LIHAT</button>
+            <button type="button" class="toggle-pw" id="toggleBtn" aria-label="LIHAT — Tampilkan password">LIHAT</button>
           </div>
           <div class="row-between">
             <a href="<?= APP_URL ?>/forgot-password">Lupa password?</a>
@@ -166,7 +169,7 @@ input.has-toggle{padding-right:4.4rem;}
       var show = pw.type === 'password';
       pw.type = show ? 'text' : 'password';
       toggle.textContent = show ? 'SEMBUNYI' : 'LIHAT';
-      toggle.setAttribute('aria-label', show ? 'Sembunyikan password' : 'Tampilkan password');
+      toggle.setAttribute('aria-label', show ? 'SEMBUNYI — Sembunyikan password' : 'LIHAT — Tampilkan password');
     });
   }
 

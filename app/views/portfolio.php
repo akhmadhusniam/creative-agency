@@ -56,9 +56,9 @@ if ($portfolio) {
 <style>
 /* ── Filter ─────────────────────────────────────────────── */
 .filter-bar{position:sticky;top:var(--nav-h);z-index:90;background:var(--paper);border-bottom:1px solid var(--cream);padding:.85rem clamp(1rem,4vw,3rem)}
-.filter-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;overflow-x:auto;scrollbar-width:none}
+.filter-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .filter-inner::-webkit-scrollbar{display:none}
-.fbtn{flex-shrink:0;padding:.42rem 1.1rem;border-radius:2rem;border:1.5px solid var(--cream);background:var(--white);font-family:var(--fh);font-weight:700;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .18s;white-space:nowrap}
+.fbtn{flex-shrink:0;min-height:40px;scroll-snap-align:start;padding:.42rem 1.1rem;border-radius:2rem;border:1.5px solid var(--cream);background:var(--white);font-family:var(--fh);font-weight:700;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .18s;white-space:nowrap}
 .fbtn:hover{border-color:var(--ink);color:var(--ink)}
 .fbtn.active{background:var(--ink);border-color:var(--ink);color:#fff}
 .fbtn-count{display:inline-block;margin-left:.3rem;background:var(--cream);color:var(--muted);border-radius:2rem;padding:.05rem .45rem;font-size:.68rem;transition:all .18s}
@@ -92,7 +92,7 @@ if ($portfolio) {
 .p-item:hover .p-thumb img{transform:scale(1.03)}
 .p-ph{display:flex;flex-direction:column;align-items:center;gap:.5rem}
 .p-ph-icon{font-size:2.75rem;opacity:.2}
-.p-ph-lbl{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);opacity:.5}
+.p-ph-lbl{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:inherit}
 
 .p-tags{position:absolute;top:.85rem;left:.85rem;right:.85rem;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:.5rem;pointer-events:none}
 .p-cat-tag{
@@ -115,7 +115,7 @@ if ($portfolio) {
   opacity:0;transition:opacity .25s;
 }
 .p-item:hover .p-overlay,.p-item:focus-visible .p-overlay{opacity:1}
-.p-overlay h3{font-family:var(--fh);font-weight:700;color:#fff;font-size:1.05rem;line-height:1.15;margin-bottom:.2rem}
+.p-overlay h2{font-family:var(--fh);font-weight:700;color:#fff;font-size:1.05rem;line-height:1.15;margin-bottom:.2rem}
 .p-overlay p{font-size:.78rem;color:#B9C4BD}
 .p-overlay-action{
   display:inline-flex;align-items:center;gap:.4rem;
@@ -127,7 +127,7 @@ if ($portfolio) {
 /* ── Empty state ────────────────────────────────────────── */
 .p-empty{grid-column:1/-1;text-align:center;padding:5rem 2rem;color:var(--muted)}
 .p-empty .icon{font-size:3rem;margin-bottom:1rem;opacity:.3}
-.p-empty h3{font-family:var(--fh);font-size:1.2rem;text-transform:uppercase;color:var(--ink);margin-bottom:.5rem}
+.p-empty h2{font-family:var(--fh);font-size:1.2rem;text-transform:uppercase;color:var(--ink);margin-bottom:.5rem}
 .p-empty p{margin-bottom:1.5rem}
 
 /* ── Stats mini ─────────────────────────────────────────── */
@@ -143,6 +143,17 @@ if ($portfolio) {
   .p-item.span2{grid-column:1/-1}
   .p-item.tall{grid-row:auto}
   .p-item.tall .p-thumb{aspect-ratio:4/3}
+  .filter-bar::after{
+    content:'→';
+    position:absolute;right:.6rem;top:50%;transform:translateY(-50%);
+    display:flex;align-items:center;justify-content:center;
+    width:2rem;height:2rem;border-radius:50%;
+    background:var(--paper);color:var(--ink);
+    box-shadow:-12px 0 16px var(--paper);
+    font-family:var(--fm);font-size:.85rem;pointer-events:none;
+  }
+  .filter-inner{padding-right:3rem}
+  .fbtn{min-height:44px}
 }
 @media(max-width:480px){
   .portfolio-grid{grid-template-columns:1fr}
@@ -194,14 +205,14 @@ if ($portfolio) {
 <!-- FILTER -->
 <div class="filter-bar">
   <div class="filter-inner" role="group" aria-label="Filter kategori portfolio">
-    <button class="fbtn active" data-filter="all" onclick="filterPortfolio(this,'all')">
+    <button class="fbtn active" data-filter="all" aria-pressed="true" onclick="filterPortfolio(this,'all')">
       Semua <span class="fbtn-count"><?= $portfolioCount ?></span>
     </button>
     <?php foreach ($categories as $cat):
       $cnt = count(array_filter($portfolio, fn($p) => $p['category_id'] == $cat['id']));
       if ($cnt === 0) continue;
     ?>
-      <button class="fbtn" data-filter="<?= $cat['id'] ?>" onclick="filterPortfolio(this,'<?= $cat['id'] ?>')">
+      <button class="fbtn" data-filter="<?= $cat['id'] ?>" aria-pressed="false" onclick="filterPortfolio(this,'<?= $cat['id'] ?>')">
         <?= e($cat['name']) ?> <span class="fbtn-count"><?= $cnt ?></span>
       </button>
     <?php endforeach; ?>
@@ -227,8 +238,7 @@ if ($portfolio) {
           $span  = ($i === 0 || $i === 6) ? 'span2' : (($i === 2) ? 'tall' : '');
           $href  = APP_URL . '/portfolio/' . rawurlencode($item['slug']);
         ?>
-          <a class="p-item <?= $span ?>" href="<?= e($href) ?>" data-cat="<?= (int) $item['category_id'] ?>"
-             aria-label="Baca studi kasus <?= e($item['title']) ?>">
+          <a class="p-item <?= $span ?>" href="<?= e($href) ?>" data-cat="<?= (int) $item['category_id'] ?>">
             <div class="p-thumb" style="background:<?= e($bg) ?>;color:<?= e($fg) ?>">
               <?php if ($item['cover_image']): ?>
                 <img src="<?= APP_URL ?>/uploads/<?= e($item['cover_image']) ?>" alt="<?= e($item['title']) ?>" loading="lazy">
@@ -243,7 +253,7 @@ if ($portfolio) {
               </div>
             </div>
             <div class="p-overlay">
-              <h3><?= e($item['title']) ?></h3>
+              <h2><?= e($item['title']) ?></h2>
               <p><?= e($item['client_name'] ?? '') ?><?= !empty($item['year']) ? ' · ' . e((string) $item['year']) : '' ?></p>
               <span class="p-overlay-action">Baca Studi Kasus →</span>
             </div>
@@ -254,7 +264,7 @@ if ($portfolio) {
       <?php if (!$portfolio): ?>
         <div class="p-empty">
           <div class="icon">◈</div>
-          <h3>Portfolio Segera Hadir</h3>
+          <h2>Portfolio Segera Hadir</h2>
           <p>Kami sedang menyiapkan studi kasus terbaru. Sementara itu, ceritakan proyek Anda — kami akan tunjukkan karya yang paling relevan.</p>
           <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin melihat karya yang relevan dengan proyek saya.')) ?>"
              class="btn btn-primary" target="_blank" rel="noopener">💬 Minta Contoh Karya</a>
@@ -283,8 +293,12 @@ if ($portfolio) {
 <script>
 // ── Filter ───────────────────────────────────────────────
 function filterPortfolio(btn, filterId) {
-  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.fbtn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
   btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
 
   const items = document.querySelectorAll('.p-item');
 
@@ -295,15 +309,17 @@ function filterPortfolio(btn, filterId) {
 }
 
 // ── Reveal ───────────────────────────────────────────────
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 70);
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: .07 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+if (typeof IntersectionObserver !== 'undefined') {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: .07 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
 </script>
 <?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>

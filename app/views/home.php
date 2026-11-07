@@ -11,8 +11,6 @@ $publicStats = site_stats();
 <meta name="description" content="Studio desain profesional Indonesia. Branding, UI/UX, Social Media Kit, Motion Graphic — dikerjakan dengan presisi dan tujuan.">
 <meta property="og:title" content="Creative Studio — Identitas Visual yang Berbicara">
 <meta property="og:description" content="Studio desain profesional Indonesia untuk bisnis yang ingin tampil lebih kuat dan berkesan.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 
@@ -28,7 +26,7 @@ $publicStats = site_stats();
   position:absolute;bottom:-3rem;left:-1rem;
   font-family:var(--fh);font-weight:800;
   font-size:clamp(5rem,18vw,16rem);
-  color:rgba(255,255,255,.025);
+  color:#527C61;
   line-height:1;pointer-events:none;
   white-space:nowrap;letter-spacing:-.04em;
   user-select:none;
@@ -61,7 +59,7 @@ $publicStats = site_stats();
   -webkit-text-stroke:1.5px rgba(255,255,255,.35);
   color:transparent;
 }
-.hero-desc{color:#666;font-size:.95rem;line-height:1.85;max-width:44ch;margin-bottom:2.5rem}
+.hero-desc{color:#C7D4CB;font-size:.95rem;line-height:1.85;max-width:44ch;margin-bottom:2.5rem}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
 .btn-hero-p{
   padding:.85rem 1.85rem;background:var(--accent);color:var(--ink);border:2px solid var(--ink);
@@ -83,9 +81,9 @@ $publicStats = site_stats();
 .hv-main{background:#161616;border:1px solid #222}
 .hv-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
 .hv-sm{background:#111;border:1px solid #1c1c1c;border-radius:12px;padding:1.1rem}
-.hv-lbl{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#3a3a3a;margin-bottom:.3rem}
+.hv-lbl{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#A9B8AE;margin-bottom:.3rem}
 .hv-ttl{font-family:var(--fh);font-weight:700;font-size:.95rem;color:#fff;line-height:1.3}
-.hv-sub{font-size:.75rem;color:#444;margin-top:.2rem}
+.hv-sub{font-size:.75rem;color:#B7C7BC;margin-top:.2rem}
 .hv-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:.35rem}
 .hv-num{font-family:var(--fh);font-weight:800;font-size:1.75rem;color:#fff;line-height:1}
 .hv-num sup{font-size:.9rem;color:var(--accent)}
@@ -105,7 +103,7 @@ $publicStats = site_stats();
 .hero-stat:last-child{border-right:none}
 .stat-num{font-family:var(--fh);font-weight:800;font-size:2rem;color:#fff;line-height:1}
 .stat-num em{font-style:normal;color:var(--accent)}
-.stat-lbl{font-size:.75rem;color:#444;margin-top:.3rem}
+.stat-lbl{font-size:.75rem;color:#A9B8AE;margin-top:.3rem}
 
 /* ── TICKER ─────────────────────────────────────────────── */
 .ticker{background:var(--accent);overflow:hidden;padding:.7rem 0;border-top:var(--bw) solid var(--ink);border-bottom:var(--bw) solid var(--ink)}
@@ -128,9 +126,9 @@ $publicStats = site_stats();
   display:inline-flex;align-items:center;gap:.5rem;
   font-family:var(--fh);font-size:.7rem;font-weight:700;
   letter-spacing:.14em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:1rem;
+  color:var(--muted);margin-bottom:1rem;
 }
-.eyebrow-line{width:2rem;height:2px;background:var(--accent);flex-shrink:0}
+.eyebrow-line{width:2rem;height:2px;background:var(--muted);flex-shrink:0}
 h2.stitle{
   font-family:var(--fh);font-weight:800;
   font-size:clamp(1.8rem,3.5vw,2.8rem);
@@ -159,7 +157,7 @@ h2.stitle{
 .svc-card:hover::before{width:100%;opacity:.04}
 .svc-num{
   font-family:var(--fh);font-size:2.75rem;font-weight:800;
-  color:var(--cream);line-height:1;margin-bottom:.85rem;
+  color:#7C8F82;line-height:1;margin-bottom:.85rem;
   transition:color .25s,opacity .25s;
 }
 .svc-card:hover .svc-num{color:var(--c,var(--accent));opacity:.18}
@@ -197,7 +195,7 @@ h2.stitle{
   background:var(--cream);
 }
 .pm-ph-icon{font-size:2.5rem;opacity:.25}
-.pm-ph-cat{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);opacity:.5}
+.pm-ph-cat{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4A5A50}
 .pm-img{width:100%;height:100%;object-fit:cover}
 .pm-tag{
   position:absolute;top:.85rem;left:.85rem;
@@ -235,7 +233,7 @@ h2.stitle{
 .num-list{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
 .num-list-item{
   display:flex;align-items:center;gap:.75rem;
-  font-size:.875rem;color:#666;
+  font-size:.875rem;color:#C7D4CB;
 }
 .num-list-item::before{content:'✓';color:var(--accent);font-weight:700;flex-shrink:0}
 .num-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
@@ -248,7 +246,7 @@ h2.stitle{
 .nc-val em{font-style:normal;color:var(--accent)}
 .nc.featured .nc-val{color:var(--ink)}
 .nc.featured .nc-val em{color:rgba(18,42,28,.55)}
-.nc-lbl{font-size:.78rem;color:#444;line-height:1.5}
+.nc-lbl{font-size:.78rem;color:#A9B8AE;line-height:1.5}
 .nc.featured .nc-lbl{color:rgba(18,42,28,.7)}
 
 /* ── PROCESS ────────────────────────────────────────────── */
@@ -285,7 +283,8 @@ h2.stitle{
 .testi-q{font-size:2.25rem;line-height:1;color:var(--accent);font-family:Georgia,serif;margin-bottom:.6rem}
 .testi-body{font-size:.875rem;line-height:1.8;color:var(--muted);margin-bottom:1.5rem}
 .testi-card.dark .testi-body{color:#C7D4CB}
-.testi-stars{color:#F5A623;font-size:.8rem;margin-bottom:.6rem;letter-spacing:.1em}
+.testi-stars{color:#A16207;font-size:.8rem;margin-bottom:.6rem;letter-spacing:.1em}
+.testi-card.dark .testi-stars{color:#FBBF24}
 .testi-author{display:flex;align-items:center;gap:.75rem}
 .testi-av{
   width:40px;height:40px;border-radius:50%;
@@ -337,41 +336,8 @@ h2.stitle{
 }
 .btn-cta-g:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ── FOOTER ─────────────────────────────────────────────── */
-.footer{background:#080808;padding:4rem clamp(1rem,4vw,3rem) 2rem}
-.footer-top{
-  max-width:1200px;margin:0 auto;
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:3rem;padding-bottom:3rem;
-  border-bottom:1px solid #111;margin-bottom:2rem;
-}
-.f-logo{font-family:var(--fh);font-weight:800;font-size:1.3rem;letter-spacing:-.02em;color:#fff;margin-bottom:.85rem}
-.f-logo span{color:var(--accent)}
-.f-tagline{font-size:.82rem;color:#333;line-height:1.75;max-width:26ch}
-.f-col h4{font-family:var(--fh);font-size:.67rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2a2a2a;margin-bottom:1.1rem}
-.f-col ul{list-style:none}
-.f-col li{margin-bottom:.6rem}
-.f-col a{font-size:.82rem;color:#3a3a3a;transition:color .15s}
-.f-col a:hover{color:#777}
-.footer-bottom{
-  max-width:1200px;margin:0 auto;
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
-}
-.f-copy{font-size:.75rem;color:#222}
-.f-social{display:flex;gap:.6rem}
-.f-social a{
-  width:32px;height:32px;border:1px solid #161616;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.7rem;color:#2a2a2a;transition:all .15s;
-}
-.f-social a:hover{border-color:#333;color:#666}
-
 /* ── FLASH ──────────────────────────────────────────────── */
 .flash-success{background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;padding:.85rem 1.25rem;border-radius:4px;margin:1rem 2rem;font-size:.875rem}
-
-/* ── SCROLL REVEAL ──────────────────────────────────────── */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
 
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media(max-width:1024px){
@@ -403,26 +369,7 @@ h2.stitle{
 <body>
 
 <!-- ── NAV ──────────────────────────────────────────────── -->
-<a href="#main" class="skip-link">Lewati ke konten utama</a>
-<?php require VIEW_PATH . '/partials/marquee.php'; ?>
-<nav class="nav" id="main-nav" aria-label="Navigasi utama">
-  <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="<?= APP_URL ?>/services">Layanan</a></li>
-    <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
-    <li><a href="<?= APP_URL ?>/about">Tentang</a></li>
-    <li><a href="<?= APP_URL ?>/contact">Kontak</a></li>
-  </ul>
-  <div class="nav-right">
-    <?php if (Session::isLoggedIn()): ?>
-      <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
-    <?php endif; ?>
-    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-cta="nav-consult">Konsultasi</a>
-  </div>
-  <button class="nav-hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+<?php $activeNav = ''; require VIEW_PATH . '/partials/nav.php'; ?>
 
 <?php if ($flash = Session::getFlash('success')): ?>
   <div class="flash-success" style="position:fixed;top:calc(var(--nav-h) + .5rem);left:50%;transform:translateX(-50%);z-index:300;min-width:300px;text-align:center">
@@ -649,7 +596,7 @@ h2.stitle{
     <div class="reveal">
       <div class="eyebrow" style="color:var(--accent)"><span class="eyebrow-line"></span>Mengapa Kami</div>
       <h2 class="stitle" style="color:#fff">Desain Bukan<br>Sekadar Estetika</h2>
-      <p style="color:#555;font-size:.95rem;line-height:1.8;margin-top:.75rem;max-width:44ch">Setiap keputusan visual yang kami buat punya alasan strategis. Kami merancang untuk membantu bisnis Anda tumbuh, bukan sekadar terlihat bagus.</p>
+      <p style="color:#C7D4CB;font-size:.95rem;line-height:1.8;margin-top:.75rem;max-width:44ch">Setiap keputusan visual yang kami buat punya alasan strategis. Kami merancang untuk membantu bisnis Anda tumbuh, bukan sekadar terlihat bagus.</p>
       <div class="num-list">
         <div class="num-list-item">Brief & revisi tanpa batasan komunikasi</div>
         <div class="num-list-item">File lengkap siap pakai + source file disertakan</div>
@@ -738,7 +685,7 @@ h2.stitle{
         <div class="testi-card dark">
           <div class="testi-q">"</div>
           <div class="testi-body">Kami sedang mengumpulkan cerita dari klien terbaru. Ingin jadi yang berikutnya?</div>
-          <a href="<?= APP_URL ?>/contact#konsultasi" class="testi-link">Mulai konsultasi →</a>
+          <a href="<?= APP_URL ?>/contact#form-konsultasi" class="testi-link">Mulai konsultasi →</a>
         </div>
       <?php endif; ?>
     </div>
@@ -756,7 +703,7 @@ h2.stitle{
       <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="home-cta-wa">
         💬 Konsultasi via WhatsApp →
       </a>
-      <a href="<?= APP_URL ?>/contact" class="btn-cta-g" data-cta="home-cta-form">
+      <a href="<?= APP_URL ?>/contact#form-konsultasi" class="btn-cta-g" data-cta="home-cta-form">
         Isi Form Konsultasi
       </a>
     </div>
@@ -764,61 +711,7 @@ h2.stitle{
 </section>
 
 <!-- ── FOOTER ─────────────────────────────────────────────── -->
-<footer class="footer">
-  <div class="footer-cta">
-    <div>
-      <div class="fc-title">Siap mulai proyek Anda?</div>
-      <p>Konsultasi pertama gratis dan tanpa komitmen. Ceritakan kebutuhan Anda — kami bantu tentukan langkah terbaik.</p>
-    </div>
-    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>"
-       class="btn btn-accent" target="_blank" rel="noopener" data-cta="footer-consult">Konsultasi Gratis →</a>
-  </div>
-  <div class="footer-top">
-    <div>
-      <div class="f-logo">creative<span>.</span></div>
-      <div class="f-tagline">Mitra desain profesional untuk bisnis yang ingin tampil lebih kuat dan berkesan.</div>
-    </div>
-    <div class="f-col">
-      <h4>Layanan</h4>
-      <ul>
-        <li><a href="<?= APP_URL ?>/services">Branding & Identity</a></li>
-        <li><a href="<?= APP_URL ?>/services">UI/UX Design</a></li>
-        <li><a href="<?= APP_URL ?>/services">Social Media Kit</a></li>
-        <li><a href="<?= APP_URL ?>/services">Motion & Video</a></li>
-        <li><a href="<?= APP_URL ?>/services">Print & Packaging</a></li>
-      </ul>
-    </div>
-    <div class="f-col">
-      <h4>Perusahaan</h4>
-      <ul>
-        <li><a href="<?= APP_URL ?>/about">Tentang Kami</a></li>
-        <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
-        <li><a href="<?= APP_URL ?>/contact">Kontak</a></li>
-      </ul>
-    </div>
-    <div class="f-col">
-      <h4>Akun</h4>
-      <ul>
-        <?php if (Session::isLoggedIn()): ?>
-          <li><a href="<?= APP_URL ?>/dashboard">Dashboard</a></li>
-          <li><a href="<?= APP_URL ?>/dashboard/orders">Lacak Pesanan</a></li>
-          <li><a href="<?= APP_URL ?>/logout">Keluar</a></li>
-        <?php else: ?>
-          <li><a href="<?= APP_URL ?>/login">Portal Klien</a></li>
-          <li><a href="<?= APP_URL ?>/dashboard/orders">Lacak Pesanan</a></li>
-        <?php endif; ?>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="f-copy">© <?= date('Y') ?> Creative Studio. Semua hak dilindungi.</div>
-    <div class="f-social">
-      <?php if (site_setting('site_instagram')): ?><a href="<?= e(site_setting('site_instagram')) ?>" title="Instagram" target="_blank" rel="noopener">ig</a><?php endif; ?>
-      <a href="<?= e(site_wa_url()) ?>" title="WhatsApp" target="_blank" rel="noopener">wa</a>
-      <?php if (site_setting('site_linkedin')): ?><a href="<?= e(site_setting('site_linkedin')) ?>" title="LinkedIn" target="_blank" rel="noopener">in</a><?php endif; ?>
-    </div>
-  </div>
-</footer>
+<?php require VIEW_PATH . '/partials/footer.php'; ?>
 
 <script>
 /* ── Nav scroll effect ──────────────────────────────────── */
@@ -828,15 +721,17 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ── Scroll reveal ──────────────────────────────────────── */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.07 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+if (typeof IntersectionObserver !== 'undefined') {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
 
 /* ── Auto-dismiss flash ─────────────────────────────────── */
 const flash = document.querySelector('.flash-success');

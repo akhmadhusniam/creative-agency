@@ -5,23 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($service['name']) ?> — Creative Studio</title>
 <meta name="description" content="<?= e($service['short_desc']) ?>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Token aliases — nama variabel di file ini beda dari base-styles.php,
    jadi di-alias di sini supaya nilainya tetap satu sumber (bukan didefinisikan ulang) ── */
 :root { --ff-head: var(--fh); --ff-body: var(--fb); --radius: 6px; }
-
-/* ── Nav ─────────────────────────────────────────────────── */
-.nav { position: sticky; top: 0; z-index: 100; height: var(--nav-h); padding: 0; background: var(--paper); border-bottom: 1px solid var(--cream); display: flex; align-items: center; }
-.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); width: 100%; display: flex; align-items: center; justify-content: space-between; }
-.nav-logo { font-family: var(--ff-head); font-weight: 800; font-size: 1.25rem; letter-spacing: -.02em; }
-.nav-logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a { font-size: .875rem; font-weight: 500; color: var(--muted); transition: color .15s; }
-.nav-links a:hover, .nav-links a.active { color: var(--ink); }
-.nav-cta { display: flex; gap: .75rem; }
 
 /* ── Container ───────────────────────────────────────────── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); }
@@ -31,7 +19,7 @@
 .breadcrumb { display: flex; align-items: center; gap: .5rem; }
 .breadcrumb a { font-size: .8rem; color: var(--muted); transition: color .15s; }
 .breadcrumb a:hover { color: var(--ink); }
-.breadcrumb-sep { color: var(--cream); font-size: .8rem; }
+.breadcrumb-sep { color: #3E5747; font-size: .8rem; }
 .breadcrumb span { font-size: .8rem; color: var(--ink); font-weight: 500; }
 
 /* ── Layout 2 kolom ──────────────────────────────────────── */
@@ -95,7 +83,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
   margin-bottom: .85rem;
 }
 .service-hero p {
-  color: #888; font-size: .95rem; line-height: 1.75;
+  color: #C7D4CB; font-size: .95rem; line-height: 1.75;
   max-width: 54ch;
 }
 .service-hero-meta {
@@ -106,7 +94,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 2rem; padding: .35rem .9rem;
-  font-size: .8rem; color: #aaa;
+  font-size: .8rem; color: #C7D4CB;
 }
 .hero-meta-pill strong { color: var(--white); font-weight: 600; }
 
@@ -115,7 +103,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
 .section-label {
   font-family: var(--ff-head); font-size: .72rem; font-weight: 700;
   letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 1.1rem;
+  color: var(--muted); margin: 0 0 1.1rem;
   display: flex; align-items: center; gap: .6rem;
 }
 .section-label::after { content: ''; flex: 1; height: 1px; background: var(--cream); }
@@ -160,7 +148,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
   font-size: .8rem; color: <?= $accentColor ?>;
   flex-shrink: 0;
 }
-.process-content h4 { font-family: var(--ff-head); font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
+.process-content h3 { font-family: var(--ff-head); font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
 .process-content p { font-size: .85rem; color: var(--muted); line-height: 1.6; }
 
 /* FAQ */
@@ -213,9 +201,9 @@ $catSlug   = $service['category_slug'] ?? 'default';
   position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
   font-size: 4rem; color: rgba(255,255,255,.06);
 }
-.order-price-label { font-size: .72rem; color: #666; margin-bottom: .2rem; text-transform: uppercase; letter-spacing: .08em; font-family: var(--ff-head); }
+.order-price-label { font-size: .72rem; color: #A9B8AE; margin-bottom: .2rem; text-transform: uppercase; letter-spacing: .08em; font-family: var(--ff-head); }
 .order-price-value { font-family: var(--ff-head); font-weight: 800; font-size: 2rem; color: var(--white); line-height: 1; }
-.order-price-type { font-size: .8rem; color: #666; margin-top: .2rem; }
+.order-price-type { font-size: .8rem; color: #A9B8AE; margin-top: .2rem; }
 .order-card-body { padding: 1.5rem; }
 
 /* Meta info di sidebar */
@@ -301,13 +289,6 @@ $catSlug   = $service['category_slug'] ?? 'default';
 .other-card-name { font-family: var(--ff-head); font-weight: 700; font-size: .9rem; margin-bottom: .1rem; }
 .other-card-price { font-size: .78rem; color: var(--ink); font-weight: 700; }
 
-/* ── Footer ──────────────────────────────────────────────── */
-.footer { background: var(--ink); color: var(--white); padding: 2.5rem 0; }
-.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-.footer-logo { font-family: var(--ff-head); font-weight: 800; }
-.footer-logo span { color: var(--accent); }
-.footer-copy { font-size: .78rem; color: #444; }
-
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 960px) {
   .detail-layout { grid-template-columns: 1fr; }
@@ -316,12 +297,6 @@ $catSlug   = $service['category_slug'] ?? 'default';
   .features-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
-  .nav-links, .nav-cta { display: none; }
-  .nav-hamburger { display: flex; }
-  .nav.mobile-open .nav-links, .nav.mobile-open .nav-cta {
-    display: flex; flex-direction: column; position: fixed; top: var(--nav-h); left: 0; right: 0;
-    background: var(--paper); padding: 1.5rem 2rem; gap: 1.1rem; border-bottom: 1px solid var(--cream); z-index: 190;
-  }
   .service-hero { padding: 2rem; }
 }
 </style>
@@ -329,28 +304,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
 <body>
 
 <!-- NAV -->
-<a href="#main" class="skip-link">Lewati ke konten utama</a>
-<?php require VIEW_PATH . '/partials/marquee.php'; ?>
-<nav class="nav" id="main-nav" aria-label="Navigasi utama">
-  <div class="nav-inner">
-    <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="<?= APP_URL ?>/services" class="active">Layanan</a></li>
-      <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
-      <li><a href="<?= APP_URL ?>/about">Tentang</a></li>
-      <li><a href="<?= APP_URL ?>/contact">Kontak</a></li>
-    </ul>
-    <div class="nav-cta">
-      <?php if (Session::isLoggedIn()): ?>
-        <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
-      <?php endif; ?>
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-cta="nav-consult">Konsultasi</a>
-    </div>
-    <button class="nav-hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+<?php $activeNav = 'services'; require VIEW_PATH . '/partials/nav.php'; ?>
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb-bar" id="main">
@@ -396,7 +350,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
 
       <!-- Deskripsi lengkap -->
       <div class="detail-section">
-        <div class="section-label">Tentang Layanan Ini</div>
+        <h2 class="section-label">Tentang Layanan Ini</h2>
         <div class="detail-desc">
           <?php if ($service['description']): ?>
             <?= nl2br(e($service['description'])) ?>
@@ -410,7 +364,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
       <!-- Yang Anda Dapatkan -->
       <?php if (!empty($service['features'])): ?>
       <div class="detail-section">
-        <div class="section-label">Yang Anda Dapatkan</div>
+        <h2 class="section-label">Yang Anda Dapatkan</h2>
         <div class="features-grid">
           <?php foreach ($service['features'] as $feature): ?>
             <div class="feature-item">
@@ -423,7 +377,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
       <?php else: ?>
       <!-- Default features jika tidak ada di DB -->
       <div class="detail-section">
-        <div class="section-label">Yang Anda Dapatkan</div>
+        <h2 class="section-label">Yang Anda Dapatkan</h2>
         <div class="features-grid">
           <?php
           $defaultFeatures = [
@@ -446,7 +400,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
 
       <!-- Proses Pengerjaan -->
       <div class="detail-section">
-        <div class="section-label">Proses Pengerjaan</div>
+        <h2 class="section-label">Proses Pengerjaan</h2>
         <div class="process-list">
           <?php
           $processes = [
@@ -460,7 +414,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
             <div class="process-item">
               <div class="process-num"><?= str_pad($i+1, 2, '0', STR_PAD_LEFT) ?></div>
               <div class="process-content">
-                <h4><?= $p[0] ?></h4>
+                <h3><?= $p[0] ?></h3>
                 <p><?= $p[1] ?></p>
               </div>
             </div>
@@ -470,7 +424,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
 
       <!-- FAQ -->
       <div class="detail-section">
-        <div class="section-label">Pertanyaan yang Sering Ditanyakan</div>
+        <h2 class="section-label">Pertanyaan yang Sering Ditanyakan</h2>
         <div class="faq-list" id="faq-list">
           <?php
           // FAQ umum + FAQ spesifik per kategori layanan
@@ -561,12 +515,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
             </div>
           </div>
 
-          <a href="<?= e(site_wa_url("Halo, saya tertarik dengan layanan {$service['name']}. Bisa dibantu info lebih lanjut?")) ?>"
-             class="order-cta-main order-cta-whatsapp-main" target="_blank" rel="noopener" data-cta="service-detail-wa">
-            💬 Konsultasi via WhatsApp →
-          </a>
-
-          <a href="<?= APP_URL ?>/contact" class="order-cta-secondary" data-cta="service-detail-form">
+          <a href="<?= APP_URL ?>/contact#form-konsultasi" class="order-cta-secondary" data-cta="service-detail-form">
             ✉ Tanya Lewat Form
           </a>
 
@@ -670,22 +619,24 @@ function toggleFaq(i) {
 document.querySelector('.faq-item')?.classList.add('open');
 
 // ── Scroll reveal ─────────────────────────────────────────
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08 });
+if (typeof IntersectionObserver !== 'undefined') {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
 
-document.querySelectorAll('.detail-section, .other-card').forEach((el, i) => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(16px)';
-  el.style.transition = `opacity .4s ease ${i * 0.05}s, transform .4s ease ${i * 0.05}s`;
-  observer.observe(el);
-});
+  document.querySelectorAll('.detail-section, .other-card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = `opacity .4s ease ${i * 0.05}s, transform .4s ease ${i * 0.05}s`;
+    observer.observe(el);
+  });
+}
 </script>
 
 <?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>

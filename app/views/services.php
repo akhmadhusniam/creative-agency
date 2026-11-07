@@ -6,30 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Layanan — Creative Studio</title>
 <meta name="description" content="Jasa desain profesional: branding, UI/UX, social media, motion graphic, dan print design. Harga transparan, hasil berkualitas.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Token aliases — nama variabel di file ini beda dari base-styles.php,
    jadi di-alias di sini supaya nilainya tetap satu sumber (bukan didefinisikan ulang) ── */
 :root { --ff-head: var(--fh); --ff-body: var(--fb); --radius: 6px; }
-
-/* ── Nav ─────────────────────────────────────────────────── */
-.nav {
-  position: sticky; top: 0; z-index: 100;
-  height: var(--nav-h);
-  padding: 0;
-  background: var(--paper);
-  border-bottom: 1px solid var(--cream);
-  display: flex; align-items: center;
-}
-.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); width: 100%; display: flex; align-items: center; justify-content: space-between; }
-.nav-logo { font-family: var(--ff-head); font-weight: 800; font-size: 1.25rem; letter-spacing: -.02em; }
-.nav-logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a { font-size: .875rem; font-weight: 500; color: var(--muted); transition: color .15s; }
-.nav-links a:hover, .nav-links a.active { color: var(--ink); }
-.nav-cta { display: flex; gap: .75rem; }
 
 /* ── Hero seksi kecil ────────────────────────────────────── */
 .page-hero {
@@ -45,10 +26,10 @@
 }
 .page-hero .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); position: relative; }
 .breadcrumb { display: flex; align-items: center; gap: .5rem; margin-bottom: 1.5rem; }
-.breadcrumb a { font-size: .8rem; color: #666; transition: color .15s; }
-.breadcrumb a:hover { color: #aaa; }
-.breadcrumb-sep { color: #444; font-size: .75rem; }
-.breadcrumb span { font-size: .8rem; color: #aaa; }
+.breadcrumb a { font-size: .8rem; color: #8FA697; transition: color .15s; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb-sep { color: #3E5747; font-size: .75rem; }
+.breadcrumb span { font-size: .8rem; color: #C7D4CB; }
 .page-hero h1 {
   font-family: var(--ff-head); font-weight: 800;
   font-size: clamp(2rem, 5vw, 3.5rem);
@@ -57,11 +38,11 @@
   margin-bottom: 1rem;
 }
 .page-hero h1 em { font-style: normal; color: var(--accent); }
-.page-hero p { color: #888; font-size: 1rem; max-width: 52ch; line-height: 1.75; }
-.hero-meta { display: flex; gap: 2.5rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #222; }
+.page-hero p { color: #C7D4CB; font-size: 1rem; max-width: 52ch; line-height: 1.75; }
+.hero-meta { display: flex; gap: 2.5rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #26402F; }
 .hero-meta-item { }
 .hero-meta-num { font-family: var(--ff-head); font-size: 1.6rem; font-weight: 800; color: var(--white); }
-.hero-meta-label { font-size: .75rem; color: #555; margin-top: .15rem; }
+.hero-meta-label { font-size: .75rem; color: #A9B8AE; margin-top: .15rem; }
 
 /* ── Main layout ─────────────────────────────────────────── */
 .main-wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); }
@@ -73,10 +54,12 @@
   border-bottom: 1px solid var(--cream);
   padding: .85rem 0;
 }
-.filter-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); display: flex; align-items: center; gap: .5rem; overflow-x: auto; scrollbar-width: none; }
+.filter-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); display: flex; align-items: center; gap: .5rem; overflow-x: auto; scrollbar-width: none; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
 .filter-inner::-webkit-scrollbar { display: none; }
 .filter-btn {
   flex-shrink: 0;
+  min-height: 40px;
+  scroll-snap-align:start;
   padding: .45rem 1.1rem;
   border-radius: 2rem;
   border: 1.5px solid var(--cream);
@@ -169,7 +152,7 @@
   display: flex; align-items: flex-start; gap: .5rem;
   font-size: .8rem; color: var(--muted);
 }
-.card-features li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.card-features li::before { content: '✓'; color: #2F5D14; font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
 
 /* Card footer */
 .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1.1rem; border-top: 1px solid var(--cream); }
@@ -225,66 +208,41 @@
   pointer-events: none;
 }
 .consult-banner h2 { font-family: var(--ff-head); font-size: 1.5rem; font-weight: 800; margin-bottom: .5rem; }
-.consult-banner p { color: #888; font-size: .9rem; max-width: 50ch; }
+.consult-banner p { color: #C7D4CB; font-size: .9rem; max-width: 50ch; }
 .consult-actions { display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap; }
 .btn-white { background: var(--white); color: var(--ink); }
 .btn-white:hover { background: var(--cream); }
-.btn-ghost { border: 1.5px solid #333; color: var(--white); }
+.btn-ghost { border: 1.5px solid #3E5747; color: var(--white); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-/* ── Footer ─────────────────────────────────────────────── */
-.footer { background: var(--ink); color: var(--white); padding: 3rem 0 2rem; }
-.footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-.footer-logo { font-family: var(--ff-head); font-weight: 800; font-size: 1.1rem; }
-.footer-logo span { color: var(--accent); }
-.footer-links { display: flex; gap: 1.5rem; list-style: none; }
-.footer-links a { font-size: .82rem; color: #666; transition: color .15s; }
-.footer-links a:hover { color: var(--white); }
-.footer-copy { font-size: .78rem; color: #444; }
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .nav-links, .nav-cta { display: none; }
-  .nav-hamburger { display: flex; }
-  .nav.mobile-open .nav-links, .nav.mobile-open .nav-cta {
-    display: flex; flex-direction: column; position: fixed; top: var(--nav-h); left: 0; right: 0;
-    background: var(--paper); padding: 1.5rem 2rem; gap: 1.1rem; border-bottom: 1px solid var(--cream); z-index: 190;
-  }
   .services-grid { grid-template-columns: 1fr; }
   .consult-banner { grid-template-columns: 1fr; }
   .hero-meta { gap: 1.5rem; }
+  .filter-bar::after {
+    content: '→';
+    position: absolute; right: .6rem; top: 50%; transform: translateY(-50%);
+    display: flex; align-items: center; justify-content: center;
+    width: 2rem; height: 2rem; border-radius: 50%;
+    background: var(--paper); color: var(--ink);
+    box-shadow: -12px 0 16px var(--paper);
+    font-family: var(--fm); font-size: .85rem; pointer-events: none;
+  }
+  .filter-inner { padding-right: 3rem; }
+  .filter-btn { min-height: 44px; }
 }
 @media (max-width: 480px) {
-  .page-hero { padding: 3.5rem 0 3rem; }
-  .hero-meta { flex-wrap: wrap; gap: 1rem; }
+  .page-hero { padding: 3rem 0 2.5rem; }
+  .hero-meta { flex-wrap: wrap; gap: 1rem; margin-top: 1.75rem; padding-top: 1.5rem; }
+  .hero-meta-num { font-size: 1.35rem; }
 }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<a href="#main" class="skip-link">Lewati ke konten utama</a>
-<?php require VIEW_PATH . '/partials/marquee.php'; ?>
-<nav class="nav" id="main-nav" aria-label="Navigasi utama">
-  <div class="nav-inner">
-    <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="<?= APP_URL ?>/services" class="active">Layanan</a></li>
-      <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
-      <li><a href="<?= APP_URL ?>/about">Tentang</a></li>
-      <li><a href="<?= APP_URL ?>/contact">Kontak</a></li>
-    </ul>
-    <div class="nav-cta">
-      <?php if (Session::isLoggedIn()): ?>
-        <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline btn-sm">Dashboard</a>
-      <?php endif; ?>
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-cta="nav-consult">Konsultasi</a>
-    </div>
-    <button class="nav-hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="main-nav">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+<?php $activeNav = 'services'; require VIEW_PATH . '/partials/nav.php'; ?>
 
 <!-- HERO -->
 <section class="page-hero" id="main">
@@ -320,7 +278,7 @@
 <!-- FILTER TABS -->
 <div class="filter-bar">
   <div class="filter-inner">
-    <button class="filter-btn active" data-filter="all" onclick="filterServices(this, 'all')">
+    <button class="filter-btn active" data-filter="all" aria-pressed="true" onclick="filterServices(this, 'all')">
       Semua <span class="filter-count"><?= count($services) ?></span>
     </button>
     <?php foreach ($categories as $cat): ?>
@@ -328,7 +286,7 @@
         $count = count(array_filter($services, fn($s) => $s['category_id'] == $cat['id']));
         if ($count === 0) continue;
       ?>
-      <button class="filter-btn" data-filter="<?= $cat['id'] ?>" onclick="filterServices(this, '<?= $cat['id'] ?>')">
+      <button class="filter-btn" data-filter="<?= $cat['id'] ?>" aria-pressed="false" onclick="filterServices(this, '<?= $cat['id'] ?>')">
         <?= e($cat['name']) ?> <span class="filter-count"><?= $count ?></span>
       </button>
     <?php endforeach; ?>
@@ -384,7 +342,7 @@
           </div>
           <div class="card-body">
             <div class="card-category" style="color:<?= $accentColor ?>"><?= $catName ?></div>
-            <h3 class="card-title"><?= $name ?></h3>
+            <h2 class="card-title"><?= $name ?></h2>
             <p class="card-desc"><?= $desc ?></p>
             <ul class="card-features">
               <?php foreach (array_slice($features, 0, 3) as $f): ?>
@@ -431,7 +389,7 @@
           </div>
           <div class="card-body">
             <div class="card-category" style="color:<?= $accentColor ?>"><?= e($svc['category_name']) ?></div>
-            <h3 class="card-title"><?= e($svc['name']) ?></h3>
+            <h2 class="card-title"><?= e($svc['name']) ?></h2>
             <p class="card-desc"><?= e($svc['short_desc']) ?></p>
             <?php if (!empty($svc['features'])): ?>
             <ul class="card-features">
@@ -476,7 +434,7 @@
     </div>
     <div class="consult-actions">
       <a href="<?= e(site_wa_url('Halo, saya butuh rekomendasi layanan yang cocok untuk kebutuhan saya.')) ?>" class="btn btn-white" target="_blank" rel="noopener" data-cta="services-consult-wa">💬 Chat WhatsApp</a>
-      <a href="<?= APP_URL ?>/contact" class="btn btn-ghost" data-cta="services-consult-form">Isi Form Konsultasi</a>
+      <a href="<?= APP_URL ?>/contact#form-konsultasi" class="btn btn-ghost" data-cta="services-consult-form">Isi Form Konsultasi</a>
     </div>
   </div>
 </div>
@@ -488,8 +446,12 @@
 // ── Filter layanan ────────────────────────────────────────
 function filterServices(btn, filterId) {
   // Update tombol aktif
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
   btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
 
   const cards  = document.querySelectorAll('.service-card');
   const empty  = document.getElementById('empty-state');
@@ -506,24 +468,26 @@ function filterServices(btn, filterId) {
 }
 
 // ── Animasi masuk card ────────────────────────────────────
-const observer = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }, i * 60);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08 });
+if (typeof IntersectionObserver !== 'undefined') {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
 
-document.querySelectorAll('.service-card').forEach(card => {
-  card.style.opacity = '0';
-  card.style.transform = 'translateY(18px)';
-  card.style.transition = 'opacity .4s ease, transform .4s ease';
-  observer.observe(card);
-});
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(18px)';
+    card.style.transition = 'opacity .4s ease, transform .4s ease';
+    observer.observe(card);
+  });
+}
 
 // ── Sinkronkan jumlah pada tombol filter dengan kartu yang tampil ──
 document.addEventListener('DOMContentLoaded', function () {

@@ -42,5 +42,5 @@
 <div class="mobile-cta-bar" role="group" aria-label="Aksi cepat">
   <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>"
      class="mcb mcb-wa" target="_blank" rel="noopener" data-cta="mobile-wa">WhatsApp</a>
-  <a href="<?= APP_URL ?>/contact#konsultasi" class="mcb mcb-consult" data-cta="mobile-consult">Konsultasi</a>
+  <a href="<?= APP_URL ?>/contact#form-konsultasi" class="mcb mcb-consult" data-cta="mobile-consult">Konsultasi</a>
 </div>

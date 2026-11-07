@@ -49,7 +49,7 @@ $metaItems = array_filter([
 .case-wrap{max-width:var(--container);margin:0 auto}
 .case-crumb{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-family:var(--fm);font-size:.72rem;color:var(--muted);margin-bottom:2rem}
 .case-crumb a:hover{color:var(--ink)}
-.case-crumb span{opacity:.5}
+.case-crumb span{opacity:1;font-weight:500;color:#3E5747}
 
 .case-eyebrow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:1.1rem}
 .case-cat{font-family:var(--fm);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.32rem .7rem;border:1.5px solid var(--ink);border-radius:999px;background:var(--accent);color:var(--ink)}
@@ -319,7 +319,7 @@ $metaItems = array_filter([
             💬 Konsultasi via WhatsApp
           </a>
           <div style="height:.6rem"></div>
-          <a href="<?= APP_URL ?>/contact#konsultasi" class="btn btn-outline btn-block" data-cta="case-form">
+          <a href="<?= APP_URL ?>/contact#form-konsultasi" class="btn btn-outline btn-block" data-cta="case-form">
             Isi Form Konsultasi
           </a>
 
@@ -364,32 +364,20 @@ $metaItems = array_filter([
   <?php endif; ?>
 </main>
 
-<!-- ── CTA ────────────────────────────────────────────────── -->
-<section class="cta-strip">
-  <div class="cta-strip-inner reveal">
-    <div>
-      <h2>Proyek Anda Bisa<br>Jadi Karya <em>Selanjutnya</em></h2>
-      <p>Konsultasikan kebutuhan visual bisnis Anda. Gratis, tanpa komitmen, dan kami siap membantu.</p>
-    </div>
-    <div class="cta-strip-btns">
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="case-cta-wa">💬 Konsultasi Gratis →</a>
-      <a href="<?= APP_URL ?>/services" class="btn-cta-g" data-cta="case-cta-services">Lihat Layanan</a>
-    </div>
-  </div>
-</section>
-
 <?php require VIEW_PATH . '/partials/footer.php'; ?>
 
 <script>
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 70);
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: .07 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+if (typeof IntersectionObserver !== 'undefined') {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: .07 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
 </script>
 <?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>

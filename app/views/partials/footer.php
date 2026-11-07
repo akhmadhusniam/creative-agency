@@ -18,7 +18,7 @@
       <div class="f-tagline">Mitra desain profesional untuk bisnis yang ingin tampil lebih kuat dan berkesan.</div>
     </div>
     <div class="f-col">
-      <h4>Layanan</h4>
+      <h3>Layanan</h3>
       <ul>
         <li><a href="<?= APP_URL ?>/services">Branding &amp; Identity</a></li>
         <li><a href="<?= APP_URL ?>/services">UI/UX Design</a></li>
@@ -28,7 +28,7 @@
       </ul>
     </div>
     <div class="f-col">
-      <h4>Perusahaan</h4>
+      <h3>Perusahaan</h3>
       <ul>
         <li><a href="<?= APP_URL ?>/about">Tentang Kami</a></li>
         <li><a href="<?= APP_URL ?>/portfolio">Portfolio</a></li>
@@ -36,7 +36,7 @@
       </ul>
     </div>
     <div class="f-col">
-      <h4>Akun</h4>
+      <h3>Akun</h3>
       <ul>
         <?php if (Session::isLoggedIn()): ?>
           <li><a href="<?= APP_URL ?>/dashboard">Dashboard</a></li>
@@ -44,7 +44,6 @@
           <li><a href="<?= APP_URL ?>/logout">Keluar</a></li>
         <?php else: ?>
           <li><a href="<?= APP_URL ?>/login">Portal Klien</a></li>
-          <li><a href="<?= APP_URL ?>/dashboard/orders">Lacak Pesanan</a></li>
         <?php endif; ?>
       </ul>
     </div>
@@ -52,9 +51,9 @@
   <div class="footer-bottom">
     <div class="f-copy">© <?= date('Y') ?> Creative Studio. Semua hak dilindungi.</div>
     <div class="f-social">
-      <?php if (site_setting('site_instagram')): ?><a href="<?= e(site_setting('site_instagram')) ?>" title="Instagram" target="_blank" rel="noopener">ig</a><?php endif; ?>
-      <a href="<?= e(site_wa_url()) ?>" title="WhatsApp" target="_blank" rel="noopener">wa</a>
-      <?php if (site_setting('site_linkedin')): ?><a href="<?= e(site_setting('site_linkedin')) ?>" title="LinkedIn" target="_blank" rel="noopener">in</a><?php endif; ?>
+      <?php if (site_setting('site_instagram')): ?><a href="<?= e(site_setting('site_instagram')) ?>" aria-label="ig — Instagram Creative Studio" target="_blank" rel="noopener">ig</a><?php endif; ?>
+      <a href="<?= e(site_wa_url()) ?>" aria-label="wa — WhatsApp Creative Studio" target="_blank" rel="noopener">wa</a>
+      <?php if (site_setting('site_linkedin')): ?><a href="<?= e(site_setting('site_linkedin')) ?>" aria-label="in — LinkedIn Creative Studio" target="_blank" rel="noopener">in</a><?php endif; ?>
     </div>
   </div>
 </footer>

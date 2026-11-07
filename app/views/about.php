@@ -13,7 +13,7 @@
 
 /* Story section */
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.story-year{font-family:var(--fh);font-weight:800;font-size:6rem;line-height:1;color:var(--cream);margin-bottom:-.5rem}
+.story-year{font-family:var(--fh);font-weight:800;font-size:6rem;line-height:1;color:#7E9185;margin-bottom:-.5rem}
 .story-body{font-size:.95rem;color:var(--muted);line-height:1.9}
 .story-body p+p{margin-top:1.1rem}
 .story-visual{position:relative}
@@ -22,9 +22,12 @@
 .sc-main{background:var(--ink);color:#fff;width:80%;left:10%;top:0;z-index:2}
 .sc-accent{background:var(--accent);color:var(--ink);width:65%;right:0;bottom:0;z-index:3;border:2px solid var(--ink)}
 .sc-bg{background:var(--cream);width:70%;left:0;bottom:1rem;z-index:1}
-.sc-lbl{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.5;margin-bottom:.5rem}
+.sc-lbl{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
 .sc-val{font-family:var(--fh);font-weight:800;font-size:1.75rem;line-height:1}
-.sc-sub{font-size:.8rem;opacity:.6;margin-top:.3rem}
+.sc-sub{font-size:.8rem;margin-top:.3rem}
+.sc-main .sc-lbl,.sc-main .sc-sub{color:#C7D4CB}
+.sc-accent .sc-lbl,.sc-accent .sc-sub{color:#1B3A26}
+.sc-bg .sc-lbl,.sc-bg .sc-sub{color:#4A5A50}
 .sc-icon{font-size:2.5rem;opacity:.15;position:absolute;right:1.5rem;top:1.5rem}
 
 /* Values */
@@ -52,16 +55,17 @@
 .sb-item:last-child{border-right:none}
 .sb-num{font-family:var(--fh);font-weight:800;font-size:2.5rem;color:#fff;line-height:1}
 .sb-num em{font-style:normal;color:var(--accent)}
-.sb-lbl{font-size:.78rem;color:#444;margin-top:.4rem}
+.sb-lbl{font-size:.78rem;color:#A9B8AE;margin-top:.4rem}
 
 /* Journey / timeline */
+.timeline-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .timeline{display:flex;flex-direction:column;gap:0;margin-top:2.5rem;position:relative}
 .timeline::before{content:'';position:absolute;left:1.25rem;top:.5rem;bottom:.5rem;width:2px;background:var(--cream)}
 .tl-item{display:flex;gap:2rem;padding-bottom:2.5rem;position:relative}
 .tl-item:last-child{padding-bottom:0}
 .tl-dot{width:2.5rem;height:2.5rem;border-radius:50%;background:var(--white);border:2px solid var(--cream);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fh);font-weight:800;font-size:.7rem;color:var(--muted);position:relative;z-index:1;transition:all .3s}
 .tl-item:hover .tl-dot{background:var(--accent);border-color:var(--ink);color:var(--ink)}
-.tl-year{font-family:var(--fh);font-weight:800;font-size:.85rem;color:var(--accent);margin-bottom:.3rem}
+.tl-year{font-family:var(--fh);font-weight:800;font-size:.85rem;color:#2F5D14;margin-bottom:.3rem}
 .tl-title{font-family:var(--fh);font-weight:700;font-size:.95rem;margin-bottom:.3rem}
 .tl-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
 
@@ -78,6 +82,7 @@
   .values-grid{grid-template-columns:repeat(2,1fr)}
   .story-grid{grid-template-columns:1fr;gap:3rem}
   .story-card-stack{height:260px}
+  .timeline-grid{grid-template-columns:1fr;gap:2.5rem}
   .clients-grid{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:768px){
@@ -117,7 +122,7 @@
   <div class="s-inner">
     <div class="story-grid reveal">
       <div>
-        <div class="story-year">2019</div>
+        <div class="story-year" aria-hidden="true">2019</div>
         <div class="eyebrow" style="margin-top:.5rem"><span class="eyebrow-line"></span>Cerita Kami</div>
         <h2 class="stitle">Dari Kamar Kos<br>ke Studio Profesional</h2>
         <div class="story-body">
@@ -232,7 +237,7 @@
 <!-- TIMELINE -->
 <section class="section">
   <div class="s-inner">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start" class="reveal">
+    <div class="timeline-grid reveal">
       <div>
         <div class="eyebrow"><span class="eyebrow-line"></span>Perjalanan</div>
         <h2 class="stitle">Milestone<br>yang Membentuk Kami</h2>

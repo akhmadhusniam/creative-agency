@@ -370,6 +370,6 @@ class PageController
 
         Session::flash('success', 'Pesan Anda telah terkirim. Pilih cara konsultasi yang paling nyaman.');
         Session::flash('consult_modal', '1');
-        redirect(APP_URL . '/contact#konsultasi');
+        redirect(APP_URL . '/contact#form-konsultasi');
     }
 }

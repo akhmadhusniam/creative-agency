@@ -10,10 +10,10 @@ $activeNav = $activeNav ?? '';
 <nav class="nav" id="main-nav" aria-label="Navigasi utama">
   <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
   <ul class="nav-links">
-    <li><a href="<?= APP_URL ?>/services"  <?= $activeNav==='services'  ? 'class="active"' : '' ?>>Layanan</a></li>
-    <li><a href="<?= APP_URL ?>/portfolio" <?= $activeNav==='portfolio' ? 'class="active"' : '' ?>>Portfolio</a></li>
-    <li><a href="<?= APP_URL ?>/about"     <?= $activeNav==='about'     ? 'class="active"' : '' ?>>Tentang</a></li>
-    <li><a href="<?= APP_URL ?>/contact"   <?= $activeNav==='contact'   ? 'class="active"' : '' ?>>Kontak</a></li>
+    <li><a href="<?= APP_URL ?>/services"  <?= $activeNav==='services'  ? 'class="active" aria-current="page"' : '' ?>>Layanan</a></li>
+    <li><a href="<?= APP_URL ?>/portfolio" <?= $activeNav==='portfolio' ? 'class="active" aria-current="page"' : '' ?>>Portfolio</a></li>
+    <li><a href="<?= APP_URL ?>/about"     <?= $activeNav==='about'     ? 'class="active" aria-current="page"' : '' ?>>Tentang</a></li>
+    <li><a href="<?= APP_URL ?>/contact"   <?= $activeNav==='contact'   ? 'class="active" aria-current="page"' : '' ?>>Kontak</a></li>
   </ul>
   <div class="nav-right">
     <?php if (Session::isLoggedIn()): ?>

@@ -31,7 +31,7 @@
   background:var(--cream);display:flex;align-items:center;
   justify-content:center;font-size:1.1rem;flex-shrink:0;
 }
-.ci-card h4{font-family:var(--fh);font-weight:700;font-size:.82rem;margin-bottom:.2rem}
+.ci-card h3{font-family:var(--fh);font-weight:700;font-size:.82rem;margin-bottom:.2rem}
 .ci-card p{font-size:.82rem;color:var(--muted);line-height:1.5}
 .ci-card a{color:var(--ink);font-weight:500;text-decoration:underline;text-underline-offset:2px;transition:color .15s}
 .ci-card a:hover{color:var(--accent2)}
@@ -61,6 +61,7 @@
 .contact-form-card{
   background:var(--white);border:1px solid var(--cream);
   border-radius:16px;padding:2.5rem;
+  scroll-margin-top:calc(var(--nav-h) + 1rem);
 }
 .cf-title{font-family:var(--fh);font-weight:800;font-size:1.4rem;margin-bottom:.4rem}
 .cf-sub{font-size:.875rem;color:var(--muted);margin-bottom:2rem}
@@ -69,7 +70,7 @@
 label{display:block;font-size:.78rem;font-weight:600;margin-bottom:.4rem;color:var(--ink)}
 label .opt{color:var(--muted);font-weight:400}
 input,textarea,select{
-  width:100%;padding:.75rem 1rem;
+  width:100%;min-height:46px;padding:.75rem 1rem;
   border:1.5px solid var(--cream);border-radius:6px;
   font-family:var(--fb);font-size:.875rem;
   background:var(--white);color:var(--ink);
@@ -107,7 +108,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .map-placeholder{text-align:center;color:var(--muted)}
 .map-placeholder .icon{font-size:3rem;margin-bottom:.75rem;opacity:.3}
 .map-placeholder p{font-size:.85rem}
-.map-placeholder a{color:var(--accent);font-weight:600}
+.map-placeholder a{color:#2F5D14;font-weight:600;text-decoration:underline;text-underline-offset:2px}
 
 /* ── FAQ mini ───────────────────────────────────────────── */
 .faq-mini{background:var(--cream);padding:5rem clamp(1rem,4vw,3rem)}
@@ -117,8 +118,17 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .faq-mini-q{font-family:var(--fh);font-weight:700;font-size:.9rem;margin-bottom:.5rem}
 .faq-mini-a{font-size:.82rem;color:var(--muted);line-height:1.7}
 
-@media(max-width:960px){.contact-layout{grid-template-columns:1fr;gap:3rem}}
-@media(max-width:600px){.form-row{grid-template-columns:1fr}.faq-mini-grid{grid-template-columns:1fr}}
+@media(max-width:960px){
+  .contact-layout{grid-template-columns:1fr;gap:2.5rem}
+  .contact-form-card{order:-1}
+}
+@media(max-width:600px){
+  .contact-layout{padding-top:1.25rem;padding-bottom:3.5rem}
+  .contact-form-card{padding:1.5rem}
+  .cf-sub{margin-bottom:1.25rem}
+  .form-row{grid-template-columns:1fr}
+  .faq-mini-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -167,14 +177,14 @@ require VIEW_PATH . '/partials/nav.php';
       <div class="ci-card">
         <div class="ci-card-icon" aria-hidden="true">📧</div>
         <div>
-          <h4>Email</h4>
+          <h3>Email</h3>
           <p><a href="mailto:<?= e($sEmail) ?>"><?= e($sEmail) ?></a></p>
         </div>
       </div>
       <div class="ci-card">
         <div class="ci-card-icon" aria-hidden="true">📱</div>
         <div>
-          <h4>Telepon / WhatsApp</h4>
+          <h3>Telepon / WhatsApp</h3>
           <p><a href="tel:<?= e(preg_replace('/[^0-9+]/', '', $sPhone)) ?>"><?= e($sPhone) ?></a><br>
              <span style="font-size:.76rem">WA aktif <?= e($sWaHrs) ?></span></p>
         </div>
@@ -182,14 +192,14 @@ require VIEW_PATH . '/partials/nav.php';
       <div class="ci-card">
         <div class="ci-card-icon" aria-hidden="true">📍</div>
         <div>
-          <h4>Alamat Studio</h4>
+          <h3>Alamat Studio</h3>
           <p><?= nl2br(e($sAddr)) ?></p>
         </div>
       </div>
       <div class="ci-card">
         <div class="ci-card-icon" aria-hidden="true">🕐</div>
         <div>
-          <h4>Jam Operasional</h4>
+          <h3>Jam Operasional</h3>
           <p><?= e($sHours) ?></p>
         </div>
       </div>
@@ -197,7 +207,7 @@ require VIEW_PATH . '/partials/nav.php';
       <div class="ci-card">
         <div class="ci-card-icon" aria-hidden="true">🗓</div>
         <div>
-          <h4>Jadwalkan Meeting</h4>
+          <h3>Jadwalkan Meeting</h3>
           <p><a href="<?= e($sMeet) ?>" target="_blank" rel="noopener">Pilih waktu konsultasi →</a></p>
         </div>
       </div>
@@ -215,7 +225,7 @@ require VIEW_PATH . '/partials/nav.php';
   </div>
 
   <!-- RIGHT: Form -->
-  <div class="contact-form-card reveal" style="transition-delay:.12s">
+  <div class="contact-form-card reveal" id="form-konsultasi" style="transition-delay:.12s">
     <div class="cf-title">Kirim Pesan</div>
     <div class="cf-sub">Isi form di bawah dan kami akan segera menghubungi Anda.</div>
 
@@ -382,10 +392,12 @@ document.getElementById('contact-form')?.addEventListener('submit', function () 
 });
 
 // Reveal
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});
-},{threshold:.07});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+if (typeof IntersectionObserver !== 'undefined') {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});
+  },{threshold:.07});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}
 
 // ── Sesuaikan field yang tampil berdasarkan jenis kebutuhan ──
 const inquirySelect = document.getElementById('inquiry_type');
