@@ -10,12 +10,12 @@ $success = Session::getFlash('success');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($title) ?> — <?= e(APP_NAME) ?></title>
 <meta name="description" content="Masuk ke portal klien Creative Studio untuk memantau proyek, pesanan, dan komunikasi desain Anda.">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#122A1C; --paper:#FFFFFF; --cream:#E4E9E5;
   --accent:#C8FF4D; --muted:#5C6862; --line:#DFE5E1;
-  --fh:'Syne',sans-serif; --fb:'Inter',sans-serif;
+  --fh:'Plus Jakarta Sans','Inter',sans-serif; --fb:'Inter',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
@@ -38,7 +38,8 @@ a{color:inherit;}
 .brand-mid p{color:#9FB0A6;font-size:.92rem;line-height:1.75;margin-bottom:1.9rem;}
 .brand-list{list-style:none;display:grid;gap:.7rem;}
 .brand-list li{display:flex;align-items:center;gap:.7rem;font-size:.86rem;color:#C7D4CB;}
-.brand-list .tick{flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:rgba(200,255,77,.14);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;}
+.brand-list .tick{flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:rgba(200,255,77,.14);color:var(--accent);display:flex;align-items:center;justify-content:center;}
+.brand-list .tick::before{content:'';width:5px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);}
 .brand-foot{font-size:.75rem;color:#6E7E74;}
 
 /* ── Form panel ──────────────────────────────────────────── */
@@ -77,6 +78,7 @@ input.has-toggle{padding-right:4.4rem;}
 .form-foot a{font-weight:600;color:var(--ink);text-decoration:underline;}
 .back-site{display:inline-flex;align-items:center;justify-content:center;min-height:44px;gap:.35rem;margin-top:1rem;font-size:.8rem;color:var(--muted);text-decoration:none;}
 .back-site:hover{color:var(--ink);}
+.back-site svg{width:14px;height:14px;flex:none;}
 
 @media(max-width:880px){
   .split{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;}
@@ -101,10 +103,10 @@ input.has-toggle{padding-right:4.4rem;}
       <div class="brand-title">Masuk &amp; lanjutkan <em>karya Anda.</em></div>
       <p>Satu pintu untuk klien dan tim. Kelola proyek, pantau progres, dan koordinasi desain dengan rapi dari satu dasbor.</p>
       <ul class="brand-list">
-        <li><span class="tick">✓</span> Branding &amp; Identitas Visual</li>
-        <li><span class="tick">✓</span> UI/UX &amp; Web Design</li>
-        <li><span class="tick">✓</span> Social Media Kit</li>
-        <li><span class="tick">✓</span> Motion Graphic</li>
+        <li><span class="tick" aria-hidden="true"></span> Branding &amp; Identitas Visual</li>
+        <li><span class="tick" aria-hidden="true"></span> UI/UX &amp; Web Design</li>
+        <li><span class="tick" aria-hidden="true"></span> Social Media Kit</li>
+        <li><span class="tick" aria-hidden="true"></span> Motion Graphic</li>
       </ul>
     </div>
     <div class="brand-foot">© <?= date('Y') ?> <?= e(APP_NAME) ?>. Dibuat dengan presisi.</div>
@@ -155,7 +157,10 @@ input.has-toggle{padding-right:4.4rem;}
         Belum punya akun? <a href="<?= APP_URL ?>/register">Daftar sekarang</a>
       </p>
       <div style="text-align:center;">
-        <a href="<?= APP_URL ?>/" class="back-site">← Kembali ke situs</a>
+        <a href="<?= APP_URL ?>/" class="back-site">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Kembali ke situs
+        </a>
       </div>
     </div>
   </main>

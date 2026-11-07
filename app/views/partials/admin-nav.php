@@ -25,12 +25,12 @@ $errorMsg   = Session::getFlash('error');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($pageTitle) ?> — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#122A1C;--paper:#FFFFFF;--cream:#E4E9E5;--cream-2:#F3F6F4;
   --accent:#C8FF4D;--muted:#5C6862;--line:#E2E8E4;--danger:#B42318;
-  --ff-head:'Syne',sans-serif;--ff-body:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;
+  --ff-head:'Plus Jakarta Sans','Inter',sans-serif;--ff-body:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;
   --sidebar:240px;--radius:10px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}

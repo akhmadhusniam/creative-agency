@@ -9,7 +9,7 @@ if (!('IntersectionObserver' in window)) {
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink:    #122A1C; --ink-2: #0D2015; --paper: #FFFFFF; --cream: #E4E9E5;
@@ -17,7 +17,7 @@ if (!('IntersectionObserver' in window)) {
   --accent: #C8FF4D; --accent2:#2B6CC8;
   --muted:  #5C6862; --white:  #FFFFFF;
   --gap:    clamp(1rem,4vw,2.5rem);
-  --fh:     'Syne', sans-serif;
+  --fh:     'Plus Jakarta Sans', 'Inter', sans-serif;
   --fb:     'Inter', sans-serif;
   --fm:     'JetBrains Mono', monospace;
   --nav-h:  68px;
@@ -29,7 +29,8 @@ if (!('IntersectionObserver' in window)) {
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1rem)}
-body{font-family:var(--fb);background:var(--paper);color:var(--ink);overflow-x:hidden;line-height:1.6}
+body{font-family:var(--fb);background:var(--paper);color:var(--ink);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+h1,h2,h3,h4,h5,h6{font-family:var(--fh);font-weight:700;text-wrap:balance;overflow-wrap:break-word}
 a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

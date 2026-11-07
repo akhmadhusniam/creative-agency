@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($title) ?></title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink:     #0D0D0D;
@@ -15,7 +15,7 @@
   --white:   #FFFFFF;
   --radius:  6px;
   --gap:     clamp(1rem, 4vw, 2.5rem);
-  --ff-head: 'Syne', sans-serif;
+  --ff-head: 'Plus Jakarta Sans', 'Inter', sans-serif;
   --ff-body: 'Inter', sans-serif;
   --nav-h:   64px;
 }

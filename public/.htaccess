@@ -25,3 +25,12 @@ RewriteRule ^(.*)$ index.php [QSA,L]
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
+
+# Preload font utama agar headline dan body tampil stabil sejak render pertama.
+# Ini mengurangi layout shift akibat web font (CLS) tanpa menunda teks.
+<IfModule mod_headers.c>
+    <FilesMatch "^index\.php$">
+        Header add Link "<https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_vb.woff2>; rel=preload; as=font; type=font/woff2; crossorigin"
+        Header add Link "<https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2>; rel=preload; as=font; type=font/woff2; crossorigin"
+    </FilesMatch>
+</IfModule>
