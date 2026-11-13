@@ -17,18 +17,7 @@
 .story-body{font-size:.95rem;color:var(--muted);line-height:1.9}
 .story-body p+p{margin-top:1.1rem}
 .story-visual{position:relative}
-.story-card-stack{position:relative;height:380px}
-.sc{border-radius:14px;padding:2rem;position:absolute}
-.sc-main{background:var(--ink);color:#fff;width:80%;left:10%;top:0;z-index:2}
-.sc-accent{background:var(--accent);color:var(--ink);width:65%;right:0;bottom:0;z-index:3;border:2px solid var(--ink)}
-.sc-bg{background:var(--cream);width:70%;left:0;bottom:1rem;z-index:1}
-.sc-lbl{font-family:var(--fh);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
-.sc-val{font-family:var(--fh);font-weight:800;font-size:1.75rem;line-height:1}
-.sc-sub{font-size:.8rem;margin-top:.3rem}
-.sc-main .sc-lbl,.sc-main .sc-sub{color:#C7D4CB}
-.sc-accent .sc-lbl,.sc-accent .sc-sub{color:#1B3A26}
-.sc-bg .sc-lbl,.sc-bg .sc-sub{color:#4A5A50}
-.sc-icon{font-size:2.5rem;opacity:.15;position:absolute;right:1.5rem;top:1.5rem}
+.story-ill{width:100%;height:auto;display:block;filter:drop-shadow(0 24px 42px rgba(18,42,28,.12))}
 
 /* Values */
 .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
@@ -81,7 +70,6 @@
   .team-grid{grid-template-columns:repeat(2,1fr)}
   .values-grid{grid-template-columns:repeat(2,1fr)}
   .story-grid{grid-template-columns:1fr;gap:3rem}
-  .story-card-stack{height:260px}
   .timeline-grid{grid-template-columns:1fr;gap:2.5rem}
   .clients-grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -132,24 +120,10 @@
         </div>
       </div>
       <div class="story-visual">
-        <div class="story-card-stack">
-          <div class="sc sc-bg">
-            <div class="sc-lbl">Mulai</div>
-            <div class="sc-val">2019</div>
-            <div class="sc-sub">Jakarta, Indonesia</div>
-          </div>
-          <div class="sc sc-main">
-            <div class="sc-icon">◈</div>
-            <div class="sc-lbl">Kategori layanan</div>
-            <div class="sc-val"><?= (int) $publicStats['categories'] ?></div>
-            <div class="sc-sub">Branding hingga print</div>
-          </div>
-          <div class="sc sc-accent">
-            <div class="sc-lbl">Konsultasi awal</div>
-            <div class="sc-val">Rp0</div>
-            <div class="sc-sub">Tanpa komitmen</div>
-          </div>
-        </div>
+        <img class="story-ill"
+             src="<?= APP_URL ?>/assets/illustrations/about-studio.svg"
+             alt="Ilustrasi isometrik studio kolaboratif dengan meja kerja, papan ide, dan panel antarmuka digital"
+             width="900" height="640" loading="lazy" decoding="async">
       </div>
     </div>
   </div>
@@ -160,7 +134,7 @@
   <div class="stats-bar-inner reveal">
     <?php
     $stats = [
-      [(string) $publicStats['projects'], 'Studi kasus'],
+      [(string) $publicStats['projects'], site_project_label()],
       [(string) $publicStats['categories'], 'Kategori layanan'],
       [(string) $publicStats['services'], 'Paket layanan'],
       ['Rp0', 'Konsultasi awal'],
@@ -186,7 +160,7 @@
       $values = [
         ['🎯','Tujuan di Atas Estetika','Desain yang baik harus bekerja — menarik perhatian, menyampaikan pesan, dan mendorong aksi. Kecantikan visual hanyalah alat, bukan tujuan akhir.'],
         ['🤝','Kolaborasi Terbuka','Kami percaya hasil terbaik lahir dari kolaborasi, bukan instruksi satu arah. Klien adalah mitra — bukan sekadar pemberi tugas.'],
-        ['⚡','Ketepatan Waktu','Deadline adalah komitmen, bukan estimasi. Kami membangun sistem kerja yang memastikan setiap proyek selesai tepat waktu tanpa mengorbankan kualitas.'],
+        ['⚡','Ketepatan Waktu','Deadline adalah komitmen. Kami menyusun timeline yang jelas dan mengomunikasikan perubahan sejak awal, tanpa mengorbankan kualitas.'],
         ['🔍','Detail Tanpa Kompromi','Piksel, spasi, ketebalan garis — semua diperhatikan. Karena dalam desain, hal-hal kecil adalah yang membuat perbedaan besar.'],
         ['📈','Berorientasi Hasil','Kami mengukur kesuksesan dari dampak yang dihasilkan desain terhadap bisnis klien — bukan dari penghargaan atau pujian semata.'],
         ['🔄','Terus Berkembang','Dunia desain bergerak cepat. Kami selalu belajar, bereksperimen, dan memperbarui pendekatan agar selalu relevan dan kompetitif.'],
@@ -291,14 +265,14 @@
       <p>Ceritakan kebutuhan visual bisnis Anda — kami bantu petakan langkah, estimasi waktu, dan kisaran biayanya.</p>
     </div>
     <div class="cta-strip-btns">
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="about-cta-wa">💬 Konsultasi Gratis →</a>
+      <a href="<?= e(site_start_project_url()) ?>" class="btn-cta-p" data-cta="about-cta-start">Mulai Proyek →</a>
       <a href="<?= APP_URL ?>/services" class="btn-cta-g" data-cta="about-cta-services">Lihat Layanan Kami</a>
     </div>
   </div>
 </section>
 
 <?php require VIEW_PATH . '/partials/footer.php'; ?>
-<?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
+<?php require VIEW_PATH . '/partials/mobile-cta.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>
 </body>
 </html>

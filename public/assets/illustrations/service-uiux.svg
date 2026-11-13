@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-labelledby="title" shape-rendering="geometricPrecision">
+<title id="title">Ilustrasi isometrik UI UX dengan browser, ponsel, dan kursor</title>
+
+<defs>
+  <linearGradient id="gTop" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E4E9E5"/>
+  </linearGradient>
+  <linearGradient id="gPaper" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F3F6F4"/>
+  </linearGradient>
+  <linearGradient id="gRight" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#B7C7BC"/><stop offset="1" stop-color="#8FA99A"/>
+  </linearGradient>
+  <linearGradient id="gLeft" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#6F8F7C"/><stop offset="1" stop-color="#456B55"/>
+  </linearGradient>
+  <linearGradient id="gInkTop" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#28513A"/><stop offset="1" stop-color="#122A1C"/>
+  </linearGradient>
+  <linearGradient id="gInkSide" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#183624"/><stop offset="1" stop-color="#0D2015"/>
+  </linearGradient>
+  <linearGradient id="gLime" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#E5FF9E"/><stop offset="1" stop-color="#C8FF4D"/>
+  </linearGradient>
+  <linearGradient id="gLimeSide" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#AEE63D"/><stop offset="1" stop-color="#7DA525"/>
+  </linearGradient>
+  <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#C8FF4D" stop-opacity=".20"/>
+    <stop offset="65%" stop-color="#C8FF4D" stop-opacity=".05"/>
+    <stop offset="100%" stop-color="#C8FF4D" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="gOrb" cx="32%" cy="25%" r="72%">
+    <stop offset="0" stop-color="#F3FFD4"/><stop offset="45%" stop-color="#D7FF70"/><stop offset="1" stop-color="#9ED12D"/>
+  </radialGradient>
+</defs>
+
+<polygon points="149.61,74 232.75,122 170.39,158 87.25,110" fill="#122A1C" opacity="0.04" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+<polygon points="149.61,69 232.75,117 170.39,153 87.25,105" fill="#122A1C" opacity="0.06" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+<polygon points="149.61,65 232.75,113 170.39,149 87.25,101" fill="#122A1C" opacity="0.09" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+<polygon points="232.75,110 170.39,146 170.39,141 232.75,105" fill="#B7C7BC" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="87.25,98 170.39,146 170.39,141 87.25,93" fill="#8FA99A" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="149.61,57 232.75,105 170.39,141 87.25,93" fill="url(#gTop)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="243.14,60 185.98,93 185.98,87 243.14,54" fill="url(#gRight)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="95.91,41 185.98,93 185.98,87 95.91,35" fill="url(#gLeft)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="153.07,2 243.14,54 185.98,87 95.91,35" fill="url(#gPaper)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="104.57,29.65 194.64,81.65 185.98,86.65 95.91,34.65" fill="#C8FF4D" opacity="0.95" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="120.16,28.65 139.22,39.65 134.02,42.65 114.97,31.65" fill="#122A1C" opacity="0.82" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="146.14,43.65 166.93,55.65 161.73,58.65 140.95,46.65" fill="#527C61" opacity="0.32" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="153.07,9.65 175.59,22.65 151.34,36.65 128.82,23.65" fill="url(#gInkTop)" opacity="0.95" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="182.52,26.65 229.28,53.65 225.82,55.65 179.05,28.65" fill="#C8FF4D" opacity="0.7" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="173.86,31.65 203.3,48.65 199.84,50.65 170.39,33.65" fill="#527C61" opacity="0.28" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="166.06,36.15 204.17,58.15 200.7,60.15 162.6,38.15" fill="#527C61" opacity="0.18" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="200.7,140.5 159.13,164.5 159.13,159.5 200.7,135.5" fill="url(#gInkSide)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="135.75,151 159.13,164.5 159.13,159.5 135.75,146" fill="url(#gInkSide)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="177.32,122 200.7,135.5 159.13,159.5 135.75,146" fill="url(#gInkTop)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="147.88,142.65 164.33,152.15 160,154.65 143.55,145.15" fill="#C8FF4D" opacity="0.9" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="156.54,137.65 168.66,144.65 164.33,147.15 152.21,140.15" fill="#FFFFFF" opacity="0.85" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="165.2,132.65 181.65,142.15 178.19,144.15 161.73,134.65" fill="#527C61" opacity="0.5" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="173.86,127.65 182.52,132.65 179.05,134.65 170.39,129.65" fill="#C8FF4D" opacity="0.65" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="173.86,66 185.86,88 178.86,83 175.86,92" fill="#C8FF4D" opacity="1" stroke="#122A1C" stroke-width="1.2" stroke-linejoin="round" />
+<circle cx="126.63" cy="62" r="6" fill="#122A1C" opacity="0.18"/>
+<circle cx="123.63" cy="57" r="6" fill="url(#gOrb)" opacity="1"/>
+<circle cx="121.59" cy="54.72" r="1.08" fill="#FFFFFF" opacity="0.5"/>
+<polygon points="231.01,49 231.74,51.58 233.61,53.5 231.74,53.26 231.01,55 230.29,52.42 228.42,50.5 230.29,50.74" fill="#C8FF4D" opacity="0.8" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+</svg>

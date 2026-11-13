@@ -314,13 +314,14 @@ $metaItems = array_filter([
             <?php endif; ?>
           </ul>
 
-          <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek seperti "' . $portfolio['title'] . '".')) ?>"
-             class="btn btn-primary" target="_blank" rel="noopener" data-cta="case-wa">
-            💬 Konsultasi via WhatsApp
+          <a href="<?= e(site_start_project_url()) ?>"
+             class="btn btn-primary" data-cta="case-start-project">
+            Diskusikan Proyek Serupa →
           </a>
           <div style="height:.6rem"></div>
-          <a href="<?= APP_URL ?>/contact#form-konsultasi" class="btn btn-outline btn-block" data-cta="case-form">
-            Isi Form Konsultasi
+          <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek seperti "' . $portfolio['title'] . '".')) ?>"
+             class="btn btn-outline btn-block" target="_blank" rel="noopener" data-cta="case-wa">
+            atau chat WhatsApp
           </a>
 
           <a href="<?= APP_URL ?>/portfolio" class="case-back">← Kembali ke Portfolio</a>
@@ -379,7 +380,11 @@ if (typeof IntersectionObserver !== 'undefined') {
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 </script>
-<?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
+<?php
+$mobileCtaLabel = 'Diskusikan Proyek';
+$mobileCtaUrl = site_start_project_url();
+require VIEW_PATH . '/partials/mobile-cta.php';
+?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>
 </body>
 </html>

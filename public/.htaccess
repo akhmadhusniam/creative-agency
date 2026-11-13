@@ -26,6 +26,15 @@ RewriteRule ^(.*)$ index.php [QSA,L]
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
+# Cache & kompresi aset ilustrasi statis
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/svg+xml "access plus 30 days"
+</IfModule>
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
 # Preload font utama agar headline dan body tampil stabil sejak render pertama.
 # Ini mengurangi layout shift akibat web font (CLS) tanpa menunda teks.
 <IfModule mod_headers.c>

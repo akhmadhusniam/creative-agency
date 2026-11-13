@@ -19,6 +19,21 @@ class OrderController
     }
 
     /**
+     * Paket dengan harga dasar/custom harus melalui penawaran,
+     * bukan checkout yang menagih harga dasar.
+     */
+    private function requiresQuote(array $service): bool
+    {
+        return in_array($service['price_type'] ?? '', ['starting_from', 'custom'], true);
+    }
+
+    private function redirectToQuote(string $slug): void
+    {
+        Session::flash('error', 'Paket ini memerlukan penawaran. Kirim brief agar lingkup dan harga final bisa dikonfirmasi.');
+        redirect(APP_URL . '/contact?service=' . rawurlencode($slug) . '#form-konsultasi');
+    }
+
+    /**
      * Tampilkan halaman checkout/pembayaran
      */
     public function show(): void
@@ -45,6 +60,10 @@ class OrderController
             $title = 'Layanan Tidak Ditemukan';
             require VIEW_PATH . '/partials/404.php';
             exit;
+        }
+
+        if ($this->requiresQuote($service)) {
+            $this->redirectToQuote($service['slug']);
         }
 
         // Ambil data user untuk pre-fill form
@@ -74,13 +93,17 @@ class OrderController
         }
 
         // Validasi service
-        $stmt = $this->db->prepare('SELECT id, price, price_type FROM services WHERE id = ? AND is_active = 1 LIMIT 1');
+        $stmt = $this->db->prepare('SELECT id, slug, price, price_type FROM services WHERE id = ? AND is_active = 1 LIMIT 1');
         $stmt->execute([$serviceId]);
         $service = $stmt->fetch();
 
         if (!$service) {
             Session::flash('error', 'Layanan tidak ditemukan.');
             redirect(APP_URL . '/services');
+        }
+
+        if ($this->requiresQuote($service)) {
+            $this->redirectToQuote($service['slug']);
         }
 
         // Generate order code

@@ -110,13 +110,10 @@
   position: relative; overflow: hidden;
   background: var(--cream);
 }
-.card-thumb-icon {
-  font-size: 3.5rem; line-height: 1;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.08));
-  transition: transform .3s;
-}
-.service-card:hover .card-thumb-icon { transform: scale(1.12) rotate(-3deg); }
 .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.card-thumb-ill { background: linear-gradient(135deg, #F7FAF8 0%, #E4E9E5 100%); }
+.card-thumb-ill .card-ill { object-fit: contain; padding: .55rem .75rem; transition: transform .3s; }
+.service-card:hover .card-ill { transform: scale(1.04); }
 
 /* Delivery badge */
 .card-badge {
@@ -265,7 +262,7 @@
       </div>
       <div class="hero-meta-item">
         <div class="hero-meta-num"><?= (int) $publicStats['projects'] ?></div>
-        <div class="hero-meta-label">Studi kasus</div>
+        <div class="hero-meta-label"><?= e(site_project_label()) ?></div>
       </div>
       <div class="hero-meta-item">
         <div class="hero-meta-num">Rp0</div>
@@ -308,6 +305,16 @@
     ];
     $defaultColors = ['#7A7570', '#F3F4F6', '★'];
 
+    // Ilustrasi isometrik per kategori — dipakai saat belum ada thumbnail upload.
+    $catIllustrations = [
+      'branding' => 'service-branding.svg',
+      'uiux'     => 'service-uiux.svg',
+      'socmed'   => 'service-social.svg',
+      'motion'   => 'service-motion.svg',
+      'print'    => 'service-print.svg',
+    ];
+    $defaultIllustration = 'service-branding.svg';
+
     // Layanan "populer" — bisa dari DB flag atau hardcode
     $popularIds = [1, 3]; // ID layanan yang ditandai populer
     ?>
@@ -319,20 +326,21 @@
         <?php
         $placeholders = [
           ['Brand Identity Starter', 'Branding & Identity', 1, 'Mulai dari logo, color palette, hingga panduan penggunaan merek yang konsisten.', 1500000, 'fixed', 7, ['Logo 3 konsep', 'Revisi 2x', 'Color palette', 'File PNG/SVG/PDF'], 'branding', false],
-          ['Full Brand System',      'Branding & Identity', 1, 'Paket branding lengkap: logo, brand guideline, stationery, dan mockup presentasi.', 4500000, 'starting_from', 14, ['Semua fitur Starter', 'Brand Guideline PDF', 'Stationery design', 'Revisi tak terbatas'], 'branding', true],
+          ['Full Brand System',      'Branding & Identity', 1, 'Paket branding lengkap: logo, brand guideline, stationery, dan mockup presentasi.', 4500000, 'starting_from', 14, ['Semua fitur Starter', 'Brand Guideline PDF', 'Stationery design', 'Revisi sesuai paket'], 'branding', true],
           ['Landing Page Design',    'UI/UX Design',        2, 'Desain UI landing page modern 1–5 section dengan deliverable file Figma siap handoff.', 1200000, 'fixed', 5, ['Hingga 5 section', 'File Figma', 'Responsive design', 'Revisi 2x'], 'uiux', true],
           ['Mobile App UI',          'UI/UX Design',        2, 'Desain antarmuka aplikasi mobile hingga 15 screen, lengkap dengan prototype interaktif.', 3500000, 'starting_from', 14, ['Hingga 15 screen', 'Prototype Figma', 'Design system', 'Handoff notes'], 'uiux', false],
           ['Social Media Pack',      'Social Media Design', 3, '10 template feed + 5 template story yang editable di Canva atau Figma.', 750000, 'fixed', 3, ['10 template feed', '5 template story', 'File Canva/Figma', 'Panduan posting'], 'socmed', false],
           ['Motion Graphic Pendek',  'Motion & Video',      4, 'Video animasi pendek 15–30 detik untuk konten iklan, intro, atau promosi produk.', 2000000, 'starting_from', 7, ['Durasi 15–30 detik', 'Format MP4/GIF', 'Revisi 2x', 'File source AE'], 'motion', false],
         ];
         foreach ($placeholders as [$name, $catName, $catId, $desc, $price, $ptype, $days, $features, $catSlug, $popular]):
-          [$accentColor, $bgColor, $icon] = $catColors[$catSlug] ?? $defaultColors;
+          [$accentColor, $bgColor] = $catColors[$catSlug] ?? $defaultColors;
           $slug = strtolower(str_replace(' ', '-', $name));
+          $illustration = $catIllustrations[$catSlug] ?? $defaultIllustration;
         ?>
         <div class="service-card" data-category="<?= $catId ?>">
           <div class="card-accent-bar" style="background:<?= $accentColor ?>"></div>
-          <div class="card-thumb" style="background:<?= $bgColor ?>">
-            <div class="card-thumb-icon"><?= $icon ?></div>
+          <div class="card-thumb card-thumb-ill">
+            <img class="card-ill" src="<?= APP_URL ?>/assets/illustrations/<?= e($illustration) ?>" alt="" width="320" height="180" loading="lazy" decoding="async">
             <?php if ($days): ?>
               <span class="card-badge">⏱ <?= $days ?> hari</span>
             <?php endif; ?>
@@ -369,16 +377,17 @@
         <!-- Data dari database -->
         <?php foreach ($services as $svc):
           $catSlug = $svc['category_slug'] ?? 'default';
-          [$accentColor, $bgColor, $icon] = $catColors[$catSlug] ?? $defaultColors;
+          [$accentColor, $bgColor] = $catColors[$catSlug] ?? $defaultColors;
+          $illustration = $catIllustrations[$catSlug] ?? $defaultIllustration;
           $isPopular = in_array($svc['id'], $popularIds);
         ?>
         <div class="service-card" data-category="<?= $svc['category_id'] ?>">
           <div class="card-accent-bar" style="background:<?= $accentColor ?>"></div>
-          <div class="card-thumb" style="background:<?= $bgColor ?>">
+          <div class="card-thumb<?= $svc['thumbnail'] ? '' : ' card-thumb-ill' ?>"<?= $svc['thumbnail'] ? ' style="background:' . e($bgColor) . '"' : '' ?>>
             <?php if ($svc['thumbnail']): ?>
               <img src="<?= APP_URL ?>/uploads/<?= e($svc['thumbnail']) ?>" alt="<?= e($svc['name']) ?>" loading="lazy">
             <?php else: ?>
-              <div class="card-thumb-icon"><?= $icon ?></div>
+              <img class="card-ill" src="<?= APP_URL ?>/assets/illustrations/<?= e($illustration) ?>" alt="" width="320" height="180" loading="lazy" decoding="async">
             <?php endif; ?>
             <?php if ($svc['delivery_days']): ?>
               <span class="card-badge">⏱ <?= $svc['delivery_days'] ?> hari</span>
@@ -430,11 +439,11 @@
   <div class="consult-banner">
     <div>
       <h2>Tidak Yakin Paket Mana yang Tepat?</h2>
-      <p>Ceritakan kebutuhan Anda, kami akan bantu rekomendasikan layanan yang paling sesuai — gratis, tanpa komitmen. Mulai proyek cukup dengan DP, pelunasan setelah hasil selesai.</p>
+      <p>Ceritakan kebutuhan Anda, kami akan bantu rekomendasikan layanan yang paling sesuai — gratis, tanpa komitmen. Pembayaran penuh di awal via Midtrans; pengerjaan dimulai setelah pembayaran terkonfirmasi. Revisi dan garansi mengikuti ketentuan paket.</p>
     </div>
     <div class="consult-actions">
-      <a href="<?= e(site_wa_url('Halo, saya butuh rekomendasi layanan yang cocok untuk kebutuhan saya.')) ?>" class="btn btn-white" target="_blank" rel="noopener" data-cta="services-consult-wa">💬 Chat WhatsApp</a>
-      <a href="<?= APP_URL ?>/contact#form-konsultasi" class="btn btn-ghost" data-cta="services-consult-form">Isi Form Konsultasi</a>
+      <a href="<?= e(site_start_project_url()) ?>" class="btn btn-white" data-cta="services-start-project">Diskusikan Kebutuhan →</a>
+      <a href="<?= e(site_wa_url('Halo, saya butuh rekomendasi layanan yang cocok untuk kebutuhan saya.')) ?>" class="btn btn-ghost" target="_blank" rel="noopener" data-cta="services-consult-wa">atau chat WhatsApp</a>
     </div>
   </div>
 </div>
@@ -501,7 +510,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
+<?php require VIEW_PATH . '/partials/mobile-cta.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>
 </body>
 </html>

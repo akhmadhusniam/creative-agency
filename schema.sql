@@ -232,7 +232,7 @@ INSERT INTO service_features (service_id, feature) VALUES
 (2, 'Brand Guideline PDF'),
 (2, 'Stationery design (KTP, amplop, kartu nama)'),
 (2, 'Mockup presentasi'),
-(2, 'Revisi tak terbatas');
+(2, 'Revisi sesuai paket');
 
 -- Settings default
 INSERT INTO settings (`key`, `value`) VALUES

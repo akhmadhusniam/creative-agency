@@ -237,7 +237,26 @@ class PageController
     // ---------- CONTACT ----------
     public function contact(): void
     {
-        $title = 'Hubungi Kami';
+        $requestedService = null;
+        $serviceSlug = is_string($_GET['service'] ?? null) ? trim($_GET['service']) : '';
+
+        if ($serviceSlug !== '') {
+            $stmt = $this->db->prepare('
+                SELECT s.id, s.name, s.slug, s.price, s.price_type,
+                       sc.name AS category_name, sc.slug AS category_slug
+                FROM services s
+                LEFT JOIN service_categories sc ON s.category_id = sc.id
+                WHERE s.slug = ? AND s.is_active = 1
+                LIMIT 1
+            ');
+            $stmt->execute([$serviceSlug]);
+            $requestedService = $stmt->fetch() ?: null;
+        }
+
+        $intent = is_string($_GET['intent'] ?? null) ? trim($_GET['intent']) : '';
+        $isProjectIntent = $intent === 'project';
+
+        $title = $isProjectIntent || $requestedService ? 'Mulai Proyek' : 'Hubungi Kami';
         require VIEW_PATH . '/contact.php';
     }
 
@@ -323,6 +342,21 @@ class PageController
         verifyCsrf();
 
         $inquiryType = trim($_POST['inquiry_type'] ?? 'Klien Baru') ?: 'Klien Baru';
+        $serviceSlug = is_string($_POST['service'] ?? null) ? trim($_POST['service']) : '';
+        $intent = is_string($_POST['intent'] ?? null) ? trim($_POST['intent']) : '';
+        $returnParams = [];
+
+        if (preg_match('/^[a-z0-9-]{1,120}$/', $serviceSlug)) {
+            $returnParams['service'] = $serviceSlug;
+        }
+        if ($intent === 'project') {
+            $returnParams['intent'] = 'project';
+        }
+
+        $returnUrl = APP_URL . '/contact';
+        if ($returnParams !== []) {
+            $returnUrl .= '?' . http_build_query($returnParams);
+        }
 
         $v = new Validator($_POST);
         $v->required(['name','email','body'])->email('email');
@@ -333,7 +367,7 @@ class PageController
         if (!$v->passes()) {
             Session::flash('errors', $v->errors());
             Session::flash('old', $_POST);
-            redirect(APP_URL . '/contact');
+            redirect($returnUrl . '#form-konsultasi');
         }
 
         $payload = [
@@ -368,7 +402,10 @@ class PageController
             ]);
         }
 
-        Session::flash('success', 'Pesan Anda telah terkirim. Pilih cara konsultasi yang paling nyaman.');
+        $isProjectSubmission = $intent === 'project' || $serviceSlug !== '';
+        Session::flash('success', $isProjectSubmission
+            ? 'Brief proyek Anda telah terkirim. Tim akan menghubungi Anda dalam ≤24 jam.'
+            : 'Pesan Anda telah terkirim. Pilih cara konsultasi yang paling nyaman.');
         Session::flash('consult_modal', '1');
         redirect(APP_URL . '/contact#form-konsultasi');
     }

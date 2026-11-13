@@ -64,6 +64,21 @@ function site_wa_url(string $text = ''): string
     return $url;
 }
 
+/**
+ * Satu pintu masuk konversi utama: "Mulai Proyek".
+ * Semua CTA primer publik diarahkan ke halaman kontak dengan konteks yang relevan.
+ */
+function site_start_project_url(?string $serviceSlug = null): string
+{
+    $url = APP_URL . '/contact?intent=project';
+
+    if ($serviceSlug !== null && $serviceSlug !== '') {
+        $url .= '&service=' . rawurlencode($serviceSlug);
+    }
+
+    return $url . '#form-konsultasi';
+}
+
 function site_maps_embed_src(): string
 {
     $q = site_setting('site_maps_query', site_setting('site_address'));
@@ -74,7 +89,7 @@ function site_maps_embed_src(): string
  * Statistik publik yang bisa dipertanggungjawabkan (dihitung dari database).
  * Dipakai untuk menggantikan klaim angka hardcoded di halaman publik.
  *
- * @return array{projects:int,categories:int,services:int,testimonials:int}
+ * @return array{projects:int,sample_projects:int,categories:int,services:int,testimonials:int}
  */
 function site_stats(): array
 {
@@ -84,10 +99,11 @@ function site_stats(): array
     }
 
     $stats = [
-        'projects'     => 0,
-        'categories'   => 0,
-        'services'     => 0,
-        'testimonials' => 0,
+        'projects'        => 0,
+        'sample_projects' => 0,
+        'categories'      => 0,
+        'services'        => 0,
+        'testimonials'    => 0,
     ];
 
     try {
@@ -104,10 +120,36 @@ function site_stats(): array
         $stats['testimonials'] = (int) $db->query(
             'SELECT COUNT(*) FROM testimonials'
         )->fetchColumn();
+
+        try {
+            $stats['sample_projects'] = (int) $db->query(
+                'SELECT COUNT(*) FROM portfolio WHERE is_published = 1 AND is_sample = 1'
+            )->fetchColumn();
+        } catch (Throwable $e) {
+            // Kolom is_sample belum tersedia — anggap belum ada konten sampel.
+        }
     } catch (Throwable $e) {
         // Tabel belum tersedia — biarkan nol, view memakai fallback yang aman.
     }
 
     $cache = $stats;
     return $cache;
+}
+
+/**
+ * Label statistik portfolio yang tidak membaca konten sampel sebagai karya asli.
+ */
+function site_project_label(): string
+{
+    $stats = site_stats();
+    $total = (int) ($stats['projects'] ?? 0);
+    $samples = (int) ($stats['sample_projects'] ?? 0);
+
+    if ($total > 0 && $samples >= $total) {
+        return 'Contoh studi kasus';
+    }
+    if ($samples > 0) {
+        return 'Studi kasus & sampel';
+    }
+    return 'Studi kasus';
 }

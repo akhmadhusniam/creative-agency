@@ -1,17 +1,21 @@
 <?php
 /**
  * partials/footer.php — footer global
+ * Variabel opsional: $hideFooterCta (bool) untuk menyembunyikan ajakan di halaman konversi.
  */
+$hideFooterCta = $hideFooterCta ?? false;
 ?>
 <footer class="footer">
+  <?php if (!$hideFooterCta): ?>
   <div class="footer-cta">
     <div>
       <div class="fc-title">Siap mulai proyek Anda?</div>
-      <p>Konsultasi pertama gratis dan tanpa komitmen. Ceritakan kebutuhan Anda — kami bantu tentukan langkah terbaik.</p>
+      <p>Ceritakan kebutuhan Anda — kami bantu petakan lingkup, waktu, dan kisaran biayanya.</p>
     </div>
-    <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>"
-       class="btn btn-accent" target="_blank" rel="noopener" data-cta="footer-consult">Konsultasi Gratis →</a>
+    <a href="<?= e(site_start_project_url()) ?>"
+       class="fc-link" data-cta="footer-start-project">Mulai Proyek →</a>
   </div>
+  <?php endif; ?>
   <div class="footer-top">
     <div>
       <div class="f-logo">creative<span>.</span></div>

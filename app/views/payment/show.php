@@ -49,7 +49,7 @@ a { color: inherit; text-decoration: none; }
     <div class="card">
       <h2>Pilih Metode Pembayaran</h2>
       <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: .95rem;">
-        Silakan pilih metode pembayaran yang Anda inginkan untuk menyelesaikan pesanan ini.
+        Pembayaran dilakukan penuh untuk pesanan ini. Silakan pilih metode pembayaran yang Anda inginkan.
       </p>
 
       <form action="<?= APP_URL ?>/payment/process" method="POST">

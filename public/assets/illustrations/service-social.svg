@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-labelledby="title" shape-rendering="geometricPrecision">
+<title id="title">Ilustrasi isometrik social media dengan ponsel dan kartu konten</title>
+
+<defs>
+  <linearGradient id="gTop" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E4E9E5"/>
+  </linearGradient>
+  <linearGradient id="gPaper" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F3F6F4"/>
+  </linearGradient>
+  <linearGradient id="gRight" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#B7C7BC"/><stop offset="1" stop-color="#8FA99A"/>
+  </linearGradient>
+  <linearGradient id="gLeft" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#6F8F7C"/><stop offset="1" stop-color="#456B55"/>
+  </linearGradient>
+  <linearGradient id="gInkTop" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#28513A"/><stop offset="1" stop-color="#122A1C"/>
+  </linearGradient>
+  <linearGradient id="gInkSide" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#183624"/><stop offset="1" stop-color="#0D2015"/>
+  </linearGradient>
+  <linearGradient id="gLime" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#E5FF9E"/><stop offset="1" stop-color="#C8FF4D"/>
+  </linearGradient>
+  <linearGradient id="gLimeSide" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#AEE63D"/><stop offset="1" stop-color="#7DA525"/>
+  </linearGradient>
+  <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#C8FF4D" stop-opacity=".20"/>
+    <stop offset="65%" stop-color="#C8FF4D" stop-opacity=".05"/>
+    <stop offset="100%" stop-color="#C8FF4D" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="gOrb" cx="32%" cy="25%" r="72%">
+    <stop offset="0" stop-color="#F3FFD4"/><stop offset="45%" stop-color="#D7FF70"/><stop offset="1" stop-color="#9ED12D"/>
+  </radialGradient>
+</defs>
+
+<polygon points="151.34,69 227.55,113 168.66,147 92.45,103" fill="#122A1C" opacity="0.04" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+<polygon points="151.34,64 227.55,108 168.66,142 92.45,98" fill="#122A1C" opacity="0.06" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+<polygon points="151.34,60 227.55,104 168.66,138 92.45,94" fill="#122A1C" opacity="0.09" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+<polygon points="227.55,101 168.66,135 168.66,130 227.55,96" fill="#B7C7BC" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="92.45,91 168.66,135 168.66,130 92.45,86" fill="#8FA99A" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="151.34,52 227.55,96 168.66,130 92.45,86" fill="url(#gTop)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="182.52,96 128.82,127 128.82,120 182.52,89" fill="url(#gInkSide)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="99.38,110 128.82,127 128.82,120 99.38,103" fill="url(#gInkSide)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="153.07,72 182.52,89 128.82,120 99.38,103" fill="url(#gInkTop)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="114.97,97.65 137.48,110.65 130.56,114.65 108.04,101.65" fill="#C8FF4D" opacity="0.9" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="123.63,92.65 137.48,100.65 132.29,103.65 118.43,95.65" fill="#FFFFFF" opacity="0.82" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="132.29,87.65 149.61,97.65 145.28,100.15 127.96,90.15" fill="#527C61" opacity="0.42" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="142.68,81.65 165.2,94.65 158.27,98.65 135.75,85.65" fill="url(#gInkTop)" opacity="0.9" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<path d="M 150.47 91.5 C 142.47 83.5, 149.47 77.5, 150.47 83.5 C 151.47 77.5, 158.47 83.5, 150.47 91.5" fill="#C8FF4D" stroke="#C8FF4D" stroke-width="1.2" stroke-opacity="0.95" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="236.21,68 217.16,79 217.16,75 236.21,64" fill="url(#gLimeSide)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="192.91,65 217.16,79 217.16,75 192.91,61" fill="url(#gLimeSide)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="211.96,50 236.21,64 217.16,75 192.91,61" fill="url(#gLime)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<path d="M 214.56 64.5 C 208.56 58.5, 213.56 54.5, 214.56 58.5 C 215.56 54.5, 220.56 58.5, 214.56 64.5" fill="#122A1C" stroke="#122A1C" stroke-width="1.2" stroke-opacity="0.85" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="139.22,68 118.43,80 118.43,76 139.22,64" fill="url(#gRight)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="88.99,63 118.43,80 118.43,76 88.99,59" fill="url(#gLeft)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="109.77,47 139.22,64 118.43,76 88.99,59" fill="url(#gPaper)" opacity="1" stroke="rgba(18,42,28,.12)" stroke-width="0.65" stroke-linejoin="round" />
+<polygon points="108.9,52.15 128.82,63.65 127.09,64.65 107.17,53.15" fill="#C8FF4D" opacity="0.8" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="103.71,55.15 123.63,66.65 121.89,67.65 101.98,56.15" fill="#527C61" opacity="0.8" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<polygon points="98.51,58.15 118.43,69.65 116.7,70.65 96.78,59.15" fill="#122A1C" opacity="0.8" stroke="none" stroke-width="0.35" stroke-linejoin="round" />
+<circle cx="182.05" cy="104" r="6" fill="#122A1C" opacity="0.18"/>
+<circle cx="179.05" cy="99" r="6" fill="url(#gOrb)" opacity="1"/>
+<circle cx="177.01" cy="96.72" r="1.08" fill="#FFFFFF" opacity="0.5"/>
+<polygon points="156.54,3 157.26,5.58 159.13,7.5 157.26,7.26 156.54,9 155.81,6.42 153.94,4.5 155.81,4.74" fill="#C8FF4D" opacity="0.8" stroke="none" stroke-width="0.7" stroke-linejoin="round" />
+</svg>

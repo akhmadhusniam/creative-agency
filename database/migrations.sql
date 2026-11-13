@@ -190,6 +190,16 @@ CREATE INDEX idx_portfolio_published ON portfolio(is_published);
 ALTER TABLE testimonials ADD COLUMN IF NOT EXISTS is_sample TINYINT(1) NOT NULL DEFAULT 0 AFTER is_featured;
 
 -- ============================================================
+--  Phase 5: Selaraskan copy kebijakan layanan
+--  "Revisi tak terbatas" tidak lagi dipakai; revisi mengikuti
+--  jumlah dan ketentuan paket yang dipilih.
+-- ============================================================
+
+UPDATE service_features
+SET feature = 'Revisi sesuai paket'
+WHERE feature = 'Revisi tak terbatas';
+
+-- ============================================================
 --  Status: Ready untuk Phase 1 & 2
 --  Jalankan script ini di MySQL untuk setup database
 -- ============================================================

@@ -228,19 +228,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
   text-align: center;
 }
 .order-cta-main:hover { transform: translate(-2px,-2px); box-shadow: 2px 2px 0 var(--ink); }
-.order-cta-whatsapp-main { background: #25D366; }
-.order-cta-whatsapp-main:hover { background: #1EBE57; }
-.order-cta-whatsapp {
-  display: flex; align-items: center; justify-content: center; gap: .5rem;
-  width: 100%; padding: .85rem;
-  background: #25D366; color: #fff;
-  border-radius: var(--radius);
-  font-family: var(--ff-head); font-weight: 700; font-size: .9rem;
-  margin-top: .75rem;
-  transition: background .2s, transform .15s;
-  text-align: center;
-}
-.order-cta-whatsapp:hover { background: #1EBE57; transform: translateY(-1px); }
+.order-cta-main:focus-visible, .order-cta-secondary:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .order-cta-secondary {
   display: block; text-align: center;
   padding: .75rem;
@@ -250,6 +238,10 @@ $catSlug   = $service['category_slug'] ?? 'default';
   transition: all .18s;
 }
 .order-cta-secondary:hover { border-color: var(--ink); color: var(--ink); }
+.order-cta-note {
+  margin-top: .55rem; text-align: center;
+  font-size: .72rem; color: var(--muted); line-height: 1.5;
+}
 
 /* Guarantee strip */
 .guarantee-strip {
@@ -339,10 +331,10 @@ $catSlug   = $service['category_slug'] ?? 'default';
             </div>
             <?php endif; ?>
             <div class="hero-meta-pill">
-              💬 Revisi <strong>&nbsp;tersedia</strong>
+              💬 Revisi <strong>&nbsp;sesuai paket</strong>
             </div>
             <div class="hero-meta-pill">
-              📁 File source <strong>&nbsp;disertakan</strong>
+              📁 File source <strong>&nbsp;sesuai paket</strong>
             </div>
           </div>
         </div>
@@ -383,10 +375,10 @@ $catSlug   = $service['category_slug'] ?? 'default';
           $defaultFeatures = [
             'Konsultasi awal gratis',
             'Revisi sesuai paket yang dipilih',
-            'File final siap pakai (PNG, PDF, SVG)',
-            'Pengiriman tepat waktu sesuai deadline',
+            'File final sesuai format paket',
+            'Timeline pengerjaan yang jelas',
             'Komunikasi aktif selama pengerjaan',
-            'Garansi kepuasan klien',
+            'Garansi kesesuaian brief',
           ];
           foreach ($defaultFeatures as $f): ?>
             <div class="feature-item">
@@ -404,11 +396,11 @@ $catSlug   = $service['category_slug'] ?? 'default';
         <div class="process-list">
           <?php
           $processes = [
-            ['Brief & Konsultasi',   'Anda mengisi form brief dan menjelaskan kebutuhan. Kami akan menghubungi Anda dalam 1x24 jam untuk konfirmasi dan klarifikasi.'],
-            ['Pembayaran',           'Lakukan pembayaran sesuai paket yang dipilih. Tersedia berbagai metode: transfer bank, QRIS, GoPay, OVO, dan lainnya.'],
+            ['Brief & Konsultasi',   'Anda mengisi form brief dan menjelaskan kebutuhan. Kami akan menghubungi Anda dalam target ≤24 jam untuk konfirmasi dan klarifikasi.'],
+            ['Pembayaran',           'Lakukan pembayaran penuh di awal melalui Midtrans — transfer bank, QRIS, GoPay, OVO, atau kartu kredit. Pengerjaan dimulai setelah pembayaran terkonfirmasi.'],
             ['Pengerjaan',           'Tim kami mulai mengerjakan proyek. Anda akan mendapat update progres secara berkala melalui dashboard atau WhatsApp.'],
-            ['Presentasi & Revisi',  'Kami mempresentasikan hasil awal. Anda dapat memberikan masukan dan meminta revisi sesuai ketentuan paket.'],
-            ['Selesai & Serah Terima','Setelah disetujui, semua file final diserahkan melalui dashboard. Proyek selesai dan Anda mendapat file dalam format yang disepakati.'],
+            ['Presentasi & Revisi',  'Kami mempresentasikan hasil awal. Anda dapat meminta revisi sesuai jumlah dan ketentuan paket. Perubahan di luar brief dihitung sebagai scope tambahan.'],
+            ['Selesai & Serah Terima','Setelah hasil disetujui, semua file final diserahkan melalui dashboard dalam format yang disepakati.'],
           ];
           foreach ($processes as $i => $p): ?>
             <div class="process-item">
@@ -429,11 +421,11 @@ $catSlug   = $service['category_slug'] ?? 'default';
           <?php
           // FAQ umum + FAQ spesifik per kategori layanan
           $faqGeneral = [
-            ['Berapa lama proses pengerjaan?', 'Estimasi waktu pengerjaan sudah tercantum di halaman ini. Namun waktu aktual bergantung pada kecepatan brief yang diberikan, jumlah revisi, dan kompleksitas proyek. Kami selalu berusaha menyelesaikan tepat atau lebih cepat dari estimasi.'],
-            ['Berapa kali saya bisa revisi?', 'Jumlah revisi bergantung pada paket yang dipilih. Revisi yang dihitung adalah perubahan signifikan pada desain, bukan koreksi minor seperti typo atau perubahan warna kecil.'],
-            ['Bagaimana cara melakukan pembayaran?', 'Pembayaran dilakukan melalui platform kami yang terintegrasi dengan Midtrans — mendukung transfer bank (BCA, Mandiri, BNI, BRI), QRIS, GoPay, OVO, dan kartu kredit. Aman dan terkonfirmasi otomatis.'],
-            ['Apakah saya mendapat file source-nya?', 'Ya. Setelah proyek selesai, Anda akan mendapatkan file final dalam format yang disepakati (biasanya PNG, SVG, PDF, dan file source seperti AI, PSD, atau Figma), tergantung paket yang dipilih.'],
-            ['Bagaimana jika saya tidak puas dengan hasilnya?', 'Kepuasan Anda adalah prioritas kami. Jika Anda tidak puas setelah revisi pertama, kami akan berdiskusi untuk menemukan solusi terbaik. Dalam kasus tertentu, pengembalian dana parsial dapat dilakukan sesuai kebijakan kami.'],
+            ['Berapa lama proses pengerjaan?', 'Estimasi waktu pengerjaan sudah tercantum di halaman ini. Waktu aktual dapat dipengaruhi kecepatan brief, jumlah revisi, dan kompleksitas proyek. Kami akan menginformasikan jika ada perubahan timeline.'],
+            ['Berapa kali saya bisa revisi?', 'Jumlah revisi mengikuti paket yang dipilih dan tercantum pada bagian “Yang Anda Dapatkan”. Revisi mencakup penyesuaian pada konsep yang disetujui, bukan perubahan arah atau penambahan scope baru.'],
+            ['Bagaimana cara melakukan pembayaran?', 'Pembayaran dilakukan penuh di awal melalui Midtrans — transfer bank (BCA, Mandiri, BNI, BRI), QRIS, GoPay, OVO, atau kartu kredit. Pengerjaan dimulai setelah pembayaran terkonfirmasi.'],
+            ['Apakah saya mendapat file source-nya?', 'File source diberikan jika termasuk dalam paket yang dipilih. Format final dan source mengikuti rincian paket; jika belum tercantum, tim akan mengonfirmasi sebelum pengerjaan.'],
+            ['Bagaimana jika hasil belum sesuai brief?', 'Kami memberikan garansi kesesuaian brief. Jika hasil belum sesuai brief yang disetujui, kami revisi sesuai ketentuan paket. Perubahan di luar brief dihitung sebagai scope tambahan.'],
           ];
 
           $faqByCategory = [
@@ -480,6 +472,16 @@ $catSlug   = $service['category_slug'] ?? 'default';
     <aside class="detail-sidebar">
 
       <!-- Kartu order -->
+      <?php
+      $waIntent = $service['price_type'] === 'fixed'
+          ? 'memesan'
+          : ($service['price_type'] === 'starting_from' ? 'minta penawaran untuk' : 'berdiskusi tentang');
+      $waMessage = 'Halo Creative Studio, saya ingin ' . $waIntent . ' paket "' . $service['name'] . '". Bisa dibantu info langkah selanjutnya?';
+      $projectUrl = site_start_project_url($service['slug']);
+      $projectCtaLabel = $service['price_type'] === 'fixed'
+          ? 'Pesan Paket'
+          : ($service['price_type'] === 'starting_from' ? 'Minta Penawaran' : 'Diskusikan Proyek');
+      ?>
       <div class="order-card">
         <div class="order-card-header">
           <div class="order-price-label">
@@ -489,7 +491,9 @@ $catSlug   = $service['category_slug'] ?? 'default';
             <?= $service['price_type'] === 'custom' ? 'Diskusi' : formatRupiah((float)$service['price']) ?>
           </div>
           <?php if ($service['price_type'] === 'starting_from'): ?>
-            <div class="order-price-type">Harga akhir tergantung kebutuhan</div>
+            <div class="order-price-type">Harga dasar paket; penambahan scope dihitung terpisah</div>
+          <?php elseif ($service['price_type'] === 'custom'): ?>
+            <div class="order-price-type">Harga ditentukan setelah brief dan lingkup disepakati</div>
           <?php endif; ?>
         </div>
 
@@ -503,11 +507,11 @@ $catSlug   = $service['category_slug'] ?? 'default';
             <?php endif; ?>
             <div class="order-meta-row">
               <span class="meta-key">🔁 Revisi</span>
-              <span class="meta-val">Tersedia</span>
+              <span class="meta-val">Sesuai paket</span>
             </div>
             <div class="order-meta-row">
               <span class="meta-key">📁 Format file</span>
-              <span class="meta-val">PNG, SVG, PDF</span>
+              <span class="meta-val">Sesuai paket</span>
             </div>
             <div class="order-meta-row">
               <span class="meta-key">💬 Konsultasi</span>
@@ -515,18 +519,25 @@ $catSlug   = $service['category_slug'] ?? 'default';
             </div>
           </div>
 
-          <a href="<?= APP_URL ?>/contact#form-konsultasi" class="order-cta-secondary" data-cta="service-detail-form">
-            ✉ Tanya Lewat Form
+          <a href="<?= e($projectUrl) ?>" class="order-cta-main"
+             data-cta="service-detail-start-project">
+            <?= e($projectCtaLabel) ?> →
+          </a>
+          <div class="order-cta-note">Dibalas target ≤24 jam · tanpa komitmen</div>
+
+          <a href="<?= e(site_wa_url($waMessage)) ?>" class="order-cta-secondary"
+             target="_blank" rel="noopener" data-cta="service-detail-order-wa">
+            atau chat WhatsApp
           </a>
 
           <div class="guarantee-strip" style="margin-top: .6rem;">
             <span class="guarantee-icon">💳</span>
-            <span>Mulai proyek cukup dengan DP — pelunasan setelah hasil selesai dan Anda setujui.</span>
+            <span>Pembayaran penuh di awal via Midtrans setelah lingkup dan harga final disepakati. Pengerjaan dimulai setelah pembayaran terkonfirmasi.</span>
           </div>
 
           <div class="guarantee-strip">
             <span class="guarantee-icon">🛡</span>
-            <span>Garansi kepuasan — hasil tidak sesuai brief? Kami revisi hingga Anda puas.</span>
+            <span>Garansi kesesuaian brief — revisi sesuai ketentuan paket.</span>
           </div>
         </div>
       </div>
@@ -639,7 +650,11 @@ if (typeof IntersectionObserver !== 'undefined') {
 }
 </script>
 
-<?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
+<?php
+$mobileCtaLabel = $projectCtaLabel;
+$mobileCtaUrl = $projectUrl;
+require VIEW_PATH . '/partials/mobile-cta.php';
+?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>
 </body>
 </html>

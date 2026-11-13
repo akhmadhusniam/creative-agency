@@ -141,11 +141,12 @@ html.js .reveal.visible{opacity:1;transform:translateY(0)}
 .footer-cta{max-width:var(--container);margin:0 auto 2.5rem;padding-bottom:2.5rem;border-bottom:1px solid #26402F;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
 .footer-cta .fc-title{font-family:var(--fh);font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem;letter-spacing:-.01em}
 .footer-cta p{font-size:.85rem;color:#A9B8AE;max-width:52ch;line-height:1.7}
+.fc-link{font-family:var(--fm);font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:.15rem;white-space:nowrap;transition:opacity .15s}
+.fc-link:hover{opacity:.72}
 
 /* MOBILE STICKY CTA */
 .mobile-cta-bar{display:none}
 .mcb{display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:46px;border-radius:10px;font-family:var(--fm);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
-.mcb-wa{background:var(--ink);color:#fff}
 .mcb-consult{background:var(--accent);color:var(--ink);border:1.5px solid var(--ink)}
 
 /* SMALL UTILITIES */
@@ -178,11 +179,10 @@ html.js .reveal.visible{opacity:1;transform:translateY(0)}
   .f-social a{width:44px;height:44px}
   body{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
   .mobile-cta-bar{
-    display:grid;grid-template-columns:1fr 1fr;gap:.5rem;position:fixed;left:0;right:0;bottom:0;z-index:400;
+    display:grid;grid-template-columns:1fr;gap:.5rem;position:fixed;left:0;right:0;bottom:0;z-index:400;
     padding:.5rem .75rem calc(.5rem + env(safe-area-inset-bottom));
     background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line)
   }
-  .wa-float{display:none!important}
   .footer-cta{flex-direction:column;align-items:flex-start}
 }
 .nav-hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}

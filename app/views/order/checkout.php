@@ -340,12 +340,12 @@ select:focus {
 
           <div class="summary-row">
             <span class="summary-row-key">🔁 Revisi</span>
-            <span class="summary-row-val">Tersedia</span>
+            <span class="summary-row-val">Sesuai paket</span>
           </div>
 
           <div class="summary-row">
             <span class="summary-row-key">📁 Format File</span>
-            <span class="summary-row-val">PNG, SVG, PDF</span>
+            <span class="summary-row-val">Sesuai paket</span>
           </div>
 
           <!-- Price -->
@@ -360,10 +360,17 @@ select:focus {
             </span>
           </div>
 
+          <?php if ($service['price_type'] === 'starting_from'): ?>
+          <div style="margin-top: 1rem; padding: .8rem; background: var(--paper); border-radius: var(--radius); font-size: .8rem; color: var(--muted);">
+            <strong>💡 Harga dasar:</strong><br>
+            Total di atas adalah harga dasar paket. Penambahan scope akan diinformasikan sebelum pengerjaan.
+          </div>
+          <?php endif; ?>
+
           <!-- Info tambahan -->
           <div style="margin-top: 1rem; padding: .8rem; background: var(--paper); border-radius: var(--radius); font-size: .8rem; color: var(--muted);">
             <strong>💡 Catatan:</strong><br>
-            Setelah submit, Anda akan diarahkan ke halaman pembayaran untuk menyelesaikan transaksi.
+            Setelah submit, Anda akan diarahkan ke pembayaran penuh melalui Midtrans. Pengerjaan dimulai setelah pembayaran terkonfirmasi.
           </div>
         </div>
       </div>

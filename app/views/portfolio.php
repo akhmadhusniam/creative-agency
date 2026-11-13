@@ -4,18 +4,24 @@
 // ============================================================
 
 $portfolioCount = count($portfolio);
+$portfolioSampleCount = count(array_filter($portfolio, fn($p) => !empty($p['is_sample'])));
+$portfolioHasSample = $portfolioSampleCount > 0;
 $usedCategories = array_values(array_unique(array_filter(array_column($portfolio, 'category_id'))));
 
 $seo = [
     'title'       => 'Portfolio',
-    'description' => 'Studi kasus branding, UI/UX, social media, motion, dan print dari Creative Studio. Lihat proses, solusi, dan hasil setiap proyek.',
+    'description' => $portfolioHasSample
+        ? 'Portfolio desain Creative Studio dengan contoh studi kasus branding, UI/UX, social media, motion, dan print. Lihat proses, solusi, dan hasil setiap proyek.'
+        : 'Studi kasus branding, UI/UX, social media, motion, dan print dari Creative Studio. Lihat proses, solusi, dan hasil setiap proyek.',
     'canonical'   => APP_URL . '/portfolio',
     'jsonLd'      => [
         [
             '@context'    => 'https://schema.org',
             '@type'       => 'CollectionPage',
             'name'        => 'Portfolio — ' . site_setting('site_name', APP_NAME),
-            'description' => 'Kumpulan studi kasus proyek desain Creative Studio.',
+            'description' => $portfolioHasSample
+                ? 'Kumpulan studi kasus dan contoh proyek desain Creative Studio.'
+                : 'Kumpulan studi kasus proyek desain Creative Studio.',
             'url'         => APP_URL . '/portfolio',
         ],
         [
@@ -181,6 +187,9 @@ if ($portfolio) {
     </div>
     <h1>Karya yang Punya<br><em>Cerita di Baliknya</em></h1>
     <p>Setiap proyek dimulai dari percakapan, dibangun dengan proses yang terstruktur, dan diakhiri dengan hasil yang klien bangga miliki.</p>
+    <?php if ($portfolioSampleCount): ?>
+      <p style="margin-top:.8rem;font-size:.78rem;color:#A9B8AE">Studi kasus berlabel “Sampel” adalah konten contoh, bukan proyek klien asli.</p>
+    <?php endif; ?>
   </div>
 </section>
 
@@ -189,7 +198,7 @@ if ($portfolio) {
   <div class="port-stats-inner reveal">
     <?php
     $ps = [
-        [ (string) $portfolioCount, 'Studi kasus'],
+        [ (string) $portfolioCount, site_project_label()],
         [ (string) count($usedCategories), 'Kategori layanan'],
         [ 'Rp0', 'Konsultasi awal'],
     ];
@@ -282,7 +291,7 @@ if ($portfolio) {
       <p>Konsultasikan kebutuhan visual bisnis Anda. Gratis, tanpa komitmen, dan kami siap membantu.</p>
     </div>
     <div class="cta-strip-btns">
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="portfolio-cta-wa">💬 Konsultasi Gratis →</a>
+      <a href="<?= e(site_start_project_url()) ?>" class="btn-cta-p" data-cta="portfolio-cta-start">Mulai Proyek →</a>
       <a href="<?= APP_URL ?>/services" class="btn-cta-g" data-cta="portfolio-cta-services">Lihat Layanan</a>
     </div>
   </div>
@@ -321,7 +330,7 @@ if (typeof IntersectionObserver !== 'undefined') {
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 </script>
-<?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
+<?php require VIEW_PATH . '/partials/mobile-cta.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>
 </body>
 </html>

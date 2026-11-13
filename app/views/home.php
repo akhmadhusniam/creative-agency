@@ -1,6 +1,15 @@
 <?php
 // Statistik dihitung dari database agar tidak ada klaim angka hardcoded.
 $publicStats = site_stats();
+$projectTotal = (int) $publicStats['projects'];
+$projectSamples = (int) ($publicStats['sample_projects'] ?? 0);
+$projectAllSample = $projectTotal > 0 && $projectSamples >= $projectTotal;
+$projectLabel = site_project_label();
+$projectCardLabel = $projectAllSample ? 'Contoh Studi Kasus' : 'Studi Kasus';
+$projectNote = $projectAllSample ? 'Konten sampel' : ($projectSamples > 0 ? 'Termasuk sampel' : 'Terpublikasi');
+$projectNumberLabel = $projectAllSample
+    ? 'Contoh studi kasus<br>di portfolio'
+    : ($projectSamples > 0 ? 'Studi kasus &amp; sampel<br>terpublikasi' : 'Studi kasus<br>terpublikasi');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -75,20 +84,23 @@ $publicStats = site_stats();
 }
 .btn-hero-g:hover{border-color:var(--accent);color:var(--accent)}
 
-/* Hero dashboard cards */
-.hero-visual{display:flex;flex-direction:column;gap:1rem}
-.hv-card{border-radius:14px;padding:1.5rem;position:relative;overflow:hidden}
-.hv-main{background:#161616;border:1px solid #222}
-.hv-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
-.hv-sm{background:#111;border:1px solid #1c1c1c;border-radius:12px;padding:1.1rem}
-.hv-lbl{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#A9B8AE;margin-bottom:.3rem}
-.hv-ttl{font-family:var(--fh);font-weight:700;font-size:.95rem;color:#fff;line-height:1.3}
-.hv-sub{font-size:.75rem;color:#B7C7BC;margin-top:.2rem}
-.hv-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:.35rem}
-.hv-num{font-family:var(--fh);font-weight:800;font-size:1.75rem;color:#fff;line-height:1}
-.hv-num sup{font-size:.9rem;color:var(--accent)}
-.hv-bar{height:3px;background:var(--accent);border-radius:2px;margin-top:.85rem;width:43%}
-.hv-icon{font-size:1.8rem;margin-bottom:.5rem;opacity:.8}
+/* Hero illustration + floating UI cards */
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center;padding:1rem 0}
+.hero-ill{display:block;width:100%;max-width:620px}
+.hero-ill img{width:100%;height:auto;filter:drop-shadow(0 30px 38px rgba(0,0,0,.28))}
+.hero-float{
+  position:absolute;z-index:2;background:#fff;border:1px solid rgba(18,42,28,.12);
+  border-radius:14px;padding:1rem 1.1rem;
+  box-shadow:0 18px 44px rgba(0,0,0,.28);
+}
+.hero-float-main{top:4%;left:0;width:min(245px,48%)}
+.hero-float-stat{bottom:5%;right:0;width:min(165px,38%)}
+.hero-float .hv-lbl{font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.hero-float .hv-ttl{font-family:var(--fh);font-weight:700;font-size:.88rem;color:var(--ink);line-height:1.3}
+.hero-float .hv-sub{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+.hero-float .hv-dot{width:7px;height:7px;border-radius:50%;background:#2F5D14;display:inline-block;margin-right:.35rem}
+.hero-float .hv-num{font-family:var(--fh);font-weight:800;font-size:2rem;color:var(--ink);line-height:1}
+.hero-float .hv-bar{height:3px;background:#2F5D14;border-radius:2px;margin-top:.85rem;width:43%}
 
 /* Hero stats row */
 .hero-stats{
@@ -346,9 +358,11 @@ h2.stitle{
   .proc-grid{grid-template-columns:repeat(3,1fr);gap:2rem}
   .proc-grid::before{display:none}
 }
-@media(max-width:768px){
-  .hero-inner{grid-template-columns:1fr}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:2rem}
   .hero-visual{display:none}
+}
+@media(max-width:768px){
   .hero-stats{grid-template-columns:repeat(2,1fr)}
   .num-grid{grid-template-columns:1fr}
   .cta-inner{grid-template-columns:1fr}
@@ -395,42 +409,29 @@ h2.stitle{
       </h1>
       <p class="hero-desc">Kami membantu bisnis tumbuh lewat desain yang strategis — dari identitas merek hingga pengalaman digital, semua dikerjakan dengan presisi dan tujuan.</p>
       <div class="hero-actions">
-        <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-hero-p" target="_blank" rel="noopener" data-cta="hero-consult">
-          Konsultasi Gratis →
+        <a href="<?= e(site_start_project_url()) ?>" class="btn-hero-p" data-cta="hero-start-project">
+          Mulai Proyek →
         </a>
         <a href="<?= APP_URL ?>/portfolio" class="btn-hero-g" data-cta="hero-portfolio">Lihat Portfolio</a>
       </div>
     </div>
 
-    <!-- Right — dashboard preview cards -->
+    <!-- Right — isometric studio illustration + live UI cards -->
     <div class="hero-visual" aria-hidden="true">
-      <div class="hv-card hv-main">
+      <picture class="hero-ill">
+        <source media="(min-width: 901px)" srcset="<?= APP_URL ?>/assets/illustrations/hero-studio.svg">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="600" height="507" loading="eager" decoding="async" fetchpriority="high">
+      </picture>
+      <div class="hero-float hero-float-main">
         <div class="hv-lbl">Proyek Aktif</div>
         <div class="hv-ttl">Brand Identity — Proyek Baru</div>
         <div class="hv-sub"><span class="hv-dot"></span>Sedang dikerjakan · Tahap eksplorasi</div>
         <div class="hv-bar"></div>
       </div>
-      <div class="hv-row">
-        <div class="hv-sm">
-          <div class="hv-lbl">Studi Kasus</div>
-          <div class="hv-num"><?= (int) $publicStats['projects'] ?></div>
-          <div class="hv-sub" style="margin-top:.3rem">Terpublikasi</div>
-        </div>
-        <div class="hv-sm">
-          <div class="hv-lbl">Kategori Layanan</div>
-          <div class="hv-num"><?= (int) $publicStats['categories'] ?></div>
-          <div class="hv-sub" style="margin-top:.3rem">Desain &amp; digital</div>
-        </div>
-        <div class="hv-sm">
-          <div class="hv-lbl">Layanan</div>
-          <div class="hv-icon">✦</div>
-          <div class="hv-ttl" style="font-size:.82rem">Branding</div>
-        </div>
-        <div class="hv-sm">
-          <div class="hv-lbl">Layanan</div>
-          <div class="hv-icon">◈</div>
-          <div class="hv-ttl" style="font-size:.82rem">UI/UX</div>
-        </div>
+      <div class="hero-float hero-float-stat">
+        <div class="hv-lbl"><?= e($projectCardLabel) ?></div>
+        <div class="hv-num"><?= $projectTotal ?></div>
+        <div class="hv-sub"><?= e($projectNote) ?></div>
       </div>
     </div>
   </div>
@@ -438,8 +439,8 @@ h2.stitle{
   <!-- Stats row -->
   <div class="hero-stats">
     <div class="hero-stat">
-      <div class="stat-num"><?= (int) $publicStats['projects'] ?></div>
-      <div class="stat-lbl">Studi kasus</div>
+      <div class="stat-num"><?= $projectTotal ?></div>
+      <div class="stat-lbl"><?= e($projectLabel) ?></div>
     </div>
     <div class="hero-stat">
       <div class="stat-num"><?= (int) $publicStats['categories'] ?></div>
@@ -450,8 +451,8 @@ h2.stitle{
       <div class="stat-lbl">Konsultasi awal</div>
     </div>
     <div class="hero-stat">
-      <div class="stat-num">1<em>×24</em></div>
-      <div class="stat-lbl">Respons proposal</div>
+      <div class="stat-num">≤24<em> jam</em></div>
+      <div class="stat-lbl">Target respons proposal</div>
     </div>
   </div>
 </section>
@@ -529,12 +530,29 @@ h2.stitle{
 </section>
 
 <!-- ── PORTFOLIO ──────────────────────────────────────────── -->
+<?php
+$homePortfolio = array_slice($portfolio, 0, 5);
+$homePortfolioSamples = count(array_filter($homePortfolio, fn($p) => !empty($p['is_sample'])));
+$homePortfolioHasSample = $homePortfolioSamples > 0;
+$homePortfolioAllSample = $homePortfolio && $homePortfolioSamples === count($homePortfolio);
+?>
 <section class="section" style="background:var(--cream);padding-top:5rem;padding-bottom:5rem">
   <div class="s-inner">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem" class="reveal">
       <div>
         <div class="eyebrow"><span class="eyebrow-line"></span>Portfolio</div>
-        <h2 class="stitle">Karya Terbaik<br>yang Sudah Kami Buat</h2>
+        <h2 class="stitle">
+          <?php if ($homePortfolioAllSample): ?>
+            Contoh Arah Visual<br>untuk Proyek Anda
+          <?php elseif ($homePortfolioHasSample): ?>
+            Karya &amp; Contoh<br>Arah Visual
+          <?php else: ?>
+            Karya Terbaik<br>yang Sudah Kami Buat
+          <?php endif; ?>
+        </h2>
+        <?php if ($homePortfolioHasSample): ?>
+          <p class="ssub" style="margin-top:.65rem;font-size:.82rem">Entri berlabel “Sampel” adalah contoh konten, bukan proyek klien asli.</p>
+        <?php endif; ?>
       </div>
       <a href="<?= APP_URL ?>/portfolio" style="font-family:var(--fh);font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:.4rem;margin-bottom:.5rem;transition:color .15s">
         Semua Portfolio →
@@ -547,7 +565,7 @@ h2.stitle{
       $pmColors  = ['branding' => '#122A1C', 'uiux' => '#DCEEDF', 'socmed' => '#D4EEDC', 'motion' => '#EAF5D0', 'print' => '#D8EAE2'];
       $pmFg      = ['branding' => '#C8FF4D', 'uiux' => '#122A1C', 'socmed' => '#122A1C', 'motion' => '#122A1C', 'print' => '#122A1C'];
       $pmIcons   = ['branding' => '✦', 'uiux' => '◈', 'socmed' => '◉', 'motion' => '◎', 'print' => '◆'];
-      $pmItems   = array_slice($portfolio, 0, 5);
+      $pmItems   = $homePortfolio;
 
       foreach ($pmClasses as $i => $cls):
         $p = $pmItems[$i] ?? null;
@@ -598,17 +616,17 @@ h2.stitle{
       <h2 class="stitle" style="color:#fff">Desain Bukan<br>Sekadar Estetika</h2>
       <p style="color:#C7D4CB;font-size:.95rem;line-height:1.8;margin-top:.75rem;max-width:44ch">Setiap keputusan visual yang kami buat punya alasan strategis. Kami merancang untuk membantu bisnis Anda tumbuh, bukan sekadar terlihat bagus.</p>
       <div class="num-list">
-        <div class="num-list-item">Brief & revisi tanpa batasan komunikasi</div>
-        <div class="num-list-item">File lengkap siap pakai + source file disertakan</div>
-        <div class="num-list-item">Pengerjaan tepat waktu, dijamin</div>
+        <div class="num-list-item">Brief &amp; revisi terstruktur sesuai paket</div>
+        <div class="num-list-item">File final sesuai paket; source file bila termasuk</div>
+        <div class="num-list-item">Timeline pengerjaan jelas dan dipantau</div>
         <div class="num-list-item">Progress update berkala via dashboard klien</div>
         <div class="num-list-item">Konsultasi gratis sebelum mulai proyek</div>
       </div>
     </div>
     <div class="num-cards reveal" style="transition-delay:.15s">
       <div class="nc featured">
-        <div class="nc-val"><?= (int) $publicStats['projects'] ?></div>
-        <div class="nc-lbl">Studi kasus<br>terpublikasi</div>
+        <div class="nc-val"><?= $projectTotal ?></div>
+        <div class="nc-lbl"><?= $projectNumberLabel ?></div>
       </div>
       <div class="nc">
         <div class="nc-val"><?= (int) $publicStats['categories'] ?></div>
@@ -619,8 +637,8 @@ h2.stitle{
         <div class="nc-lbl">Konsultasi awal<br>tanpa komitmen</div>
       </div>
       <div class="nc">
-        <div class="nc-val">1<em style="color:var(--accent)">×24</em></div>
-        <div class="nc-lbl">Respons proposal<br>setelah brief</div>
+        <div class="nc-val">≤24<em style="color:var(--accent)"> jam</em></div>
+        <div class="nc-lbl">Target respons proposal<br>setelah brief</div>
       </div>
     </div>
   </div>
@@ -639,10 +657,10 @@ h2.stitle{
       <?php
       $steps = [
         ['01','Konsultasi','Ceritakan kebutuhan dan visi Anda secara gratis, tanpa komitmen'],
-        ['02','Penawaran','Kami kirim proposal harga & timeline yang transparan dalam 1x24 jam'],
-        ['03','Pembayaran','Bayar aman via Midtrans: QRIS, transfer bank, GoPay, OVO'],
-        ['04','Pengerjaan','Tim kami bekerja & Anda bisa pantau progres via dashboard klien'],
-        ['05','Selesai','File final diserahkan. Bayar hanya jika Anda benar-benar puas'],
+        ['02','Penawaran','Kami kirim proposal harga & timeline yang transparan dalam target ≤24 jam'],
+        ['03','Pembayaran','Pembayaran penuh di awal via Midtrans: QRIS, transfer bank, GoPay, OVO, atau kartu kredit'],
+        ['04','Pengerjaan','Tim kami bekerja setelah pembayaran terkonfirmasi & Anda bisa pantau progres via dashboard klien'],
+        ['05','Selesai','File final diserahkan setelah hasil disetujui. Revisi mengikuti ketentuan paket'],
       ];
       foreach ($steps as [$n,$t,$d]): ?>
         <div class="proc-step">
@@ -656,15 +674,32 @@ h2.stitle{
 </section>
 
 <!-- ── TESTIMONIALS ───────────────────────────────────────── -->
+<?php
+$homeTestimonials = array_slice($testimonials, 0, 3);
+$homeTestimonialSamples = count(array_filter($homeTestimonials, fn($t) => !empty($t['is_sample'])));
+$homeTestimonialHasSample = $homeTestimonialSamples > 0;
+$homeTestimonialAllSample = $homeTestimonials && $homeTestimonialSamples === count($homeTestimonials);
+?>
 <section class="section testi-wrap">
   <div class="s-inner">
     <div class="reveal">
       <div class="eyebrow"><span class="eyebrow-line"></span>Testimoni</div>
-      <h2 class="stitle">Yang Klien Katakan<br>Tentang Kami</h2>
+      <h2 class="stitle">
+        <?php if ($homeTestimonialAllSample): ?>
+          Contoh Testimoni<br>untuk Gambaran Layanan
+        <?php elseif ($homeTestimonialHasSample): ?>
+          Testimoni Klien<br>&amp; Contoh
+        <?php else: ?>
+          Yang Klien Katakan<br>Tentang Kami
+        <?php endif; ?>
+      </h2>
+      <?php if ($homeTestimonialHasSample): ?>
+        <p class="ssub" style="margin-top:.65rem;font-size:.82rem">Entri berlabel “Contoh” adalah testimoni ilustratif, bukan pernyataan klien asli.</p>
+      <?php endif; ?>
     </div>
     <div class="testi-grid reveal" style="transition-delay:.12s">
-      <?php if (!empty($testimonials)):
-        foreach (array_slice($testimonials, 0, 3) as $i => $t): ?>
+      <?php if (!empty($homeTestimonials)):
+        foreach ($homeTestimonials as $i => $t): ?>
           <div class="testi-card <?= $i === 0 ? 'dark' : '' ?>">
             <?php if (!empty($t['is_sample'])): ?>
               <span class="testi-sample">Contoh</span>
@@ -685,7 +720,7 @@ h2.stitle{
         <div class="testi-card dark">
           <div class="testi-q">"</div>
           <div class="testi-body">Kami sedang mengumpulkan cerita dari klien terbaru. Ingin jadi yang berikutnya?</div>
-          <a href="<?= APP_URL ?>/contact#form-konsultasi" class="testi-link">Mulai konsultasi →</a>
+          <a href="<?= e(site_start_project_url()) ?>" class="testi-link">Mulai proyek →</a>
         </div>
       <?php endif; ?>
     </div>
@@ -700,11 +735,11 @@ h2.stitle{
       <p>Konsultasi gratis, tanpa komitmen. Kami siap bantu dari brief pertama hingga file final diserahkan.</p>
     </div>
     <div class="cta-btns">
-      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-cta-p" target="_blank" rel="noopener" data-cta="home-cta-wa">
-        💬 Konsultasi via WhatsApp →
+      <a href="<?= e(site_start_project_url()) ?>" class="btn-cta-p" data-cta="home-cta-start">
+        Mulai Proyek →
       </a>
-      <a href="<?= APP_URL ?>/contact#form-konsultasi" class="btn-cta-g" data-cta="home-cta-form">
-        Isi Form Konsultasi
+      <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin memulai proyek desain.')) ?>" class="btn-cta-g" target="_blank" rel="noopener" data-cta="home-cta-wa">
+        atau chat WhatsApp
       </a>
     </div>
   </div>
@@ -738,7 +773,7 @@ const flash = document.querySelector('.flash-success');
 if (flash) setTimeout(() => flash.style.opacity = '0', 3500);
 </script>
 
-<?php require VIEW_PATH . '/partials/whatsapp-float.php'; ?>
+<?php require VIEW_PATH . '/partials/mobile-cta.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>
 </body>
 </html>
