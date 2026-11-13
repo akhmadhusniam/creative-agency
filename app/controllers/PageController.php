@@ -255,6 +255,14 @@ class PageController
 
         $intent = is_string($_GET['intent'] ?? null) ? trim($_GET['intent']) : '';
         $isProjectIntent = $intent === 'project';
+        $isSent = (($_GET['sent'] ?? '') === '1');
+        $isSentProject = $isSent && (($_GET['project'] ?? '') === '1');
+
+        if ($isSent) {
+            // Confirmation pages can contain a submitted name; keep them out
+            // of shared/browser caches and search results.
+            header('Cache-Control: no-store, private');
+        }
 
         $title = $isProjectIntent || $requestedService ? 'Mulai Proyek' : 'Hubungi Kami';
         require VIEW_PATH . '/contact.php';
@@ -402,11 +410,34 @@ class PageController
             ]);
         }
 
+        $submittedService = null;
+        if (isset($returnParams['service'])) {
+            $stmt = $this->db->prepare('
+                SELECT name FROM services
+                WHERE slug = ? AND is_active = 1
+                LIMIT 1
+            ');
+            $stmt->execute([$returnParams['service']]);
+            $submittedService = $stmt->fetchColumn() ?: null;
+        }
+
         $isProjectSubmission = $intent === 'project' || $serviceSlug !== '';
-        Session::flash('success', $isProjectSubmission
-            ? 'Brief proyek Anda telah terkirim. Tim akan menghubungi Anda dalam ≤24 jam.'
-            : 'Pesan Anda telah terkirim. Pilih cara konsultasi yang paling nyaman.');
-        Session::flash('consult_modal', '1');
-        redirect(APP_URL . '/contact#form-konsultasi');
+        Session::flash('contact_sent', [
+            'name'             => $payload['name'],
+            'service'          => $submittedService,
+            'inquiry_type'     => $inquiryType,
+            'is_project'       => $isProjectSubmission,
+        ]);
+
+        // Query context keeps the confirmation state on refresh and avoids
+        // resubmitting the same brief from the browser's reload button.
+        $sentParams = ['sent' => '1'];
+        if ($isProjectSubmission) {
+            $sentParams['project'] = '1';
+        }
+        if (isset($returnParams['service'])) {
+            $sentParams['service'] = $returnParams['service'];
+        }
+        redirect(APP_URL . '/contact?' . http_build_query($sentParams) . '#form-konsultasi');
     }
 }

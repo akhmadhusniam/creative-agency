@@ -1,6 +1,8 @@
 <?php
 $isProjectIntent = $isProjectIntent ?? false;
 $requestedService = $requestedService ?? null;
+$isSent = $isSent ?? false;
+$isSentProject = $isSentProject ?? false;
 $isProjectContext = $isProjectIntent || $requestedService;
 $hideFooterCta = true;
 $hideMobileCta = true;
@@ -10,9 +12,10 @@ $hideMobileCta = true;
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= $isProjectContext ? 'Mulai Proyek' : 'Kontak' ?> — Creative Studio</title>
+<title><?= $isSent ? ($isSentProject ? 'Brief Terkirim' : 'Pesan Terkirim') : ($isProjectContext ? 'Mulai Proyek' : 'Kontak') ?> — Creative Studio</title>
 <meta name="description" content="Hubungi Creative Studio — konsultasi gratis untuk kebutuhan desain branding, UI/UX, social media, dan motion graphic Anda.">
 <link rel="canonical" href="<?= APP_URL ?>/contact">
+<?php if ($isSent): ?><meta name="robots" content="noindex,follow"><?php endif; ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
@@ -74,6 +77,26 @@ $hideMobileCta = true;
 }
 .cf-title{font-family:var(--fh);font-weight:800;font-size:1.4rem;margin-bottom:.4rem}
 .cf-sub{font-size:.875rem;color:var(--muted);margin-bottom:2rem}
+
+/* Post-submit confirmation */
+.sent-state{text-align:center;padding:.25rem 0}
+.sent-icon{width:56px;height:56px;border-radius:50%;background:var(--accent);border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;margin:0 auto 1.1rem;color:var(--ink)}
+.sent-title{font-family:var(--fh);font-weight:800;font-size:1.5rem;margin:0 0 .45rem}
+.sent-lead{font-size:.9rem;color:var(--muted);line-height:1.75;max-width:50ch;margin:0 auto 1.5rem}
+.sent-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;background:var(--cream);border:1px solid rgba(18,42,28,.1);border-radius:10px;padding:1rem;text-align:left;margin-bottom:1.5rem}
+.sent-summary span{display:block;font-family:var(--fm);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem}
+.sent-summary strong{display:block;font-size:.82rem;color:var(--ink);line-height:1.4}
+.sent-steps{list-style:none;text-align:left;margin:0 0 1.5rem;padding:0;display:flex;flex-direction:column;gap:.85rem}
+.sent-steps li{display:flex;gap:.75rem;align-items:flex-start}
+.sent-step-num{width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--accent);font-family:var(--fm);font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+.sent-steps b{display:block;font-size:.82rem;color:var(--ink);margin-bottom:.1rem}
+.sent-steps span{display:block;font-size:.78rem;color:var(--muted);line-height:1.55}
+.sent-actions{display:flex;flex-direction:column;gap:.65rem}
+.sent-actions .btn-submit{text-decoration:none}
+.sent-secondary{font-family:var(--fm);font-size:.72rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.55rem;transition:color .15s}
+.sent-secondary:hover{color:var(--ink)}
+.sent-note{font-size:.75rem;color:var(--muted);margin-top:1rem;line-height:1.6}
+.sent-note a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 .quote-context{
   background:var(--cream);border:1px solid rgba(18,42,28,.12);
   border-radius:10px;padding:1rem 1.15rem;margin-bottom:1.5rem;
@@ -145,6 +168,10 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
   .cf-sub{margin-bottom:1.25rem}
   .form-row{grid-template-columns:1fr}
   .faq-mini-grid{grid-template-columns:1fr}
+  .sent-state{text-align:left}
+  .sent-icon{margin-left:0}
+  .sent-lead{margin-left:0}
+  .sent-summary{grid-template-columns:1fr;gap:.65rem}
 }
 </style>
 </head>
@@ -167,10 +194,12 @@ require VIEW_PATH . '/partials/nav.php';
     <div class="breadcrumb">
       <a href="<?= APP_URL ?>/">Beranda</a>
       <span class="breadcrumb-sep">›</span>
-      <span><?= $isProjectContext ? 'Mulai Proyek' : 'Kontak' ?></span>
+      <span><?= $isSent ? 'Kontak' : ($isProjectContext ? 'Mulai Proyek' : 'Kontak') ?></span>
     </div>
-    <h1>Mari <em>Bicara</em><br>tentang Proyek Anda</h1>
-    <p>Konsultasi pertama selalu gratis. Ceritakan kebutuhan Anda dan kami akan bantu menentukan solusi terbaik.</p>
+    <h1><?= $isSent ? 'Terima <em>Kasih</em>' : 'Mari <em>Bicara</em><br>tentang Proyek Anda' ?></h1>
+    <p><?= $isSent
+        ? 'Tim kami akan meninjau kebutuhan Anda dan menghubungi dalam ≤24 jam. Tidak perlu mengirim ulang.'
+        : 'Konsultasi pertama selalu gratis. Ceritakan kebutuhan Anda dan kami akan bantu menentukan solusi terbaik.' ?></p>
   </div>
 </section>
 
@@ -231,6 +260,7 @@ require VIEW_PATH . '/partials/nav.php';
       <?php endif; ?>
     </div>
 
+    <?php if (!$isSent): ?>
     <a href="<?= e(site_wa_url('Halo Creative Studio, saya ingin konsultasi proyek desain')) ?>" class="wa-card" target="_blank" rel="noopener" data-cta="contact-wa">
       <span class="wa-icon" aria-hidden="true">💬</span>
       <div>
@@ -239,10 +269,102 @@ require VIEW_PATH . '/partials/nav.php';
       </div>
       <span class="wa-arrow" aria-hidden="true">→</span>
     </a>
+    <?php endif; ?>
   </div>
 
-  <!-- RIGHT: Form -->
+  <!-- RIGHT: Form / confirmation -->
   <div class="contact-form-card reveal" id="form-konsultasi" style="transition-delay:.12s">
+    <?php
+    $sent = Session::getFlash('contact_sent');
+    $sent = is_array($sent) ? $sent : null;
+
+    // On refresh the flash is gone; keep the confirmation state readable
+    // instead of showing an empty form that invites a duplicate submission.
+    if ($sent === null && $isSent) {
+        $sent = [
+            'name'         => '',
+            'service'      => $requestedService['name'] ?? '',
+            'inquiry_type' => '',
+            'is_project'   => $isSentProject,
+        ];
+    }
+    ?>
+    <?php if ($sent): ?>
+      <?php
+      $sentName = trim((string) ($sent['name'] ?? ''));
+      $sentService = trim((string) ($sent['service'] ?? ''));
+      $sentType = trim((string) ($sent['inquiry_type'] ?? ''));
+      $sentIsProject = !empty($sent['is_project']);
+      $sentWaText = $sentIsProject
+          ? 'Halo Creative Studio, saya sudah mengirim brief' . ($sentService !== '' ? ' untuk paket "' . $sentService . '"' : ' proyek') . '. Saya ingin menambahkan info.'
+          : 'Halo Creative Studio, saya sudah mengirim pesan melalui website. Saya ingin menambahkan info.';
+      ?>
+      <div class="sent-state" role="status" aria-live="polite">
+        <div class="sent-icon" aria-hidden="true">✓</div>
+        <h2 class="sent-title"><?= $sentIsProject ? 'Brief terkirim' : 'Pesan terkirim' ?></h2>
+        <p class="sent-lead">
+          <?= $sentName !== '' ? 'Terima kasih, ' . e($sentName) . '.' : 'Terima kasih.' ?>
+          <?= $sentIsProject ? 'Brief proyek Anda sudah masuk ke tim kami.' : 'Pesan Anda sudah masuk ke tim kami.' ?>
+          Kami akan menghubungi Anda dalam ≤24 jam.
+        </p>
+
+        <div class="sent-summary">
+          <div>
+            <span>Layanan</span>
+            <strong><?= e($sentService !== '' ? $sentService : ($sentIsProject ? 'Sesuai brief' : 'Tidak spesifik')) ?></strong>
+          </div>
+          <div>
+            <span>Jenis</span>
+            <strong><?= e($sentType !== '' ? $sentType : 'Sesuai pesan') ?></strong>
+          </div>
+          <div>
+            <span>Respons</span>
+            <strong>≤24 jam</strong>
+          </div>
+        </div>
+
+        <ol class="sent-steps">
+          <?php if ($sentIsProject): ?>
+            <li>
+              <span class="sent-step-num" aria-hidden="true">1</span>
+              <div><b>Review brief</b><span>Tim memeriksa kebutuhan, lingkup, dan estimasi awal.</span></div>
+            </li>
+            <li>
+              <span class="sent-step-num" aria-hidden="true">2</span>
+              <div><b>Konfirmasi</b><span>Kami hubungi via email atau WhatsApp bila ada yang perlu diklarifikasi.</span></div>
+            </li>
+            <li>
+              <span class="sent-step-num" aria-hidden="true">3</span>
+              <div><b>Penawaran</b><span>Anda menerima langkah kerja, timeline, dan biaya final.</span></div>
+            </li>
+          <?php else: ?>
+            <li>
+              <span class="sent-step-num" aria-hidden="true">1</span>
+              <div><b>Review pesan</b><span>Tim membaca kebutuhan dan konteks yang Anda kirim.</span></div>
+            </li>
+            <li>
+              <span class="sent-step-num" aria-hidden="true">2</span>
+              <div><b>Konfirmasi</b><span>Kami hubungi via email atau WhatsApp bila perlu klarifikasi.</span></div>
+            </li>
+            <li>
+              <span class="sent-step-num" aria-hidden="true">3</span>
+              <div><b>Tindak lanjut</b><span>Anda menerima langkah berikutnya sesuai jenis kebutuhan.</span></div>
+            </li>
+          <?php endif; ?>
+        </ol>
+
+        <div class="sent-actions">
+          <a href="<?= e(site_wa_url($sentWaText)) ?>" class="btn-submit" target="_blank" rel="noopener" data-cta="contact-sent-wa">
+            Chat via WhatsApp →
+          </a>
+          <a href="<?= APP_URL ?>/services" class="sent-secondary" data-cta="contact-sent-services">Lihat layanan</a>
+        </div>
+        <p class="sent-note">
+          <?= $sentIsProject ? 'Untuk proyek lain,' : 'Untuk pesan lain,' ?>
+          <a href="<?= APP_URL ?>/contact">kirim <?= $sentIsProject ? 'brief' : 'pesan' ?> baru</a>.
+        </p>
+      </div>
+    <?php else: ?>
     <div class="cf-title"><?= $isProjectContext ? 'Mulai Proyek' : 'Kirim Pesan' ?></div>
     <div class="cf-sub">
       <?= $isProjectContext
@@ -273,10 +395,6 @@ require VIEW_PATH . '/partials/nav.php';
               : 'Kirim pertanyaan atau brief singkat. Tim akan membantu langkah berikutnya.' ?>
         </p>
       </div>
-    <?php endif; ?>
-
-    <?php if ($ok = Session::getFlash('success')): ?>
-      <div class="alert alert-success" role="status" aria-live="polite" style="margin-bottom:1.5rem">✓ <?= e($ok) ?></div>
     <?php endif; ?>
 
     <?php if ($err = Session::getFlash('error')): ?>
@@ -416,6 +534,7 @@ require VIEW_PATH . '/partials/nav.php';
       </button>
       <p class="form-privacy">Dengan mengirim pesan, Anda menyetujui bahwa data Anda digunakan untuk keperluan komunikasi. Kami tidak menjual atau membagikan data Anda kepada pihak ketiga.</p>
     </form>
+    <?php endif; ?>
   </div>
 
 </div><!-- /.contact-layout -->
@@ -505,17 +624,19 @@ const bodyLabels = {
   'Lainnya':    'Pesan Anda',
 };
 
-function applyInquiryType() {
-  const val = inquirySelect.value;
-  const needsService = (val === 'Klien Baru');
-  subjectGroup.style.display = needsService ? '' : 'none';
-  budgetGroup.style.display  = needsService ? '' : 'none';
-  subjectField.required = needsService;
-  bodyLabel.textContent = bodyLabels[val] || bodyLabels['Lainnya'];
-  bodyField.placeholder = bodyPlaceholders[val] || bodyPlaceholders['Lainnya'];
+if (inquirySelect && subjectGroup && budgetGroup && subjectField && bodyLabel && bodyField) {
+  function applyInquiryType() {
+    const val = inquirySelect.value;
+    const needsService = (val === 'Klien Baru');
+    subjectGroup.style.display = needsService ? '' : 'none';
+    budgetGroup.style.display  = needsService ? '' : 'none';
+    subjectField.required = needsService;
+    bodyLabel.textContent = bodyLabels[val] || bodyLabels['Lainnya'];
+    bodyField.placeholder = bodyPlaceholders[val] || bodyPlaceholders['Lainnya'];
+  }
+  inquirySelect.addEventListener('change', applyInquiryType);
+  applyInquiryType();
 }
-inquirySelect.addEventListener('change', applyInquiryType);
-applyInquiryType();
 </script>
 <?php require VIEW_PATH . '/partials/mobile-cta.php'; ?>
 <?php require VIEW_PATH . '/partials/nav-script.php'; ?>
