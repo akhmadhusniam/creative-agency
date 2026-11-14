@@ -105,6 +105,15 @@ $hideMobileCta = true;
 .qc-title{font-family:var(--fh);font-weight:800;font-size:1rem;color:var(--ink)}
 .qc-meta{font-size:.8rem;color:var(--muted);margin-top:.2rem}
 .qc-note{font-size:.76rem;color:var(--muted);line-height:1.6;margin-top:.55rem}
+.brief-guide{
+  background:var(--cream-2);border:1px solid var(--line);
+  border-left:3px solid var(--ink);border-radius:0 8px 8px 0;
+  padding:.85rem 1rem;margin-bottom:1.25rem;
+}
+.bg-kicker{font-family:var(--fm);font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem}
+.brief-guide p{font-size:.79rem;color:var(--muted);line-height:1.6;margin-bottom:.4rem}
+.brief-guide a{font-family:var(--fm);font-size:.67rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+.brief-guide a:hover{color:#2F5D14}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .form-group{margin-bottom:1.1rem}
 label{display:block;font-size:.78rem;font-weight:600;margin-bottom:.4rem;color:var(--ink)}
@@ -454,6 +463,13 @@ require VIEW_PATH . '/partials/nav.php';
         </select>
       </div>
 
+      <?php $inquiryValue = $old['inquiry_type'] ?? 'Klien Baru'; ?>
+      <div class="brief-guide" id="brief-guide"<?= $inquiryValue !== 'Klien Baru' ? ' style="display:none"' : '' ?>>
+        <div class="bg-kicker">Agar brief cepat diproses</div>
+        <p>Sertakan tujuan proyek, target audiens, referensi visual, timeline, budget, dan siapa yang mengambil keputusan.</p>
+        <a href="<?= APP_URL ?>/services#kualifikasi-klien" target="_blank" rel="noopener" aria-label="Lihat kualifikasi klien (buka tab baru)" data-cta="contact-qualification-services">Lihat kualifikasi klien →</a>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label for="name">Nama Lengkap</label>
@@ -610,6 +626,7 @@ const budgetGroup    = document.getElementById('budget-group');
 const subjectField   = document.getElementById('subject');
 const bodyLabel      = document.getElementById('body-label');
 const bodyField      = document.getElementById('body');
+const briefGuide     = document.getElementById('brief-guide');
 
 const bodyPlaceholders = {
   'Klien Baru': 'Ceritakan tentang bisnis Anda, kebutuhan desain, target audiens, timeline, dan hal lain yang relevan...',
@@ -630,6 +647,7 @@ if (inquirySelect && subjectGroup && budgetGroup && subjectField && bodyLabel &&
     const needsService = (val === 'Klien Baru');
     subjectGroup.style.display = needsService ? '' : 'none';
     budgetGroup.style.display  = needsService ? '' : 'none';
+    if (briefGuide) briefGuide.style.display = needsService ? '' : 'none';
     subjectField.required = needsService;
     bodyLabel.textContent = bodyLabels[val] || bodyLabels['Lainnya'];
     bodyField.placeholder = bodyPlaceholders[val] || bodyPlaceholders['Lainnya'];

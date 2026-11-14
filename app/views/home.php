@@ -524,7 +524,7 @@ h2.stitle{
     </div>
 
     <div style="text-align:center;margin-top:2.5rem">
-      <a href="<?= APP_URL ?>/services" class="btn btn-outline">Semua Layanan →</a>
+      <a href="<?= APP_URL ?>/services" class="btn btn-outline">Lihat Paket &amp; Kecocokan →</a>
     </div>
   </div>
 </section>

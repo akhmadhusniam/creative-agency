@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Layanan — Creative Studio</title>
-<meta name="description" content="Jasa desain profesional: branding, UI/UX, social media, motion graphic, dan print design. Harga transparan, hasil berkualitas.">
+<meta name="description" content="Paket desain branding, UI/UX, social media, motion, dan print dengan lingkup jelas. Lihat kecocokan paket dan kualifikasi klien sebelum mulai.">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Token aliases — nama variabel di file ini beda dari base-styles.php,
@@ -139,8 +139,22 @@
 }
 .card-desc {
   font-size: .875rem; color: var(--muted);
-  line-height: 1.65; margin-bottom: 1.25rem;
+  line-height: 1.65; margin-bottom: 1rem;
   flex: 1;
+}
+
+/* Konteks kecocokan paket */
+.card-fit {
+  display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap;
+  background: var(--cream-2); border: 1px solid var(--line);
+  border-radius: 6px; padding: .45rem .65rem;
+  margin-bottom: 1rem;
+  font-size: .76rem; line-height: 1.45; color: var(--ink);
+}
+.card-fit span {
+  font-family: var(--fm); font-size: .58rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  flex-shrink: 0;
 }
 
 /* Feature list */
@@ -187,6 +201,45 @@
 .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
 .empty-state p { font-size: .9rem; }
 
+/* ── Kualifikasi klien ───────────────────────────────────── */
+.qual-section { padding: 0 0 4rem; }
+.qual-head { max-width: 760px; margin-bottom: 1.75rem; }
+.qual-title {
+  font-family: var(--fh); font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  line-height: 1.1; letter-spacing: -.02em;
+  margin-bottom: .75rem;
+}
+.qual-sub { color: var(--muted); font-size: .92rem; line-height: 1.8; max-width: 62ch; }
+.qual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.qual-card {
+  background: var(--white); border: 1px solid var(--cream);
+  border-radius: 12px; padding: 1.35rem;
+}
+.qual-card.bad { background: var(--cream-2); border-style: dashed; }
+.qual-card h3 {
+  font-family: var(--fh); font-size: .92rem; font-weight: 800;
+  margin-bottom: .8rem;
+}
+.qual-card ul { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+.qual-card li {
+  display: flex; align-items: flex-start; gap: .5rem;
+  font-size: .8rem; color: var(--muted); line-height: 1.55;
+}
+.qual-card li::before {
+  content: '✓'; color: #2F5D14; font-weight: 800;
+  flex-shrink: 0; margin-top: .02rem;
+}
+.qual-card.bad li::before { content: '×'; color: #B91C1C; }
+.qual-note {
+  margin-top: 1.25rem; font-size: .82rem; color: var(--muted); line-height: 1.65;
+}
+.qual-note a {
+  color: var(--ink); font-weight: 700;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.qual-note a:hover { color: #2F5D14; }
+
 /* ── Konsultasi banner ───────────────────────────────────── */
 .consult-banner {
   background: var(--ink); color: var(--white);
@@ -213,6 +266,9 @@
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .qual-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 768px) {
   .services-grid { grid-template-columns: 1fr; }
   .consult-banner { grid-template-columns: 1fr; }
@@ -336,6 +392,7 @@
           [$accentColor, $bgColor] = $catColors[$catSlug] ?? $defaultColors;
           $slug = strtolower(str_replace(' ', '-', $name));
           $illustration = $catIllustrations[$catSlug] ?? $defaultIllustration;
+          $profile = site_service_profile(['slug' => $slug, 'category_slug' => $catSlug]);
         ?>
         <div class="service-card" data-category="<?= $catId ?>">
           <div class="card-accent-bar" style="background:<?= $accentColor ?>"></div>
@@ -352,6 +409,9 @@
             <div class="card-category" style="color:<?= $accentColor ?>"><?= $catName ?></div>
             <h2 class="card-title"><?= $name ?></h2>
             <p class="card-desc"><?= $desc ?></p>
+            <?php if (!empty($profile['audience'])): ?>
+              <div class="card-fit"><span>Cocok untuk</span> <?= e($profile['audience']) ?></div>
+            <?php endif; ?>
             <ul class="card-features">
               <?php foreach (array_slice($features, 0, 3) as $f): ?>
                 <li><?= $f ?></li>
@@ -380,6 +440,8 @@
           [$accentColor, $bgColor] = $catColors[$catSlug] ?? $defaultColors;
           $illustration = $catIllustrations[$catSlug] ?? $defaultIllustration;
           $isPopular = in_array($svc['id'], $popularIds);
+          $profile = site_service_profile($svc);
+          $cardFeatures = !empty($svc['features']) ? $svc['features'] : $profile['included'];
         ?>
         <div class="service-card" data-category="<?= $svc['category_id'] ?>">
           <div class="card-accent-bar" style="background:<?= $accentColor ?>"></div>
@@ -400,13 +462,16 @@
             <div class="card-category" style="color:<?= $accentColor ?>"><?= e($svc['category_name']) ?></div>
             <h2 class="card-title"><?= e($svc['name']) ?></h2>
             <p class="card-desc"><?= e($svc['short_desc']) ?></p>
-            <?php if (!empty($svc['features'])): ?>
+            <?php if (!empty($profile['audience'])): ?>
+              <div class="card-fit"><span>Cocok untuk</span> <?= e($profile['audience']) ?></div>
+            <?php endif; ?>
+            <?php if (!empty($cardFeatures)): ?>
             <ul class="card-features">
-              <?php foreach (array_slice($svc['features'], 0, 3) as $f): ?>
+              <?php foreach (array_slice($cardFeatures, 0, 3) as $f): ?>
                 <li><?= e($f) ?></li>
               <?php endforeach; ?>
-              <?php if (count($svc['features']) > 3): ?>
-                <li style="color:var(--muted);font-style:italic;font-weight:600">+<?= count($svc['features']) - 3 ?> fitur lainnya...</li>
+              <?php if (count($cardFeatures) > 3): ?>
+                <li style="color:var(--muted);font-style:italic;font-weight:600">+<?= count($cardFeatures) - 3 ?> fitur lainnya...</li>
               <?php endif; ?>
             </ul>
             <?php endif; ?>
@@ -433,6 +498,45 @@
       </div>
 
     </div><!-- /.services-grid -->
+  </section>
+
+  <!-- KUALIFIKASI KLIEN -->
+  <section class="qual-section" id="kualifikasi-klien">
+    <div class="qual-head reveal">
+      <div class="eyebrow">Kualifikasi Klien</div>
+      <h2 class="qual-title">Kami Ingin Memastikan<br>Proyek Ini Tepat untuk Anda</h2>
+      <p class="qual-sub">Kami tidak mengambil semua proyek. Kriteria ini membantu Anda menilai kecocokan sebelum mengirim brief — dan membantu kami memberi hasil yang realistis.</p>
+    </div>
+    <div class="qual-grid reveal" style="transition-delay:.08s">
+      <div class="qual-card">
+        <h3>Cocok jika Anda</h3>
+        <ul>
+          <li>Sudah punya bisnis/produk dan target audiens yang jelas.</li>
+          <li>Bisa mengambil keputusan atau mewakili decision-maker.</li>
+          <li>Siap menyediakan brief, aset, dan feedback terstruktur.</li>
+          <li>Siap pembayaran penuh di awal dan lingkup final sebelum mulai.</li>
+        </ul>
+      </div>
+      <div class="qual-card">
+        <h3>Yang kami butuhkan</h3>
+        <ul>
+          <li>Tujuan proyek dan ukuran keberhasilan.</li>
+          <li>Referensi visual: yang disukai dan tidak disukai.</li>
+          <li>Aset yang relevan: logo, foto, copy, atau data.</li>
+          <li>Satu PIC dengan waktu review 2–3 hari kerja per putaran.</li>
+        </ul>
+      </div>
+      <div class="qual-card bad">
+        <h3>Belum cocok jika</h3>
+        <ul>
+          <li>Butuh hasil instan di bawah estimasi timeline paket.</li>
+          <li>Belum punya arah bisnis atau brief yang bisa dijadikan dasar.</li>
+          <li>Tidak bisa memberi feedback atau approval terpusat.</li>
+          <li>Mencari harga termurah tanpa kesepakatan lingkup.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="qual-note reveal">Belum yakin? <a href="<?= e(site_start_project_url()) ?>" data-cta="services-qualification-start-project">Diskusikan kecocokan proyek Anda →</a> Konsultasi awal gratis, tanpa komitmen.</p>
   </section>
 
   <!-- KONSULTASI BANNER -->

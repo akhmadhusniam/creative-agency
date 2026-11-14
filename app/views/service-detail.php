@@ -1,10 +1,11 @@
+<?php $profile = site_service_profile($service); ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($service['name']) ?> — Creative Studio</title>
-<meta name="description" content="<?= e($service['short_desc']) ?>">
+<meta name="description" content="<?= e($service['short_desc'] . ' Cocok untuk ' . $profile['audience'] . '.') ?>">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Token aliases — nama variabel di file ini beda dari base-styles.php,
@@ -132,6 +133,34 @@ $catSlug   = $service['category_slug'] ?? 'default';
 }
 .feature-text { font-size: .875rem; color: var(--ink); line-height: 1.4; }
 
+/* Kualifikasi klien per paket */
+.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.fit-card {
+  background: var(--white); border: 1px solid var(--cream);
+  border-radius: 10px; padding: 1.15rem;
+}
+.fit-card h3 {
+  font-family: var(--ff-head); font-size: .9rem; font-weight: 800;
+  margin-bottom: .7rem;
+}
+.fit-card ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.fit-card li {
+  display: flex; align-items: flex-start; gap: .5rem;
+  font-size: .82rem; color: var(--muted); line-height: 1.55;
+}
+.fit-card li::before {
+  content: '✓'; color: <?= $accentColor ?>; font-weight: 800;
+  flex-shrink: 0; margin-top: .02rem;
+}
+.fit-card.scope { background: var(--cream-2); border-style: dashed; margin-top: .75rem; }
+.fit-card.scope li::before { content: '×'; color: #B91C1C; }
+.fit-note {
+  margin-top: .75rem; padding: .7rem .9rem;
+  background: var(--paper); border-left: 3px solid <?= $accentColor ?>;
+  border-radius: 0 6px 6px 0;
+  font-size: .8rem; color: var(--muted); line-height: 1.6;
+}
+
 /* Proses pengerjaan */
 .process-list { display: flex; flex-direction: column; gap: 0; }
 .process-item {
@@ -215,6 +244,8 @@ $catSlug   = $service['category_slug'] ?? 'default';
 .order-meta-row:last-child { border-bottom: none; padding-bottom: 0; }
 .meta-key { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: .4rem; }
 .meta-val { font-size: .875rem; font-weight: 600; color: var(--ink); }
+.order-meta-row.fit { align-items: flex-start; gap: .75rem; }
+.order-meta-row.fit .meta-val { max-width: 62%; text-align: right; line-height: 1.35; }
 
 /* CTA utama */
 .order-cta-main {
@@ -287,6 +318,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
   .detail-sidebar { position: static; }
   .order-card { max-width: 480px; }
   .features-grid { grid-template-columns: 1fr; }
+  .fit-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
   .service-hero { padding: 2rem; }
@@ -325,6 +357,11 @@ $catSlug   = $service['category_slug'] ?? 'default';
           <h1><?= e($service['name']) ?></h1>
           <p><?= e($service['short_desc']) ?></p>
           <div class="service-hero-meta">
+            <?php if (!empty($profile['audience'])): ?>
+            <div class="hero-meta-pill">
+              👥 Cocok untuk <strong>&nbsp;<?= e($profile['audience']) ?></strong>
+            </div>
+            <?php endif; ?>
             <?php if ($service['delivery_days']): ?>
             <div class="hero-meta-pill">
               ⏱ Selesai dalam <strong>&nbsp;<?= $service['delivery_days'] ?> hari kerja</strong>
@@ -354,11 +391,23 @@ $catSlug   = $service['category_slug'] ?? 'default';
       </div>
 
       <!-- Yang Anda Dapatkan -->
-      <?php if (!empty($service['features'])): ?>
+      <?php
+      $serviceFeatures = !empty($service['features']) ? $service['features'] : $profile['included'];
+      if (empty($serviceFeatures)) {
+          $serviceFeatures = [
+              'Konsultasi awal gratis',
+              'Revisi sesuai paket yang dipilih',
+              'File final sesuai format paket',
+              'Timeline pengerjaan yang jelas',
+              'Komunikasi aktif selama pengerjaan',
+              'Garansi kesesuaian brief',
+          ];
+      }
+      ?>
       <div class="detail-section">
         <h2 class="section-label">Yang Anda Dapatkan</h2>
         <div class="features-grid">
-          <?php foreach ($service['features'] as $feature): ?>
+          <?php foreach ($serviceFeatures as $feature): ?>
             <div class="feature-item">
               <div class="feature-check">✓</div>
               <span class="feature-text"><?= e($feature) ?></span>
@@ -366,29 +415,42 @@ $catSlug   = $service['category_slug'] ?? 'default';
           <?php endforeach; ?>
         </div>
       </div>
-      <?php else: ?>
-      <!-- Default features jika tidak ada di DB -->
+
+      <!-- Kualifikasi klien -->
       <div class="detail-section">
-        <h2 class="section-label">Yang Anda Dapatkan</h2>
-        <div class="features-grid">
-          <?php
-          $defaultFeatures = [
-            'Konsultasi awal gratis',
-            'Revisi sesuai paket yang dipilih',
-            'File final sesuai format paket',
-            'Timeline pengerjaan yang jelas',
-            'Komunikasi aktif selama pengerjaan',
-            'Garansi kesesuaian brief',
-          ];
-          foreach ($defaultFeatures as $f): ?>
-            <div class="feature-item">
-              <div class="feature-check">✓</div>
-              <span class="feature-text"><?= $f ?></span>
-            </div>
-          <?php endforeach; ?>
+        <h2 class="section-label">Kualifikasi Klien</h2>
+        <div class="fit-grid">
+          <div class="fit-card">
+            <h3>Paket ini cocok untuk</h3>
+            <ul>
+              <?php foreach ($profile['ideal_for'] as $item): ?>
+                <li><?= e($item) ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+          <div class="fit-card">
+            <h3>Yang perlu Anda siapkan</h3>
+            <ul>
+              <?php foreach ($profile['requirements'] as $item): ?>
+                <li><?= e($item) ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
         </div>
+        <?php if (!empty($profile['excludes'])): ?>
+          <div class="fit-card scope">
+            <h3>Yang tidak termasuk</h3>
+            <ul>
+              <?php foreach ($profile['excludes'] as $item): ?>
+                <li><?= e($item) ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
+        <?php if (!empty($profile['fit_note'])): ?>
+          <p class="fit-note"><?= e($profile['fit_note']) ?></p>
+        <?php endif; ?>
       </div>
-      <?php endif; ?>
 
       <!-- Proses Pengerjaan -->
       <div class="detail-section">
@@ -503,6 +565,12 @@ $catSlug   = $service['category_slug'] ?? 'default';
             <div class="order-meta-row">
               <span class="meta-key">⏱ Estimasi selesai</span>
               <span class="meta-val"><?= $service['delivery_days'] ?> hari kerja</span>
+            </div>
+            <?php endif; ?>
+            <?php if (!empty($profile['audience'])): ?>
+            <div class="order-meta-row fit">
+              <span class="meta-key">👥 Cocok untuk</span>
+              <span class="meta-val"><?= e($profile['audience']) ?></span>
             </div>
             <?php endif; ?>
             <div class="order-meta-row">

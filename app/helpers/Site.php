@@ -153,3 +153,243 @@ function site_project_label(): string
     }
     return 'Studi kasus';
 }
+
+/**
+ * Profil paket untuk halaman layanan.
+ *
+ * Data inti tetap berasal dari tabel services. Profil ini melengkapi konteks
+ * yang tidak disimpan di database: paket ini cocok untuk siapa, apa yang perlu
+ * disiapkan klien, dan apa yang tidak termasuk. Dengan begitu, calon klien
+ * bisa menilai kecocokan sebelum mengirim brief.
+ *
+ * @param array<string,mixed> $service
+ * @return array{audience:string,included:array<int,string>,ideal_for:array<int,string>,requirements:array<int,string>,excludes:array<int,string>,fit_note:string}
+ */
+function site_service_profile(array $service): array
+{
+    static $profiles = null;
+
+    if ($profiles === null) {
+        $profiles = [
+            'brand-identity-starter' => [
+                'audience' => 'UMKM & brand baru',
+                'included' => [
+                    'Logo (3 konsep awal)',
+                    'Revisi 2x',
+                    'Color palette + tipografi',
+                    'File PNG, SVG, PDF',
+                ],
+                'ideal_for' => [
+                    'Bisnis baru atau UMKM yang butuh identitas dasar yang konsisten.',
+                    'Brand yang sudah punya nama dan arah bisnis, tetapi belum punya logo atau panduan visual.',
+                    'Tim internal kecil yang perlu file siap pakai untuk konten dan materi promosi.',
+                ],
+                'requirements' => [
+                    'Nama brand, deskripsi bisnis, dan target audiens.',
+                    'Referensi visual yang disukai dan tidak disukai.',
+                    'Satu decision-maker yang bisa menyetujui konsep.',
+                    'Waktu feedback sekitar 2 hari kerja per putaran revisi.',
+                ],
+                'excludes' => [
+                    'Brand guideline lengkap, stationery, dan mockup presentasi.',
+                    'Copywriting, fotografi, dan produksi cetak.',
+                    'Perubahan nama atau arah brand setelah konsep disetujui.',
+                ],
+                'fit_note' => 'Cocok jika nama brand dan arah bisnis sudah jelas. Jika belum, mulai dari sesi konsultasi.',
+            ],
+            'full-brand-system' => [
+                'audience' => 'Bisnis yang sedang tumbuh',
+                'included' => [
+                    'Semua fitur Brand Identity Starter',
+                    'Brand Guideline PDF',
+                    'Stationery design (kartu nama, amplop, KTP)',
+                    'Mockup presentasi',
+                    'Revisi sesuai paket',
+                ],
+                'ideal_for' => [
+                    'Bisnis yang sudah berjalan dan ingin menyeragamkan identitas di semua touchpoint.',
+                    'Brand yang butuh guideline agar tim internal dan vendor tetap konsisten.',
+                    'Perusahaan yang siap meluangkan waktu untuk audit dan eksplorasi brand.',
+                ],
+                'requirements' => [
+                    'Logo existing (jika ada), materi promosi, dan contoh penerapan saat ini.',
+                    'Daftar kebutuhan stationery atau touchpoint yang ingin distandarkan.',
+                    'Decision-maker dari tim brand atau marketing.',
+                    'Waktu untuk sesi kickoff dan review terstruktur.',
+                ],
+                'excludes' => [
+                    'Produksi cetak, fotografi, dan belanja media.',
+                    'Penambahan touchpoint di luar daftar yang disepakati.',
+                    'Perubahan arah brand setelah tahap konsep disetujui.',
+                ],
+                'fit_note' => 'Harga mulai dari; lingkup final ditentukan setelah audit brief.',
+            ],
+            'landing-page-design' => [
+                'audience' => 'Startup & tim kampanye',
+                'included' => [
+                    'Hingga 5 section',
+                    'File Figma',
+                    'Responsive design',
+                    'Revisi 2x',
+                ],
+                'ideal_for' => [
+                    'Bisnis atau startup yang butuh landing page untuk validasi produk atau kampanye.',
+                    'Tim marketing yang sudah punya copy dan tujuan konversi yang jelas.',
+                    'Proyek yang butuh desain cepat tanpa development.',
+                ],
+                'requirements' => [
+                    'Tujuan halaman, target audiens, dan CTA utama.',
+                    'Copywriting, logo, foto atau ilustrasi, dan referensi.',
+                    'Satu PIC yang bisa memberi feedback terpusat.',
+                    'Konten final sebelum tahap desain dimulai.',
+                ],
+                'excludes' => [
+                    'Development atau coding, hosting, dan integrasi form/payment.',
+                    'Copywriting dan pembuatan aset foto atau ilustrasi.',
+                    'SEO teknis dan maintenance setelah handoff.',
+                ],
+                'fit_note' => 'Cocok jika copy dan tujuan halaman sudah siap. Jika belum, copywriting bisa ditambahkan sebagai lingkup terpisah.',
+            ],
+            'mobile-app-ui' => [
+                'audience' => 'Tim produk & startup',
+                'included' => [
+                    'Hingga 15 screen',
+                    'Prototype Figma',
+                    'Design system',
+                    'Handoff notes untuk developer',
+                ],
+                'ideal_for' => [
+                    'Startup atau tim produk yang sudah punya alur dan fitur utama aplikasi.',
+                    'Tim yang butuh UI konsisten dan siap di-handoff ke developer.',
+                    'Produk yang ingin merapikan design system sebelum scale.',
+                ],
+                'requirements' => [
+                    'User flow, daftar fitur prioritas, dan referensi aplikasi.',
+                    'Existing brand atau logo dan preferensi visual.',
+                    'Akses ke product owner atau decision-maker.',
+                    'Konten contoh dan data untuk layar utama.',
+                ],
+                'excludes' => [
+                    'Development aplikasi, testing, dan deployment.',
+                    'Riset pengguna mendalam dan usability testing.',
+                    'Penambahan screen di luar kesepakatan (dihitung terpisah).',
+                ],
+                'fit_note' => 'Harga mulai dari; jumlah screen dan kompleksitas fitur menentukan estimasi final.',
+            ],
+            'social-media-pack' => [
+                'audience' => 'UMKM & tim marketing',
+                'included' => [
+                    '10 template feed',
+                    '5 template story',
+                    'File Canva/Figma',
+                    'Panduan posting',
+                ],
+                'ideal_for' => [
+                    'UMKM atau brand yang ingin konten visual konsisten tanpa tim desain internal.',
+                    'Tim marketing yang butuh template siap edit untuk konten harian.',
+                    'Bisnis yang sudah punya foto produk dan tone komunikasi.',
+                ],
+                'requirements' => [
+                    'Logo, warna, dan font brand (jika ada).',
+                    'Foto produk atau kegiatan dan contoh konten yang disukai.',
+                    'Tone komunikasi dan jadwal konten.',
+                    'Satu PIC untuk approval.',
+                ],
+                'excludes' => [
+                    'Copywriting caption dan kalender posting.',
+                    'Fotografi, videografi, dan editing konten.',
+                    'Pengelolaan akun dan iklan.',
+                ],
+                'fit_note' => 'Cocok untuk template visual. Strategi konten dan copywriting bisa ditambahkan sebagai lingkup terpisah.',
+            ],
+            'motion-graphic-pendek' => [
+                'audience' => 'Kampanye & promosi produk',
+                'included' => [
+                    'Durasi 15–30 detik',
+                    'Format MP4/GIF',
+                    'Revisi 2x',
+                    'File source After Effects',
+                ],
+                'ideal_for' => [
+                    'Brand yang butuh video pendek untuk iklan, intro, atau promosi produk.',
+                    'Tim marketing yang sudah punya naskah atau poin utama dan aset visual.',
+                    'Kampanye yang butuh aset video cepat tanpa live shooting.',
+                ],
+                'requirements' => [
+                    'Naskah atau poin utama video.',
+                    'Logo, aset visual, dan referensi gaya.',
+                    'Durasi target dan platform penempatan.',
+                    'Satu PIC untuk approval.',
+                ],
+                'excludes' => [
+                    'Live shooting, talent, dan voice over.',
+                    'Lisensi musik berbayar.',
+                    'Penambahan durasi di luar paket.',
+                ],
+                'fit_note' => 'Durasi tambahan dihitung per 15 detik.',
+            ],
+            'print-design' => [
+                'audience' => 'Acara & merchandise',
+                'included' => [
+                    'Desain siap cetak',
+                    'PDF CMYK + bleed 3mm',
+                    'Resolusi 300 dpi',
+                    'Revisi sesuai paket',
+                ],
+                'ideal_for' => [
+                    'Bisnis yang butuh materi cetak siap produksi.',
+                    'Tim yang sudah punya spesifikasi bahan dan ukuran.',
+                    'Acara atau kampanye dengan kebutuhan merchandise.',
+                ],
+                'requirements' => [
+                    'Ukuran, bahan, dan jumlah cetak.',
+                    'Logo, copy, dan aset visual.',
+                    'Referensi layout dan posisi elemen penting.',
+                    'Vendor cetak (opsional).',
+                ],
+                'excludes' => [
+                    'Biaya cetak dan produksi.',
+                    'Pengiriman merchandise.',
+                    'Mockup fisik.',
+                ],
+                'fit_note' => 'Layanan ini hanya desain digital; produksi cetak dikelola vendor terpisah.',
+            ],
+        ];
+    }
+
+    $slug = (string) ($service['slug'] ?? '');
+    $profile = $profiles[$slug] ?? null;
+
+    if ($profile === null) {
+        $profile = [
+            'audience' => 'Bisnis yang butuh solusi desain custom',
+            'included' => [],
+            'ideal_for' => [
+                'Bisnis yang sudah punya tujuan dan target audiens yang jelas.',
+                'Tim yang bisa menyediakan brief, aset, dan feedback terstruktur.',
+                'Proyek dengan lingkup yang bisa disepakati sebelum pengerjaan.',
+            ],
+            'requirements' => [
+                'Brief kebutuhan dan referensi visual.',
+                'Aset pendukung: logo, foto, copy, atau data.',
+                'Satu decision-maker dan waktu review yang jelas.',
+                'Kesiapan pembayaran penuh di awal sesuai kesepakatan.',
+            ],
+            'excludes' => [
+                'Pekerjaan di luar lingkup yang disepakati.',
+                'Produksi cetak, development, atau media buying.',
+                'Perubahan arah setelah konsep disetujui.',
+            ],
+            'fit_note' => 'Lingkup, timeline, dan biaya final dikonfirmasi setelah brief.',
+        ];
+    }
+
+    return array_merge([
+        'audience'    => '',
+        'included'    => [],
+        'ideal_for'   => [],
+        'requirements'=> [],
+        'excludes'    => [],
+        'fit_note'    => '',
+    ], $profile);
+}
