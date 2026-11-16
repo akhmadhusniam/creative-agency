@@ -1,4 +1,7 @@
-<?php $publicStats = site_stats(); ?>
+<?php
+$publicStats = site_stats();
+$activeCategoryCount = count(array_filter($categories, fn($cat) => (int) ($cat['service_count'] ?? 0) > 0));
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -85,6 +88,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
+  scroll-margin-top: calc(var(--nav-h) + 5rem);
 }
 
 /* ── Service card ────────────────────────────────────────── */
@@ -202,7 +206,7 @@
 .empty-state p { font-size: .9rem; }
 
 /* ── Kualifikasi klien ───────────────────────────────────── */
-.qual-section { padding: 0 0 4rem; }
+.qual-section { padding: 0 0 4rem; scroll-margin-top: calc(var(--nav-h) + 5rem); }
 .qual-head { max-width: 760px; margin-bottom: 1.75rem; }
 .qual-title {
   font-family: var(--fh); font-weight: 800;
@@ -313,8 +317,8 @@
         <div class="hero-meta-label">Paket layanan tersedia</div>
       </div>
       <div class="hero-meta-item">
-        <div class="hero-meta-num"><?= count($categories) ?></div>
-        <div class="hero-meta-label">Kategori desain</div>
+        <div class="hero-meta-num"><?= $activeCategoryCount ?></div>
+        <div class="hero-meta-label">Kategori dengan paket</div>
       </div>
       <div class="hero-meta-item">
         <div class="hero-meta-num"><?= (int) $publicStats['projects'] ?></div>
@@ -381,11 +385,11 @@
         <!-- Placeholder jika DB kosong -->
         <?php
         $placeholders = [
-          ['Brand Identity Starter', 'Branding & Identity', 1, 'Mulai dari logo, color palette, hingga panduan penggunaan merek yang konsisten.', 1500000, 'fixed', 7, ['Logo 3 konsep', 'Revisi 2x', 'Color palette', 'File PNG/SVG/PDF'], 'branding', false],
-          ['Full Brand System',      'Branding & Identity', 1, 'Paket branding lengkap: logo, brand guideline, stationery, dan mockup presentasi.', 4500000, 'starting_from', 14, ['Semua fitur Starter', 'Brand Guideline PDF', 'Stationery design', 'Revisi sesuai paket'], 'branding', true],
-          ['Landing Page Design',    'UI/UX Design',        2, 'Desain UI landing page modern 1–5 section dengan deliverable file Figma siap handoff.', 1200000, 'fixed', 5, ['Hingga 5 section', 'File Figma', 'Responsive design', 'Revisi 2x'], 'uiux', true],
-          ['Mobile App UI',          'UI/UX Design',        2, 'Desain antarmuka aplikasi mobile hingga 15 screen, lengkap dengan prototype interaktif.', 3500000, 'starting_from', 14, ['Hingga 15 screen', 'Prototype Figma', 'Design system', 'Handoff notes'], 'uiux', false],
-          ['Social Media Pack',      'Social Media Design', 3, '10 template feed + 5 template story yang editable di Canva atau Figma.', 750000, 'fixed', 3, ['10 template feed', '5 template story', 'File Canva/Figma', 'Panduan posting'], 'socmed', false],
+          ['Brand Identity Starter', 'Branding & Identity', 1, 'Mulai dari logo, color palette, hingga panduan penggunaan merek yang konsisten.', 1500000, 'fixed', 7, ['Logo (3 konsep awal)', 'Revisi 2x', 'Color palette + tipografi', 'File PNG, SVG, PDF'], 'branding', false],
+          ['Full Brand System',      'Branding & Identity', 1, 'Paket branding lengkap: logo, brand guideline, stationery, dan mockup presentasi.', 4500000, 'starting_from', 14, ['Semua fitur Brand Identity Starter', 'Brand Guideline PDF', 'Stationery design', 'Revisi sesuai paket'], 'branding', true],
+          ['Landing Page Design',    'UI/UX Design',        2, 'Desain UI landing page modern 1–5 section dengan deliverable file Figma siap handoff.', 1200000, 'fixed', 5, ['Hingga 5 section', 'File Figma', 'Responsive design (1 breakpoint mobile)', 'Revisi 2x'], 'uiux', true],
+          ['Mobile App UI',          'UI/UX Design',        2, 'Desain antarmuka aplikasi mobile hingga 15 screen, lengkap dengan prototype interaktif.', 3500000, 'starting_from', 14, ['Hingga 15 screen', 'Prototype Figma', 'Design system', 'Handoff notes untuk developer', 'Revisi sesuai paket'], 'uiux', false],
+          ['Social Media Pack',      'Social Media Design', 3, '10 template feed + 5 template story yang editable di Canva atau Figma.', 750000, 'fixed', 3, ['10 template feed', '5 template story', 'File Canva/Figma', 'Panduan posting', 'Revisi sesuai paket'], 'socmed', false],
           ['Motion Graphic Pendek',  'Motion & Video',      4, 'Video animasi pendek 15–30 detik untuk konten iklan, intro, atau promosi produk.', 2000000, 'starting_from', 7, ['Durasi 15–30 detik', 'Format MP4/GIF', 'Revisi 2x', 'File source AE'], 'motion', false],
         ];
         foreach ($placeholders as [$name, $catName, $catId, $desc, $price, $ptype, $days, $features, $catSlug, $popular]):
@@ -393,6 +397,7 @@
           $slug = strtolower(str_replace(' ', '-', $name));
           $illustration = $catIllustrations[$catSlug] ?? $defaultIllustration;
           $profile = site_service_profile(['slug' => $slug, 'category_slug' => $catSlug]);
+          $cardFeatures = !empty($profile['included']) ? $profile['included'] : $features;
         ?>
         <div class="service-card" data-category="<?= $catId ?>">
           <div class="card-accent-bar" style="background:<?= $accentColor ?>"></div>
@@ -413,16 +418,16 @@
               <div class="card-fit"><span>Cocok untuk</span> <?= e($profile['audience']) ?></div>
             <?php endif; ?>
             <ul class="card-features">
-              <?php foreach (array_slice($features, 0, 3) as $f): ?>
-                <li><?= $f ?></li>
+              <?php foreach (array_slice($cardFeatures, 0, 3) as $f): ?>
+                <li><?= e($f) ?></li>
               <?php endforeach; ?>
-              <?php if (count($features) > 3): ?>
-                <li style="color:var(--muted);font-style:italic;font-weight:600">+<?= count($features) - 3 ?> fitur lainnya...</li>
+              <?php if (count($cardFeatures) > 3): ?>
+                <li style="color:var(--muted);font-style:italic;font-weight:600">+<?= count($cardFeatures) - 3 ?> fitur lainnya...</li>
               <?php endif; ?>
             </ul>
             <div class="card-footer">
               <div class="card-price">
-                <div class="price-label"><?= $ptype === 'starting_from' ? 'Mulai dari' : 'Harga' ?></div>
+                <div class="price-label"><?= $ptype === 'starting_from' ? 'Mulai dari' : ($ptype === 'custom' ? 'Harga' : 'Harga tetap') ?></div>
                 <div class="price-value"><?= formatRupiah($price) ?></div>
               </div>
               <a href="<?= APP_URL ?>/services/<?= $slug ?>" class="card-cta" data-cta="service-card">
@@ -441,7 +446,7 @@
           $illustration = $catIllustrations[$catSlug] ?? $defaultIllustration;
           $isPopular = in_array($svc['id'], $popularIds);
           $profile = site_service_profile($svc);
-          $cardFeatures = !empty($svc['features']) ? $svc['features'] : $profile['included'];
+          $cardFeatures = site_service_features($svc);
         ?>
         <div class="service-card" data-category="<?= $svc['category_id'] ?>">
           <div class="card-accent-bar" style="background:<?= $accentColor ?>"></div>
@@ -477,7 +482,7 @@
             <?php endif; ?>
             <div class="card-footer">
               <div class="card-price">
-                <div class="price-label"><?= $svc['price_type'] === 'starting_from' ? 'Mulai dari' : ($svc['price_type'] === 'custom' ? 'Harga' : 'Harga') ?></div>
+                <div class="price-label"><?= $svc['price_type'] === 'starting_from' ? 'Mulai dari' : ($svc['price_type'] === 'custom' ? 'Harga' : 'Harga tetap') ?></div>
                 <div class="price-value">
                   <?= $svc['price_type'] === 'custom' ? 'Hubungi Kami' : formatRupiah((float)$svc['price']) ?>
                 </div>
@@ -505,16 +510,16 @@
     <div class="qual-head reveal">
       <div class="eyebrow">Kualifikasi Klien</div>
       <h2 class="qual-title">Kami Ingin Memastikan<br>Proyek Ini Tepat untuk Anda</h2>
-      <p class="qual-sub">Kami tidak mengambil semua proyek. Kriteria ini membantu Anda menilai kecocokan sebelum mengirim brief — dan membantu kami memberi hasil yang realistis.</p>
+      <p class="qual-sub">Kami tidak menerima semua proyek. Kriteria ini membantu Anda menilai kecocokan sebelum mengirim brief — dan membantu kami memberi hasil yang realistis.</p>
     </div>
     <div class="qual-grid reveal" style="transition-delay:.08s">
       <div class="qual-card">
         <h3>Cocok jika Anda</h3>
         <ul>
           <li>Sudah punya bisnis/produk dan target audiens yang jelas.</li>
-          <li>Bisa mengambil keputusan atau mewakili decision-maker.</li>
+          <li>Bisa mengambil keputusan atau mewakili pihak yang berwenang.</li>
           <li>Siap menyediakan brief, aset, dan feedback terstruktur.</li>
-          <li>Siap pembayaran penuh di awal dan lingkup final sebelum mulai.</li>
+          <li>Siap pembayaran penuh di awal dan menyepakati lingkup sebelum pengerjaan.</li>
         </ul>
       </div>
       <div class="qual-card">
@@ -532,11 +537,11 @@
           <li>Butuh hasil instan di bawah estimasi timeline paket.</li>
           <li>Belum punya arah bisnis atau brief yang bisa dijadikan dasar.</li>
           <li>Tidak bisa memberi feedback atau approval terpusat.</li>
-          <li>Mencari harga termurah tanpa kesepakatan lingkup.</li>
+          <li>Mengutamakan harga termurah tanpa kesepakatan lingkup.</li>
         </ul>
       </div>
     </div>
-    <p class="qual-note reveal">Belum yakin? <a href="<?= e(site_start_project_url()) ?>" data-cta="services-qualification-start-project">Diskusikan kecocokan proyek Anda →</a> Konsultasi awal gratis, tanpa komitmen.</p>
+    <p class="qual-note reveal">Kriteria ini membantu memastikan hasil dan timeline realistis. Jika ada yang perlu didiskusikan, <a href="<?= e(site_start_project_url()) ?>" data-cta="services-qualification-start-project">mulai dari konsultasi awal →</a></p>
   </section>
 
   <!-- KONSULTASI BANNER -->

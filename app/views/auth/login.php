@@ -105,7 +105,7 @@ input.has-toggle{padding-right:4.4rem;}
       <ul class="brand-list">
         <li><span class="tick" aria-hidden="true"></span> Branding &amp; Identitas Visual</li>
         <li><span class="tick" aria-hidden="true"></span> UI/UX &amp; Web Design</li>
-        <li><span class="tick" aria-hidden="true"></span> Social Media Kit</li>
+        <li><span class="tick" aria-hidden="true"></span> Social Media Design</li>
         <li><span class="tick" aria-hidden="true"></span> Motion Graphic</li>
       </ul>
     </div>

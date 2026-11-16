@@ -187,8 +187,8 @@ function site_service_profile(array $service): array
                 'requirements' => [
                     'Nama brand, deskripsi bisnis, dan target audiens.',
                     'Referensi visual yang disukai dan tidak disukai.',
-                    'Satu decision-maker yang bisa menyetujui konsep.',
-                    'Waktu feedback sekitar 2 hari kerja per putaran revisi.',
+                    'Satu pengambil keputusan yang bisa menyetujui konsep.',
+                    'Waktu feedback 2–3 hari kerja per putaran revisi.',
                 ],
                 'excludes' => [
                     'Brand guideline lengkap, stationery, dan mockup presentasi.',
@@ -198,7 +198,7 @@ function site_service_profile(array $service): array
                 'fit_note' => 'Cocok jika nama brand dan arah bisnis sudah jelas. Jika belum, mulai dari sesi konsultasi.',
             ],
             'full-brand-system' => [
-                'audience' => 'Bisnis yang sedang tumbuh',
+                'audience' => 'bisnis yang sedang tumbuh',
                 'included' => [
                     'Semua fitur Brand Identity Starter',
                     'Brand Guideline PDF',
@@ -214,7 +214,7 @@ function site_service_profile(array $service): array
                 'requirements' => [
                     'Logo existing (jika ada), materi promosi, dan contoh penerapan saat ini.',
                     'Daftar kebutuhan stationery atau touchpoint yang ingin distandarkan.',
-                    'Decision-maker dari tim brand atau marketing.',
+                    'Pengambil keputusan dari tim brand atau marketing.',
                     'Waktu untuk sesi kickoff dan review terstruktur.',
                 ],
                 'excludes' => [
@@ -225,11 +225,11 @@ function site_service_profile(array $service): array
                 'fit_note' => 'Harga mulai dari; lingkup final ditentukan setelah audit brief.',
             ],
             'landing-page-design' => [
-                'audience' => 'Startup & tim kampanye',
+                'audience' => 'startup & tim kampanye',
                 'included' => [
                     'Hingga 5 section',
                     'File Figma',
-                    'Responsive design',
+                    'Responsive design (1 breakpoint mobile)',
                     'Revisi 2x',
                 ],
                 'ideal_for' => [
@@ -239,7 +239,7 @@ function site_service_profile(array $service): array
                 ],
                 'requirements' => [
                     'Tujuan halaman, target audiens, dan CTA utama.',
-                    'Copywriting, logo, foto atau ilustrasi, dan referensi.',
+                    'Copywriting final, logo, foto atau ilustrasi, dan referensi.',
                     'Satu PIC yang bisa memberi feedback terpusat.',
                     'Konten final sebelum tahap desain dimulai.',
                 ],
@@ -251,12 +251,13 @@ function site_service_profile(array $service): array
                 'fit_note' => 'Cocok jika copy dan tujuan halaman sudah siap. Jika belum, copywriting bisa ditambahkan sebagai lingkup terpisah.',
             ],
             'mobile-app-ui' => [
-                'audience' => 'Tim produk & startup',
+                'audience' => 'tim produk & startup',
                 'included' => [
                     'Hingga 15 screen',
                     'Prototype Figma',
                     'Design system',
                     'Handoff notes untuk developer',
+                    'Revisi sesuai paket',
                 ],
                 'ideal_for' => [
                     'Startup atau tim produk yang sudah punya alur dan fitur utama aplikasi.',
@@ -266,7 +267,7 @@ function site_service_profile(array $service): array
                 'requirements' => [
                     'User flow, daftar fitur prioritas, dan referensi aplikasi.',
                     'Existing brand atau logo dan preferensi visual.',
-                    'Akses ke product owner atau decision-maker.',
+                    'Akses ke product owner atau pengambil keputusan.',
                     'Konten contoh dan data untuk layar utama.',
                 ],
                 'excludes' => [
@@ -283,6 +284,7 @@ function site_service_profile(array $service): array
                     '5 template story',
                     'File Canva/Figma',
                     'Panduan posting',
+                    'Revisi sesuai paket',
                 ],
                 'ideal_for' => [
                     'UMKM atau brand yang ingin konten visual konsisten tanpa tim desain internal.',
@@ -291,7 +293,7 @@ function site_service_profile(array $service): array
                 ],
                 'requirements' => [
                     'Logo, warna, dan font brand (jika ada).',
-                    'Foto produk atau kegiatan dan contoh konten yang disukai.',
+                    'Foto produk/kegiatan yang sudah ada dan contoh konten yang disukai.',
                     'Tone komunikasi dan jadwal konten.',
                     'Satu PIC untuk approval.',
                 ],
@@ -303,7 +305,7 @@ function site_service_profile(array $service): array
                 'fit_note' => 'Cocok untuk template visual. Strategi konten dan copywriting bisa ditambahkan sebagai lingkup terpisah.',
             ],
             'motion-graphic-pendek' => [
-                'audience' => 'Kampanye & promosi produk',
+                'audience' => 'kampanye & promosi produk',
                 'included' => [
                     'Durasi 15–30 detik',
                     'Format MP4/GIF',
@@ -329,7 +331,7 @@ function site_service_profile(array $service): array
                 'fit_note' => 'Durasi tambahan dihitung per 15 detik.',
             ],
             'print-design' => [
-                'audience' => 'Acara & merchandise',
+                'audience' => 'acara & merchandise',
                 'included' => [
                     'Desain siap cetak',
                     'PDF CMYK + bleed 3mm',
@@ -362,7 +364,7 @@ function site_service_profile(array $service): array
 
     if ($profile === null) {
         $profile = [
-            'audience' => 'Bisnis yang butuh solusi desain custom',
+            'audience' => 'bisnis yang butuh solusi desain custom',
             'included' => [],
             'ideal_for' => [
                 'Bisnis yang sudah punya tujuan dan target audiens yang jelas.',
@@ -372,7 +374,7 @@ function site_service_profile(array $service): array
             'requirements' => [
                 'Brief kebutuhan dan referensi visual.',
                 'Aset pendukung: logo, foto, copy, atau data.',
-                'Satu decision-maker dan waktu review yang jelas.',
+                'Satu pengambil keputusan dan waktu review yang jelas.',
                 'Kesiapan pembayaran penuh di awal sesuai kesepakatan.',
             ],
             'excludes' => [
@@ -392,4 +394,37 @@ function site_service_profile(array $service): array
         'excludes'    => [],
         'fit_note'    => '',
     ], $profile);
+}
+
+/**
+ * Daftar fitur paket yang dipakai kartu layanan dan halaman detail.
+ * Sumber utama tetap service_features; jika kosong, pakai fitur dari profil paket.
+ * Normalisasi kecil di sini menjaga istilah tetap sama di seluruh halaman.
+ *
+ * @param array<string,mixed> $service
+ * @return array<int,string>
+ */
+function site_service_features(array $service): array
+{
+    $features = $service['features'] ?? [];
+    if (!is_array($features)) {
+        $features = [];
+    }
+
+    $features = array_values(array_filter($features, static function ($feature): bool {
+        return is_string($feature) && trim($feature) !== '';
+    }));
+    $features = array_map(static fn(string $feature): string => trim($feature), $features);
+
+    if (empty($features)) {
+        $profile = site_service_profile($service);
+        $features = $profile['included'];
+    }
+
+    $normalize = [
+        // Teks lama di service_features; dipertahankan agar data production tetap tampil konsisten.
+        'Semua fitur Starter' => 'Semua fitur Brand Identity Starter',
+    ];
+
+    return array_map(static fn(string $feature): string => $normalize[$feature] ?? $feature, $features);
 }

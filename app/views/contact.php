@@ -420,7 +420,7 @@ require VIEW_PATH . '/partials/nav.php';
         $subjectMap = [
             'branding' => 'Branding & Identity',
             'uiux'     => 'UI/UX Design',
-            'socmed'   => 'Social Media Kit',
+            'socmed'   => 'Social Media Design',
             'motion'   => 'Motion & Video',
             'print'    => 'Print Design',
         ];
@@ -466,8 +466,8 @@ require VIEW_PATH . '/partials/nav.php';
       <?php $inquiryValue = $old['inquiry_type'] ?? 'Klien Baru'; ?>
       <div class="brief-guide" id="brief-guide"<?= $inquiryValue !== 'Klien Baru' ? ' style="display:none"' : '' ?>>
         <div class="bg-kicker">Agar brief cepat diproses</div>
-        <p>Sertakan tujuan proyek, target audiens, referensi visual, timeline, budget, dan siapa yang mengambil keputusan.</p>
-        <a href="<?= APP_URL ?>/services#kualifikasi-klien" target="_blank" rel="noopener" aria-label="Lihat kualifikasi klien (buka tab baru)" data-cta="contact-qualification-services">Lihat kualifikasi klien →</a>
+        <p>Sertakan tujuan, target audiens, referensi visual, aset, timeline, budget, dan pengambil keputusan.</p>
+        <a href="<?= APP_URL ?>/services#kualifikasi-klien" target="_blank" rel="noopener" aria-label="Lihat kualifikasi klien (buka tab baru)" data-cta="contact-qualification-services">Lihat kualifikasi klien ↗</a>
       </div>
 
       <div class="form-row">
@@ -523,7 +523,7 @@ require VIEW_PATH . '/partials/nav.php';
           <option value="" disabled <?= $selectedSubject === '' ? 'selected' : '' ?>>Pilih layanan</option>
           <option value="Branding & Identity" <?= $selectedSubject === 'Branding & Identity' ? 'selected' : '' ?>>Branding &amp; Identity</option>
           <option value="UI/UX Design" <?= $selectedSubject === 'UI/UX Design' ? 'selected' : '' ?>>UI/UX Design</option>
-          <option value="Social Media Kit" <?= $selectedSubject === 'Social Media Kit' ? 'selected' : '' ?>>Social Media Kit</option>
+          <option value="Social Media Design" <?= $selectedSubject === 'Social Media Design' ? 'selected' : '' ?>>Social Media Design</option>
           <option value="Motion & Video" <?= $selectedSubject === 'Motion & Video' ? 'selected' : '' ?>>Motion &amp; Video</option>
           <option value="Print Design" <?= $selectedSubject === 'Print Design' ? 'selected' : '' ?>>Print Design</option>
           <option value="Lainnya" <?= $selectedSubject === 'Lainnya' ? 'selected' : '' ?>>Lainnya / Belum Tahu</option>
@@ -580,10 +580,10 @@ require VIEW_PATH . '/partials/nav.php';
       <?php
       $faqs = [
         ['Apakah konsultasi pertama gratis?','Ya, 100% gratis dan tanpa komitmen. Kami ingin memahami kebutuhan Anda terlebih dahulu sebelum memberikan penawaran.'],
-        ['Berapa lama proses pengerjaan?','Bergantung pada paket dan kompleksitas proyek — mulai dari 3 hari (social media kit) hingga 14 hari (full brand system). Semua tertera di halaman layanan.'],
+        ['Berapa lama proses pengerjaan?','Bergantung pada paket dan kompleksitas proyek — mulai dari 3 hari (Social Media Pack) hingga 14 hari (Full Brand System). Semua tertera di halaman layanan.'],
         ['Bagaimana sistem pembayarannya?','Pembayaran dilakukan penuh di awal melalui Midtrans — transfer bank, QRIS, GoPay, OVO, atau kartu kredit. Pengerjaan dimulai setelah pembayaran terkonfirmasi.'],
-        ['Apakah bisa revisi?','Ya. Jumlah revisi tercantum pada fitur setiap paket. Revisi berlaku untuk penyesuaian konsep yang disetujui; perubahan arah atau penambahan scope di luar paket dikenakan biaya tambahan.'],
-        ['Apakah ada garansi?','Kami memberikan garansi kesesuaian brief. Jika hasil belum sesuai brief yang disetujui, kami revisi sesuai ketentuan paket. Perubahan di luar brief dihitung sebagai scope tambahan.'],
+        ['Apakah bisa revisi?','Ya. Jumlah revisi mengikuti paket dan rincian final dikonfirmasi sebelum pengerjaan. Revisi berlaku untuk penyesuaian konsep yang disetujui; perubahan arah atau penambahan lingkup di luar paket dikenakan biaya tambahan.'],
+        ['Apakah ada garansi?','Kami memberikan garansi kesesuaian brief. Jika hasil belum sesuai brief yang disetujui, kami revisi sesuai ketentuan paket. Perubahan di luar brief dihitung sebagai lingkup tambahan.'],
         ['Apakah bisa custom paket?','Tentu. Hubungi kami dan ceritakan kebutuhan spesifik Anda — kami akan siapkan penawaran yang disesuaikan.'],
       ];
       foreach ($faqs as [$q,$a]): ?>

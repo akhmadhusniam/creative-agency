@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($service['name']) ?> — Creative Studio</title>
-<meta name="description" content="<?= e($service['short_desc'] . ' Cocok untuk ' . $profile['audience'] . '.') ?>">
+<meta name="description" content="<?= e($service['short_desc'] . '. Cocok untuk ' . $profile['audience'] . '.') ?>">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Token aliases — nama variabel di file ini beda dari base-styles.php,
@@ -392,7 +392,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
 
       <!-- Yang Anda Dapatkan -->
       <?php
-      $serviceFeatures = !empty($service['features']) ? $service['features'] : $profile['included'];
+      $serviceFeatures = site_service_features($service);
       if (empty($serviceFeatures)) {
           $serviceFeatures = [
               'Konsultasi awal gratis',
@@ -461,7 +461,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
             ['Brief & Konsultasi',   'Anda mengisi form brief dan menjelaskan kebutuhan. Kami akan menghubungi Anda dalam target ≤24 jam untuk konfirmasi dan klarifikasi.'],
             ['Pembayaran',           'Lakukan pembayaran penuh di awal melalui Midtrans — transfer bank, QRIS, GoPay, OVO, atau kartu kredit. Pengerjaan dimulai setelah pembayaran terkonfirmasi.'],
             ['Pengerjaan',           'Tim kami mulai mengerjakan proyek. Anda akan mendapat update progres secara berkala melalui dashboard atau WhatsApp.'],
-            ['Presentasi & Revisi',  'Kami mempresentasikan hasil awal. Anda dapat meminta revisi sesuai jumlah dan ketentuan paket. Perubahan di luar brief dihitung sebagai scope tambahan.'],
+            ['Presentasi & Revisi',  'Kami mempresentasikan hasil awal. Anda dapat meminta revisi sesuai jumlah dan ketentuan paket. Perubahan di luar brief dihitung sebagai lingkup tambahan.'],
             ['Selesai & Serah Terima','Setelah hasil disetujui, semua file final diserahkan melalui dashboard dalam format yang disepakati.'],
           ];
           foreach ($processes as $i => $p): ?>
@@ -484,10 +484,10 @@ $catSlug   = $service['category_slug'] ?? 'default';
           // FAQ umum + FAQ spesifik per kategori layanan
           $faqGeneral = [
             ['Berapa lama proses pengerjaan?', 'Estimasi waktu pengerjaan sudah tercantum di halaman ini. Waktu aktual dapat dipengaruhi kecepatan brief, jumlah revisi, dan kompleksitas proyek. Kami akan menginformasikan jika ada perubahan timeline.'],
-            ['Berapa kali saya bisa revisi?', 'Jumlah revisi mengikuti paket yang dipilih dan tercantum pada bagian “Yang Anda Dapatkan”. Revisi mencakup penyesuaian pada konsep yang disetujui, bukan perubahan arah atau penambahan scope baru.'],
+            ['Berapa kali saya bisa revisi?', 'Jumlah revisi mengikuti paket yang dipilih. Rincian final dikonfirmasi sebelum pengerjaan. Revisi mencakup penyesuaian pada konsep yang disetujui, bukan perubahan arah atau penambahan lingkup baru.'],
             ['Bagaimana cara melakukan pembayaran?', 'Pembayaran dilakukan penuh di awal melalui Midtrans — transfer bank (BCA, Mandiri, BNI, BRI), QRIS, GoPay, OVO, atau kartu kredit. Pengerjaan dimulai setelah pembayaran terkonfirmasi.'],
             ['Apakah saya mendapat file source-nya?', 'File source diberikan jika termasuk dalam paket yang dipilih. Format final dan source mengikuti rincian paket; jika belum tercantum, tim akan mengonfirmasi sebelum pengerjaan.'],
-            ['Bagaimana jika hasil belum sesuai brief?', 'Kami memberikan garansi kesesuaian brief. Jika hasil belum sesuai brief yang disetujui, kami revisi sesuai ketentuan paket. Perubahan di luar brief dihitung sebagai scope tambahan.'],
+            ['Bagaimana jika hasil belum sesuai brief?', 'Kami memberikan garansi kesesuaian brief. Jika hasil belum sesuai brief yang disetujui, kami revisi sesuai ketentuan paket. Perubahan di luar brief dihitung sebagai lingkup tambahan.'],
           ];
 
           $faqByCategory = [
@@ -553,7 +553,7 @@ $catSlug   = $service['category_slug'] ?? 'default';
             <?= $service['price_type'] === 'custom' ? 'Diskusi' : formatRupiah((float)$service['price']) ?>
           </div>
           <?php if ($service['price_type'] === 'starting_from'): ?>
-            <div class="order-price-type">Harga dasar paket; penambahan scope dihitung terpisah</div>
+            <div class="order-price-type">Harga dasar paket; penambahan lingkup dihitung terpisah</div>
           <?php elseif ($service['price_type'] === 'custom'): ?>
             <div class="order-price-type">Harga ditentukan setelah brief dan lingkup disepakati</div>
           <?php endif; ?>

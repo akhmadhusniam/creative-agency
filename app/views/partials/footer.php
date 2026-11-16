@@ -26,7 +26,7 @@ $hideFooterCta = $hideFooterCta ?? false;
       <ul>
         <li><a href="<?= APP_URL ?>/services">Branding &amp; Identity</a></li>
         <li><a href="<?= APP_URL ?>/services">UI/UX Design</a></li>
-        <li><a href="<?= APP_URL ?>/services">Social Media Kit</a></li>
+        <li><a href="<?= APP_URL ?>/services">Social Media Design</a></li>
         <li><a href="<?= APP_URL ?>/services">Motion &amp; Video</a></li>
         <li><a href="<?= APP_URL ?>/services">Print &amp; Packaging</a></li>
       </ul>

@@ -363,7 +363,7 @@ select:focus {
           <?php if ($service['price_type'] === 'starting_from'): ?>
           <div style="margin-top: 1rem; padding: .8rem; background: var(--paper); border-radius: var(--radius); font-size: .8rem; color: var(--muted);">
             <strong>💡 Harga dasar:</strong><br>
-            Total di atas adalah harga dasar paket. Penambahan scope akan diinformasikan sebelum pengerjaan.
+            Total di atas adalah harga dasar paket. Penambahan lingkup akan diinformasikan sebelum pengerjaan.
           </div>
           <?php endif; ?>
 

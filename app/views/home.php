@@ -17,7 +17,7 @@ $projectNumberLabel = $projectAllSample
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creative Studio — Identitas Visual yang Berbicara untuk Bisnis Anda</title>
-<meta name="description" content="Studio desain profesional Indonesia. Branding, UI/UX, Social Media Kit, Motion Graphic — dikerjakan dengan presisi dan tujuan.">
+<meta name="description" content="Studio desain profesional Indonesia. Branding, UI/UX, Social Media Design, Motion Graphic — dikerjakan dengan presisi dan tujuan.">
 <meta property="og:title" content="Creative Studio — Identitas Visual yang Berbicara">
 <meta property="og:description" content="Studio desain profesional Indonesia untuk bisnis yang ingin tampil lebih kuat dan berkesan.">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
@@ -461,7 +461,7 @@ h2.stitle{
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
     <?php
-    $tags = ['Branding & Identity','UI/UX Design','Social Media Kit','Motion Graphic','Print & Packaging','Illustration','Typography','Visual Identity'];
+    $tags = ['Branding & Identity','UI/UX Design','Social Media Design','Motion Graphic','Print & Packaging','Illustration','Typography','Visual Identity'];
     $doubled = array_merge($tags, $tags, $tags, $tags);
     foreach ($doubled as $t): ?>
       <span class="ticker-item"><span class="ticker-sep">✦</span><?= e($t) ?></span>
@@ -509,16 +509,16 @@ h2.stitle{
         $defaults = [
           ['✦','#C8412B','01','Branding & Identity','Logo, color system, tipografi, dan panduan merek yang konsisten dan berkarakter.','branding-identity'],
           ['◈','#2B6CC8','02','UI/UX Design','Desain antarmuka web & aplikasi yang intuitif, estetis, dan siap handoff ke developer.','uiux-design'],
-          ['◉','#15803D','03','Social Media Kit','Template feed, story, highlight cover yang konsisten dan langsung bisa diedit tim Anda.','social-media-kit'],
+          ['◉','#15803D','03','Social Media Design','Template feed, story, highlight cover yang konsisten dan langsung bisa diedit tim Anda.','social-media-pack'],
           ['◎','#854D0E','04','Motion & Video','Animasi logo, motion infografis, dan video pendek untuk iklan maupun konten organik.','motion-video'],
         ];
-        foreach ($defaults as [$icon,$color,$num,$name,$desc,$sl]): ?>
+        foreach ($defaults as [$icon,$color,$num,$name,$desc]): ?>
           <div class="svc-card" style="--c:<?= $color ?>">
             <div class="svc-num"><?= $num ?></div>
             <div class="svc-icon"><?= $icon ?></div>
             <div class="svc-name"><?= $name ?></div>
             <div class="svc-desc"><?= $desc ?></div>
-            <a href="<?= APP_URL ?>/services/<?= $sl ?>" class="svc-link">Lihat paket →</a>
+            <a href="<?= APP_URL ?>/services#services-grid" class="svc-link">Lihat paket →</a>
           </div>
       <?php endforeach; endif; ?>
     </div>
