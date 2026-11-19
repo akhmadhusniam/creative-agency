@@ -25,16 +25,22 @@ $projectNumberLabel = $projectAllSample
 
 /* ── HERO ───────────────────────────────────────────────── */
 .hero{
-  min-height:100vh;
+  min-height:calc(100vh - var(--header-offset));
+  min-height:calc(100svh - var(--header-offset));
   background:var(--ink);
   display:flex;flex-direction:column;justify-content:center;
-  padding:calc(var(--nav-h) + 3rem) clamp(1rem,4vw,3rem) 3rem;
+  padding:3rem clamp(1rem,4vw,3rem) 3rem;
   position:relative;overflow:hidden;
 }
+.hero::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:42%;
+  background:linear-gradient(to bottom,transparent,rgba(18,42,28,.86));
+  pointer-events:none;z-index:0;
+}
 .hero-bg-word{
-  position:absolute;bottom:-3rem;left:-1rem;
+  position:absolute;bottom:-4.5rem;left:-1rem;
   font-family:var(--fh);font-weight:800;
-  font-size:clamp(5rem,18vw,16rem);
+  font-size:clamp(5rem,14vw,12rem);
   color:#527C61;
   line-height:1;pointer-events:none;
   white-space:nowrap;letter-spacing:-.04em;
@@ -59,16 +65,28 @@ $projectNumberLabel = $projectAllSample
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.5)}}
 .hero h1{
   font-family:var(--fh);font-weight:800;
-  font-size:clamp(2.6rem,6vw,4.75rem);
+  font-size:clamp(2.2rem,4.2vw,3.5rem);
   line-height:1.02;letter-spacing:-.035em;
   color:#fff;margin-bottom:1.5rem;
 }
+@media (min-width: 601px) and (max-width: 900px){
+  .hero h1{font-size:clamp(2.6rem,6vw,3.4rem)}
+}
+@media (max-width: 600px){
+  .hero h1{font-size:clamp(1.8rem,8.8vw,2.4rem)}
+  .hero{padding-bottom:2rem}
+  .hero-desc{margin-bottom:2rem}
+  .hero-actions{display:grid;grid-template-columns:1fr;gap:.75rem}
+  .hero-actions .btn-hero-p,
+  .hero-actions .btn-hero-g{display:flex;width:100%;align-items:center;justify-content:center;text-align:center}
+  .hero-stats{margin-top:2rem}
+}
 .h1-accent{color:var(--accent)}
 .h1-outline{
-  -webkit-text-stroke:1.5px rgba(255,255,255,.35);
+  -webkit-text-stroke:1.5px rgba(255,255,255,.55);
   color:transparent;
 }
-.hero-desc{color:#C7D4CB;font-size:.95rem;line-height:1.85;max-width:44ch;margin-bottom:2.5rem}
+.hero-desc{color:#C7D4CB;font-size:1rem;line-height:1.85;max-width:44ch;margin-bottom:2.5rem}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
 .btn-hero-p{
   padding:.85rem 1.85rem;background:var(--accent);color:var(--ink);border:2px solid var(--ink);
@@ -106,10 +124,10 @@ $projectNumberLabel = $projectAllSample
 .hero-stats{
   max-width:1200px;margin:3rem auto 0;width:100%;
   display:grid;grid-template-columns:repeat(4,1fr);
-  border-top:1px solid #1a1a1a;
+  border-top:1px solid #26402F;
   position:relative;z-index:1;
 }
-.hero-stat{padding:1.5rem 0;border-right:1px solid #1a1a1a}
+.hero-stat{padding:1.5rem 0;border-right:1px solid #26402F}
 .hero-stat:first-child{padding-left:0}
 .hero-stat:not(:first-child){padding-left:2rem}
 .hero-stat:last-child{border-right:none}

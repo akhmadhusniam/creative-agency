@@ -20,7 +20,8 @@ if (!('IntersectionObserver' in window)) {
   --fh:     'Plus Jakarta Sans', 'Inter', sans-serif;
   --fb:     'Inter', sans-serif;
   --fm:     'JetBrains Mono', monospace;
-  --nav-h:  68px;
+  --nav-h:  68px; --marquee-h: 45px;
+  --header-offset: calc(var(--nav-h) + var(--marquee-h));
   --bw:     2px;
   --radius-sm: 8px; --radius: 12px; --radius-lg: 20px;
   --shadow-sm: 0 1px 2px rgba(18,42,28,.06);
@@ -56,11 +57,12 @@ img{max-width:100%;display:block}
 .nav-logo span{color:var(--accent);-webkit-text-stroke:1px var(--ink)}
 .dark-nav .nav-logo{color:#fff}
 .nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{font-family:var(--fm);font-size:.78rem;font-weight:500;text-transform:uppercase;letter-spacing:.02em;color:var(--ink);position:relative}
+.nav-links a{font-family:var(--fm);font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em;color:var(--ink);position:relative}
 .nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--ink);transition:width .18s}
 .nav-links a:hover::after,.nav-links a.active::after{width:100%}
 .dark-nav .nav-links a{color:#fff}
 .nav-right{display:flex;gap:.75rem;align-items:center}
+.nav-right .btn-sm{font-size:.76rem;min-height:38px;padding:.55rem 1rem;border-radius:9px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.68rem 1.25rem;border-radius:10px;font-family:var(--fm);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;cursor:pointer;border:1.5px solid var(--ink);transition:background .15s,color .15s,box-shadow .15s,border-color .15s}
 .btn-sm{padding:.48rem .95rem;font-size:.72rem;border-radius:8px}
 .btn-primary{background:var(--ink);color:#fff}
@@ -145,9 +147,11 @@ html.js .reveal.visible{opacity:1;transform:translateY(0)}
 .fc-link:hover{opacity:.72}
 
 /* MOBILE STICKY CTA */
-.mobile-cta-bar{display:none}
+.mobile-cta-bar{display:none;transition:transform .25s ease,opacity .25s ease}
+body.hero-cta-inview .mobile-cta-bar{transform:translateY(110%);opacity:0;pointer-events:none}
 .mcb{display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:46px;border-radius:10px;font-family:var(--fm);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
 .mcb-consult{background:var(--accent);color:var(--ink);border:1.5px solid var(--ink)}
+@media(prefers-reduced-motion:reduce){.mobile-cta-bar{transition:none}}
 
 /* SMALL UTILITIES */
 .container{max-width:var(--container);margin-inline:auto;padding-inline:clamp(1rem,4vw,3rem)}

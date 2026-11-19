@@ -50,4 +50,29 @@ document.addEventListener('click', function (e) {
     detail: { name: el.getAttribute('data-cta'), href: el.getAttribute('href') || '' }
   }));
 });
+
+// Sticky CTA mobile muncul setelah CTA utama di hero tidak lagi terlihat.
+(function () {
+  var heroCta = document.querySelector('.hero-actions [data-cta="hero-start-project"]');
+  if (!heroCta) return;
+
+  function sync(inView) {
+    document.body.classList.toggle('hero-cta-inview', !!inView);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      sync(entries[0].isIntersecting);
+    }, { threshold: 0 });
+    observer.observe(heroCta);
+  } else {
+    function onScroll() {
+      var r = heroCta.getBoundingClientRect();
+      sync(r.bottom > 0 && r.top < window.innerHeight);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  }
+})();
 </script>

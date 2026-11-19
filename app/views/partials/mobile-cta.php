@@ -16,6 +16,17 @@ if ($hideMobileCta) {
     return;
 }
 ?>
+<script>
+/* Sembunyikan sticky CTA saat CTA utama di hero masih terlihat. */
+(function () {
+  var heroCta = document.querySelector('.hero-actions [data-cta="hero-start-project"]');
+  if (!heroCta) return;
+  var r = heroCta.getBoundingClientRect();
+  if (r.bottom > 0 && r.top < window.innerHeight) {
+    document.body.classList.add('hero-cta-inview');
+  }
+})();
+</script>
 <div class="mobile-cta-bar" role="group" aria-label="Aksi cepat">
   <a href="<?= e($mobileCtaUrl) ?>" class="mcb mcb-consult" data-cta="mobile-start-project">
     <?= e($mobileCtaLabel) ?> →
