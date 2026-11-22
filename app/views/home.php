@@ -83,7 +83,7 @@ $projectNumberLabel = $projectAllSample
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.5)}}
 .hero h1{
   font-family:var(--fh);font-weight:800;
-  font-size:clamp(2.2rem,4.2vw,3.5rem);
+  font-size:clamp(2.2rem,4vw,3.4rem);
   line-height:1.02;letter-spacing:-.035em;
   color:#fff;margin-bottom:1.5rem;
 }
@@ -91,7 +91,7 @@ $projectNumberLabel = $projectAllSample
   .hero h1{font-size:clamp(2.6rem,6vw,3.4rem)}
 }
 @media (max-width: 600px){
-  .hero h1{font-size:clamp(1.8rem,8.8vw,2.4rem)}
+  .hero h1{font-size:clamp(1.7rem,8.6vw,2.4rem)}
   .hero{padding-bottom:2rem}
   .hero-desc{margin-bottom:2rem}
   .hero-actions{display:grid;grid-template-columns:1fr;gap:.75rem}
@@ -100,9 +100,13 @@ $projectNumberLabel = $projectAllSample
   .hero-stats{margin-top:2rem}
 }
 .h1-accent{color:var(--accent)}
-.h1-outline{
-  -webkit-text-stroke:1.5px rgba(255,255,255,.55);
-  color:transparent;
+.h1-mark{
+  font-style:normal;
+  background:var(--accent);
+  color:var(--ink);
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+  padding:0 .15em;
 }
 .hero-desc{color:#C7D4CB;font-size:1rem;line-height:1.85;max-width:44ch;margin-bottom:2.5rem}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
@@ -439,7 +443,7 @@ h2.stitle{
       <h1>
         Kami Bangun Brand<br>
         <span class="h1-accent">yang Diingat,</span><br>
-        <span class="h1-outline">Bukan Sekadar Dilihat</span>
+        <span class="h1-mark">Bukan Sekadar Dilihat</span>
       </h1>
       <p class="hero-desc">Kami membantu bisnis tumbuh lewat desain yang strategis — dari identitas merek hingga pengalaman digital, semua dikerjakan dengan presisi dan tujuan.</p>
       <div class="hero-actions">
