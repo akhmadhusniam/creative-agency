@@ -6,7 +6,6 @@
 $activeNav = $activeNav ?? '';
 ?>
 <a href="#main" class="skip-link">Lewati ke konten utama</a>
-<?php require VIEW_PATH . '/partials/marquee.php'; ?>
 <nav class="nav" id="main-nav" aria-label="Navigasi utama">
   <a href="<?= APP_URL ?>/" class="nav-logo" aria-label="Creative Studio — beranda">creative<span>.</span></a>
   <ul class="nav-links">

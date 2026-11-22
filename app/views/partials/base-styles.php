@@ -20,8 +20,8 @@ if (!('IntersectionObserver' in window)) {
   --fh:     'Plus Jakarta Sans', 'Inter', sans-serif;
   --fb:     'Inter', sans-serif;
   --fm:     'JetBrains Mono', monospace;
-  --nav-h:  68px; --marquee-h: 45px;
-  --header-offset: calc(var(--nav-h) + var(--marquee-h));
+  --nav-h:  68px;
+  --header-offset: var(--nav-h);
   --bw:     2px;
   --radius-sm: 8px; --radius: 12px; --radius-lg: 20px;
   --shadow-sm: 0 1px 2px rgba(18,42,28,.06);
@@ -36,13 +36,8 @@ a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* MARQUEE TICKER */
-.marquee{background:var(--ink);color:var(--white);border-bottom:var(--bw) solid var(--ink);overflow:hidden;white-space:nowrap;padding:.55rem 0}
-.marquee-track{display:inline-block;animation:marquee 24s linear infinite}
-.marquee-track span{font-family:var(--fm);font-size:.75rem;letter-spacing:.04em;text-transform:uppercase;padding:0 1.4rem;display:inline-flex;align-items:center;gap:1.4rem}
-.marquee-track span::after{content:'●';color:var(--accent)}
+/* SHARED MARQUEE KEYFRAMES (dipakai ticker di bawah hero) */
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.marquee-track{animation:none}}
 
 /* ACCESSIBILITY */
 .skip-link{position:fixed;top:-60px;left:1rem;z-index:999;background:var(--ink);color:#fff;padding:.7rem 1.1rem;border-radius:var(--radius-sm);font-family:var(--fm);font-size:.8rem;transition:top .18s}
