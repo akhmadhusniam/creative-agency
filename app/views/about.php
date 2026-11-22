@@ -6,10 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tentang Kami — Creative Studio</title>
 <meta name="description" content="Kami adalah studio desain profesional Indonesia yang membantu bisnis tumbuh lewat visual yang strategis dan berkarakter.">
+<link rel="preload" as="image" href="<?= APP_URL ?>/assets/backgrounds/page-fabric-green.webp" media="(min-width:901px)" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── About-specific ─────────────────────────────────────── */
+
+/* Background foto hanya desktop; mobile tetap CSS-only agar LCP ringan.
+   Sumber: Pexels / Eva Bronzini — bebas komersial, atribusi opsional. */
+@media(min-width:901px){
+  .page-hero{
+    background:
+      linear-gradient(90deg, rgba(18,42,28,.93) 0%, rgba(18,42,28,.80) 58%, rgba(18,42,28,.66) 100%),
+      image-set(url('<?= APP_URL ?>/assets/backgrounds/page-fabric-green.webp') type('image/webp'), url('<?= APP_URL ?>/assets/backgrounds/page-fabric-green.jpg') type('image/jpeg'));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+}
 
 /* Story section */
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}

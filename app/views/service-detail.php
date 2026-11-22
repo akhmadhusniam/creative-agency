@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($service['name']) ?> — Creative Studio</title>
 <meta name="description" content="<?= e($service['short_desc'] . '. Cocok untuk ' . $profile['audience'] . '.') ?>">
+<link rel="preload" as="image" href="<?= APP_URL ?>/assets/backgrounds/page-grid-dark.webp" media="(min-width:901px)" fetchpriority="high">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Token aliases — nama variabel di file ini beda dari base-styles.php,
@@ -64,6 +65,18 @@ $catSlug   = $service['category_slug'] ?? 'default';
   content: '';
   position: absolute; inset: 0;
   background: radial-gradient(ellipse at 80% 50%, <?= $accentColor ?>22 0%, transparent 65%);
+}
+/* Background foto hanya desktop; mobile tetap CSS-only agar LCP ringan.
+   Sumber: Pexels / Robert Grant — bebas komersial, atribusi opsional. */
+@media(min-width:901px){
+  .service-hero {
+    background:
+      linear-gradient(90deg, rgba(18,42,28,.92) 0%, rgba(18,42,28,.80) 60%, rgba(18,42,28,.68) 100%),
+      image-set(url('<?= APP_URL ?>/assets/backgrounds/page-grid-dark.webp') type('image/webp'), url('<?= APP_URL ?>/assets/backgrounds/page-grid-dark.jpg') type('image/jpeg'));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
 }
 .service-hero-inner { position: relative; z-index: 1; }
 .service-category-tag {

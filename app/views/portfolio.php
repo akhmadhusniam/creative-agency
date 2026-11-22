@@ -58,8 +58,22 @@ if ($portfolio) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <?php require VIEW_PATH . '/partials/seo.php'; ?>
+<link rel="preload" as="image" href="<?= APP_URL ?>/assets/backgrounds/page-concrete.webp" media="(min-width:901px)" fetchpriority="high">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
+/* Background foto hanya desktop; mobile tetap CSS-only agar LCP ringan.
+   Sumber: Pexels / Tim Mossholder — bebas komersial, atribusi opsional. */
+@media(min-width:901px){
+  .page-hero{
+    background:
+      linear-gradient(90deg, rgba(18,42,28,.92) 0%, rgba(18,42,28,.78) 60%, rgba(18,42,28,.64) 100%),
+      image-set(url('<?= APP_URL ?>/assets/backgrounds/page-concrete.webp') type('image/webp'), url('<?= APP_URL ?>/assets/backgrounds/page-concrete.jpg') type('image/jpeg'));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+}
+
 /* ── Filter ─────────────────────────────────────────────── */
 .filter-bar{position:sticky;top:var(--nav-h);z-index:90;background:var(--paper);border-bottom:1px solid var(--cream);padding:.85rem clamp(1rem,4vw,3rem)}
 .filter-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}

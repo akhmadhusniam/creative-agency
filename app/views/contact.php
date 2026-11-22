@@ -15,11 +15,26 @@ $hideMobileCta = true;
 <title><?= $isSent ? ($isSentProject ? 'Brief Terkirim' : 'Pesan Terkirim') : ($isProjectContext ? 'Mulai Proyek' : 'Kontak') ?> — Creative Studio</title>
 <meta name="description" content="Hubungi Creative Studio — konsultasi gratis untuk kebutuhan desain branding, UI/UX, social media, dan motion graphic Anda.">
 <link rel="canonical" href="<?= APP_URL ?>/contact">
+<link rel="preload" as="image" href="<?= APP_URL ?>/assets/backgrounds/page-paper-black.webp" media="(min-width:901px)" fetchpriority="high">
 <?php if ($isSent): ?><meta name="robots" content="noindex,follow"><?php endif; ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Contact layout ─────────────────────────────────────── */
+
+/* Background foto hanya desktop; mobile tetap CSS-only agar LCP ringan.
+   Sumber: Pexels / Tamanna Rumee — bebas komersial, atribusi opsional. */
+@media(min-width:901px){
+  .page-hero{
+    background:
+      linear-gradient(90deg, rgba(18,42,28,.93) 0%, rgba(18,42,28,.81) 58%, rgba(18,42,28,.68) 100%),
+      image-set(url('<?= APP_URL ?>/assets/backgrounds/page-paper-black.webp') type('image/webp'), url('<?= APP_URL ?>/assets/backgrounds/page-paper-black.jpg') type('image/jpeg'));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+}
+
 .contact-layout{
   display:grid;grid-template-columns:1fr 1.4fr;
   gap:5rem;padding:5rem clamp(1rem,4vw,3rem);

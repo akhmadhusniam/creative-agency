@@ -9,6 +9,7 @@ $activeCategoryCount = count(array_filter($categories, fn($cat) => (int) ($cat['
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Layanan — Creative Studio</title>
 <meta name="description" content="Paket desain branding, UI/UX, social media, motion, dan print dengan lingkup jelas. Lihat kecocokan paket dan kualifikasi klien sebelum mulai.">
+<link rel="preload" as="image" href="<?= APP_URL ?>/assets/backgrounds/page-grid-dark.webp" media="(min-width:901px)" fetchpriority="high">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 /* ── Token aliases — nama variabel di file ini beda dari base-styles.php,
@@ -17,15 +18,24 @@ $activeCategoryCount = count(array_filter($categories, fn($cat) => (int) ($cat['
 
 /* ── Hero seksi kecil ────────────────────────────────────── */
 .page-hero {
-  background: var(--ink);
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(200,255,77,.10) 0%, transparent 65%),
+    linear-gradient(160deg, var(--ink) 0%, var(--ink-2) 100%);
   padding: 5rem 0 4rem;
   position: relative;
   overflow: hidden;
 }
-.page-hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(200,65,43,.18) 0%, transparent 65%);
+/* Background foto hanya desktop; mobile tetap CSS-only agar LCP ringan.
+   Sumber: Pexels / Robert Grant — bebas komersial, atribusi opsional. */
+@media(min-width:901px){
+  .page-hero {
+    background:
+      linear-gradient(90deg, rgba(18,42,28,.95) 0%, rgba(18,42,28,.84) 58%, rgba(18,42,28,.70) 100%),
+      image-set(url('<?= APP_URL ?>/assets/backgrounds/page-grid-dark.webp') type('image/webp'), url('<?= APP_URL ?>/assets/backgrounds/page-grid-dark.jpg') type('image/jpeg'));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
 }
 .page-hero .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--gap); position: relative; }
 .breadcrumb { display: flex; align-items: center; gap: .5rem; margin-bottom: 1.5rem; }
