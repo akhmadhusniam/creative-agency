@@ -27,24 +27,26 @@ $projectNumberLabel = $projectAllSample
 .hero{
   min-height:calc(100vh - var(--header-offset));
   min-height:calc(100svh - var(--header-offset));
-  background:var(--ink);
+  background:
+    radial-gradient(ellipse 62% 78% at 80% 46%, rgba(200,255,77,.10), transparent 72%),
+    radial-gradient(ellipse 58% 62% at 6% 12%, rgba(82,124,97,.22), transparent 74%),
+    linear-gradient(158deg, #122A1C 0%, #10251A 56%, #0D2015 100%);
   display:flex;flex-direction:column;justify-content:center;
   padding:3rem clamp(1rem,4vw,3rem) 3rem;
   position:relative;overflow:hidden;
 }
-.hero::after{
-  content:'';position:absolute;left:0;right:0;bottom:0;height:42%;
-  background:linear-gradient(to bottom,transparent,rgba(18,42,28,.86));
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(220,232,224,.10) 1px, transparent 1px);
+  background-size:26px 26px;
+  -webkit-mask-image:linear-gradient(105deg, transparent 0%, transparent 28%, rgba(0,0,0,.35) 58%, rgba(0,0,0,.72) 100%);
+  mask-image:linear-gradient(105deg, transparent 0%, transparent 28%, rgba(0,0,0,.35) 58%, rgba(0,0,0,.72) 100%);
   pointer-events:none;z-index:0;
 }
-.hero-bg-word{
-  position:absolute;bottom:-4.5rem;left:-1rem;
-  font-family:var(--fh);font-weight:800;
-  font-size:clamp(5rem,14vw,12rem);
-  color:#527C61;
-  line-height:1;pointer-events:none;
-  white-space:nowrap;letter-spacing:-.04em;
-  user-select:none;
+.hero::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:38%;
+  background:linear-gradient(to bottom, transparent, rgba(13,32,21,.92));
+  pointer-events:none;z-index:0;
 }
 .hero-inner{
   display:grid;grid-template-columns:1fr 1fr;
@@ -411,8 +413,6 @@ h2.stitle{
 
 <!-- ── HERO ──────────────────────────────────────────────── -->
 <section class="hero" id="main">
-  <div class="hero-bg-word" aria-hidden="true">CREATIVE</div>
-
   <div class="hero-inner">
     <!-- Left -->
     <div>
