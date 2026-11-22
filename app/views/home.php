@@ -20,6 +20,7 @@ $projectNumberLabel = $projectAllSample
 <meta name="description" content="Studio desain profesional Indonesia. Branding, UI/UX, Social Media Design, Motion Graphic — dikerjakan dengan presisi dan tujuan.">
 <meta property="og:title" content="Creative Studio — Identitas Visual yang Berbicara">
 <meta property="og:description" content="Studio desain profesional Indonesia untuk bisnis yang ingin tampil lebih kuat dan berkesan.">
+<link rel="preload" as="image" href="<?= APP_URL ?>/assets/backgrounds/hero-foil-dark.webp" media="(min-width:901px)" fetchpriority="high">
 <?php require VIEW_PATH . '/partials/base-styles.php'; ?>
 <style>
 
@@ -47,6 +48,21 @@ $projectNumberLabel = $projectAllSample
   content:'';position:absolute;left:0;right:0;bottom:0;height:38%;
   background:linear-gradient(to bottom, transparent, rgba(13,32,21,.92));
   pointer-events:none;z-index:0;
+}
+/* Background foto hanya desktop; mobile tetap CSS-only agar LCP ringan.
+   Sumber: Pexels / Tim Mossholder — bebas komersial, atribusi opsional. */
+@media(min-width:901px){
+  .hero{
+    background:
+      linear-gradient(90deg, rgba(18,42,28,.96) 0%, rgba(18,42,28,.88) 34%, rgba(18,42,28,.64) 68%, rgba(18,42,28,.44) 100%),
+      radial-gradient(ellipse 62% 78% at 80% 46%, rgba(200,255,77,.10), transparent 72%),
+      image-set(url('<?= APP_URL ?>/assets/backgrounds/hero-foil-dark.webp') type('image/webp'), url('<?= APP_URL ?>/assets/backgrounds/hero-foil-dark.jpg') type('image/jpeg'));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .hero::before{background-image:none}
+  .hero::after{height:44%;background:linear-gradient(to bottom, transparent, rgba(13,32,21,.94))}
 }
 .hero-inner{
   display:grid;grid-template-columns:1fr 1fr;
